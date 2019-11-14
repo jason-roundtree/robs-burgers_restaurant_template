@@ -9,6 +9,11 @@ export default {
             type: 'string'
         },
         {
+            title: 'Active',
+            name: 'active',
+            type: 'boolean'
+        },
+        {
             title: 'MenuItems',
             name: 'menu_items',
             type: 'array',
@@ -18,10 +23,5 @@ export default {
                 to: [{type: 'menu_item'}]
             }]
         },
-        {
-            title: 'MenuActive',
-            name: 'menu_active',
-            type: 'boolean'
-        }
     ]
 }
