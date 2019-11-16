@@ -1,10 +1,10 @@
-// import { useState, useEffect } from 'react'
 import Layout from '../components/Layout'
+import Link from 'next/link'
 // TODO: sanity vs client fetch
 // import client from '../lib/sanity'
 import sanity from "../lib/sanity";
 
-const query = `*[active == true] {
+const query = `*[ active == true ] {
     _id, 
     name, 
     active
@@ -28,7 +28,15 @@ export default function Menus(props) {
         <Layout>
             <div className="menu_container">
                 {props.menus.map(menu => {
-                    return <div key={menu._id}>{menu.name}</div>
+                    return (
+                        <>
+                            <Link href='/menu/[id]' as={`/menu/${menu._id}`}>
+                                <div key={menu._id}>
+                                    {menu.name}
+                                </div>
+                            </Link>
+                        </>
+                    )
                 })}
                 
                 <style jsx>{`
