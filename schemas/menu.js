@@ -14,6 +14,12 @@ export default {
             type: 'boolean'
         },
         {
+            title: 'Comments',
+            name: 'comments',
+            type: 'array',
+            of: [{ type: 'text' }]
+        },
+        {
             title: 'MenuItems',
             name: 'menu_items',
             type: 'array',

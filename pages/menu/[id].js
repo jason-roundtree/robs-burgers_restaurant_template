@@ -7,21 +7,22 @@ const query = `*[ _type == "menu" ] {
     _id,
     name,
     active,
+    comments,
     "menuItems": menu_items[]->
 }`
 
 export default function Menu(props) {
     const router = useRouter()
-    console.log('Menu props: ', props)
-    const menu = props.menus.filter(menu => {
+    const [ menu ] = props.menus.filter(menu => {
         return menu._id === router.query.id
     })
-    console.log('menu: ', menu)
+    // console.log('menu: ', menu)
     return (
         <Layout>
             <>
-                <h2>{menu[0].name}</h2>
-                {menu[0].menuItems.map(menuItem => {
+                <h2>{menu.name}</h2>
+                <p>{menu.comments}</p>
+                {menu.menuItems.map(menuItem => {
                     return <MenuItem item={menuItem} />
                 })}
             </>

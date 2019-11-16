@@ -1,6 +1,6 @@
 import Layout from '../components/Layout'
 import Link from 'next/link'
-// TODO: sanity vs client fetch
+// TODO: sanity vs client fetch vs isomorphic fetch??
 // import client from '../lib/sanity'
 import sanity from "../lib/sanity";
 
@@ -11,26 +11,17 @@ const query = `*[ active == true ] {
 }`
  
 export default function Menus(props) {
-    // const [menus, setMenus] = useState([])
-    // console.log('state menus: ', menus)
-    // TODO: useEffect vs getInitialProps??
-    // useEffect(() => {
-    //     client.fetch(query)
-    //         .then(menus => {
-    //             setMenus(menus)
-    //         })
-    // // TODO: Should something go in this dependencies array? 
-    // // Seems like if I have menus or setMenus it just keeps re-rendering
-    // }, [])
     console.log('props menus: ', props)
-
     return (
         <Layout>
             <div className="menu_container">
                 {props.menus.map(menu => {
                     return (
                         <>
-                            <Link href='/menu/[id]' as={`/menu/${menu._id}`}>
+                            <Link 
+                                href='/menu/[id]' 
+                                as={`/menu/${menu._id}`}
+                            >
                                 <div key={menu._id}>
                                     {menu.name}
                                 </div>
@@ -57,7 +48,6 @@ export default function Menus(props) {
                             flex-direction: column;
                             justify-content: center;
                             align-items: center;
-                            
                         }
                         .menu_container div {
                             margin: 15px 0;
