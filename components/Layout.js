@@ -8,16 +8,18 @@ export default function Layout(props) {
                 <meta charSet="utf-8" />
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
                 <title>Restaurant Template built with Next.js + Sanity.io</title>
-                {/* <link href="https://fonts.googleapis.com/css?family=Bebas+Neue&display=swap" rel="stylesheet" /> */}
-                <link href="https://fonts.googleapis.com/css?family=Libre+Franklin&display=swap" rel="stylesheet" />
+                <link href="https://fonts.googleapis.com/css?family=Londrina+Shadow&display=swap" rel="stylesheet" />
+                {/* <link href="https://fonts.googleapis.com/css?family=Londrina+Sketch&display=swap" rel="stylesheet" /> */}
+                <link href="https://fonts.googleapis.com/css?family=Bebas+Neue&display=swap" rel="stylesheet" />
+                <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet" />
                 {/* body {
-                                font-family: 'Bebas Neue', cursive;
-                            } */}
+                    font-family: 'Bebas Neue', cursive;
+                } */}
                 <style
                     dangerouslySetInnerHTML={{
                         __html: `
                             * {
-                                font-family: 'Libre Franklin', sans-serif;
+                                font-family: 'Open Sans', sans-serif;
                                 margin: 0;
                                 padding: 0;
                                 box-sizing: border-box;
@@ -27,10 +29,10 @@ export default function Layout(props) {
                 />
             </Head>
             
-            <header>
-                <div>Robert's Burgers</div>
+            <header id="navbar_head">
+                <div><span>Robert's Burgers</span></div>
 
-                <nav>
+                <nav id="navbar">
                     <Link href="/">
                         <a>Home</a>
                     </Link>
@@ -49,21 +51,46 @@ export default function Layout(props) {
                 </nav>
 
                 <style jsx>{`
-                    header {
+                    header#navbar_head div {
+                        background-color: rgb(219, 21, 18);
                         text-align: center;
+                        font-size: 2em;
+                        padding: 10px;
+                    }
+                    span {
+                        display: inline-block;
+                        font-family: 'Londrina Shadow', cursive;
+                        color: rgb(255, 205, 41);
+                        padding: 5px;
+                        border: 1px solid rgb(255, 205, 41);
+                        border-radius: 3px;
                     }
                     nav {
+                        font-size: 1.4em;
                         display: flex;
                         justify-content: space-evenly;
                         padding: 10px 0;
+                        margin-bottom: 50px;
+                        background-color: rgb(255, 112, 110);
                     }
-                    a {
-                        color: blue;
+                    nav#navbar a {
+                        font-family: 'Bebas Neue', cursive;
+                        font-size: 1em;
+                        padding: 10px;
+                        color: black;
                         text-decoration: none;
                         padding: 0 5px;
                     }
-                    @media (max-width: 640px) {
-                        
+                    nav#navbar a:hover {
+                        color: rgb(252, 202, 0);
+                    }
+                    @media (max-width: 400px) {
+                        header#navbar_head div {
+                            font-size: 1.25em;
+                        }
+                        nav#navbar a {
+                            font-size: .75em;
+                        }
                     }
                 `}</style>
                 {/* <style global jsx>{`
@@ -78,8 +105,6 @@ export default function Layout(props) {
             </header>
 
             <div id="main">{props.children}</div>
-            
-            
         </div>
     )
 }

@@ -22,7 +22,7 @@ export default function Menus(props) {
                                 as={`/menu/${menu._id}`}
                             >
                                 <div key={menu._id}>
-                                    {menu.name}
+                                    <span>{menu.name}</span>
                                 </div>
                             </Link>
                         </>
@@ -32,15 +32,30 @@ export default function Menus(props) {
                 <style jsx>{`
                     .menu_container {
                         display: flex;
-                        justify-content: center;
-                        text-align: center;
+                        margin: 0 25px;
+                        
                     }
                     .menu_container div {
-                        margin: 0 15px;
-                        padding: 30px;
-                        border: 1px solid black;
+                        background-color: rgb(252, 98, 98);
+                        margin: 0 10px;
                         border-radius: 3px;
                         width: 55%;
+                    }
+                    .menu_container div:hover {
+                        cursor: pointer;
+                        background-color: rgb(215, 225, 250)
+                    }
+                    .menu_container div > span {
+                        font-family: 'Londrina Shadow', cursive;
+                        text-align: left;
+                        vertical-align: text-top;
+                        font-size: 1.5em;
+                        display: inline-block;
+                        margin: 7px 7px 50px;
+                        padding: 2px 4px;
+                        border: 1px solid white;
+                        border-radius: 3px;
+                        background-color: white;
                     }
                     @media (max-width: 640px) {
                         .menu_container {
@@ -49,7 +64,7 @@ export default function Menus(props) {
                             align-items: center;
                         }
                         .menu_container div {
-                            margin: 15px 0;
+                            margin: 10px 0;
                         }
                     }
                 `}</style>

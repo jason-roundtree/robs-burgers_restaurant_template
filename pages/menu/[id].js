@@ -21,9 +21,11 @@ export default function Menu(props) {
         <Layout>
             <div>
                 <h2>{menu.name}</h2>
+
                 {menu.comments && menu.comments.map(comment => {
                     return <p>{comment}</p>
                 })}
+
                 {menu.menuItems.map(menuItem => {
                     return <MenuItem item={menuItem} />
                 })}
@@ -33,9 +35,13 @@ export default function Menu(props) {
                 div {
                     margin: 10px;
                 }
+                h2 {
+                    font-family: 'Bebas Neue', cursive;
+                    color: rgb(219, 21, 18);
+                }
                 p {
-                    margin: 10px 0;
-                    font-size: .8em;
+                    margin: 5px 0;
+                    font-size: .7em;
                     font-style: italic;
                 }
             `}</style>
