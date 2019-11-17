@@ -16,16 +16,29 @@ export default function Menu(props) {
     const [ menu ] = props.menus.filter(menu => {
         return menu._id === router.query.id
     })
-    // console.log('menu: ', menu)
+    console.log('menu: ', menu)
     return (
         <Layout>
-            <>
+            <div>
                 <h2>{menu.name}</h2>
-                <p>{menu.comments}</p>
+                {menu.comments && menu.comments.map(comment => {
+                    return <p>{comment}</p>
+                })}
                 {menu.menuItems.map(menuItem => {
                     return <MenuItem item={menuItem} />
                 })}
-            </>
+            </div>
+
+            <style jsx>{`
+                div {
+                    margin: 10px;
+                }
+                p {
+                    margin: 10px 0;
+                    font-size: .8em;
+                    font-style: italic;
+                }
+            `}</style>
         </Layout>
     )
 }

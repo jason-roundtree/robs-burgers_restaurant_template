@@ -11,7 +11,6 @@ const query = `*[ active == true ] {
 }`
  
 export default function Menus(props) {
-    console.log('props menus: ', props)
     return (
         <Layout>
             <div className="menu_container">

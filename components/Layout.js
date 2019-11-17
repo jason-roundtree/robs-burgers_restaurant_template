@@ -16,8 +16,11 @@ export default function Layout(props) {
                 <style
                     dangerouslySetInnerHTML={{
                         __html: `
-                            body {
+                            * {
                                 font-family: 'Libre Franklin', sans-serif;
+                                margin: 0;
+                                padding: 0;
+                                box-sizing: border-box;
                             }
                         `
                     }}
