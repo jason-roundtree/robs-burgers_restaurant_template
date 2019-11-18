@@ -20,7 +20,7 @@ export default function Menu(props) {
     return (
         <Layout>
             <div>
-                <h2>{menu.name}</h2>
+                <h2><span className="sign_font">{menu.name}</span></h2>
 
                 {menu.comments && menu.comments.map(comment => {
                     return <p>{comment}</p>
@@ -40,9 +40,12 @@ export default function Menu(props) {
                     color: rgb(219, 21, 18);
                 }
                 p {
-                    margin: 5px 0;
+                    margin: 2px 0 5px 5px;
                     font-size: .7em;
-                    font-style: italic;
+                }
+                span {
+                    background-color: rgb(219, 21, 18);
+                    margin-bottom: 10px;
                 }
             `}</style>
         </Layout>

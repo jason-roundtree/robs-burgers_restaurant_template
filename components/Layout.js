@@ -15,6 +15,7 @@ export default function Layout(props) {
                 {/* body {
                     font-family: 'Bebas Neue', cursive;
                 } */}
+                {/* TODO: do i even need this? */}
                 <style
                     dangerouslySetInnerHTML={{
                         __html: `
@@ -24,13 +25,21 @@ export default function Layout(props) {
                                 padding: 0;
                                 box-sizing: border-box;
                             }
+                            .sign_font {
+                                display: inline-block;
+                                font-family: 'Londrina Shadow', cursive;
+                                color: rgb(255, 205, 41);
+                                padding: 5px;
+                                border: 1px solid rgb(255, 205, 41);
+                                border-radius: 3px;
+                            }
                         `
                     }}
                 />
             </Head>
             
             <header id="navbar_head">
-                <div><span>Robert's Burgers</span></div>
+                <div><span className="sign_font">Rob's Burgers</span></div>
 
                 <nav id="navbar">
                     <Link href="/">
@@ -49,7 +58,7 @@ export default function Layout(props) {
                         <a>Contact</a>
                     </Link>
                 </nav>
-
+                {/* TODO: Setup menu titles to use same rule as header span */}
                 <style jsx>{`
                     header#navbar_head div {
                         background-color: rgb(219, 21, 18);
@@ -57,14 +66,7 @@ export default function Layout(props) {
                         font-size: 2em;
                         padding: 10px;
                     }
-                    span {
-                        display: inline-block;
-                        font-family: 'Londrina Shadow', cursive;
-                        color: rgb(255, 205, 41);
-                        padding: 5px;
-                        border: 1px solid rgb(255, 205, 41);
-                        border-radius: 3px;
-                    }
+                    
                     nav {
                         font-size: 1.4em;
                         display: flex;

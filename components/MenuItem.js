@@ -8,7 +8,7 @@ export default function MenuItem(props) {
             <style jsx>{`
                 .menu_item {
                     padding: 12px 0;
-                    border-top: 1px solid rgb(255, 205, 41);
+                    border-top: 2px solid rgb(255, 205, 41);
                 }
                 .menu_item_title {
                     font-family: 'Bebas Neue', cursive;

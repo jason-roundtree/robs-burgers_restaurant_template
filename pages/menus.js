@@ -19,10 +19,12 @@ export default function Menus(props) {
                         <>
                             <Link 
                                 href='/menu/[id]' 
+                                // TODO: change this to slug?
                                 as={`/menu/${menu._id}`}
+
                             >
                                 <div key={menu._id}>
-                                    <span>{menu.name}</span>
+                                    <span className="sign_font">{menu.name}</span>
                                 </div>
                             </Link>
                         </>
@@ -33,29 +35,26 @@ export default function Menus(props) {
                     .menu_container {
                         display: flex;
                         margin: 0 25px;
-                        
                     }
                     .menu_container div {
                         background-color: rgb(252, 98, 98);
                         margin: 0 10px;
                         border-radius: 3px;
                         width: 55%;
+                        border: 1px solid rgb(255, 112, 110);
                     }
                     .menu_container div:hover {
                         cursor: pointer;
-                        background-color: rgb(215, 225, 250)
+                        background-color: rgb(255, 205, 41);
                     }
                     .menu_container div > span {
-                        font-family: 'Londrina Shadow', cursive;
+                        background-color: rgb(219, 21, 18);
                         text-align: left;
                         vertical-align: text-top;
                         font-size: 1.5em;
                         display: inline-block;
                         margin: 7px 7px 50px;
-                        padding: 2px 4px;
-                        border: 1px solid white;
-                        border-radius: 3px;
-                        background-color: white;
+                        padding: 4px 8px;
                     }
                     @media (max-width: 640px) {
                         .menu_container {
