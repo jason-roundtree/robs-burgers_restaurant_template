@@ -33,6 +33,9 @@ export default function Layout(props) {
                                 border: 1px solid rgb(255, 205, 41);
                                 border-radius: 3px;
                             }
+                            #main {
+                                padding: 0 15px;
+                            }
                         `
                     }}
                 />
@@ -66,13 +69,12 @@ export default function Layout(props) {
                         font-size: 2em;
                         padding: 10px;
                     }
-                    
                     nav {
                         font-size: 1.4em;
                         display: flex;
                         justify-content: space-evenly;
                         padding: 10px 0;
-                        margin-bottom: 50px;
+                        margin-bottom: 20px;
                         background-color: rgb(255, 112, 110);
                     }
                     nav#navbar a {

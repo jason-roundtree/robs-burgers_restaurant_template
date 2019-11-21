@@ -22,19 +22,28 @@ export default function Menu(props) {
             <div>
                 <h2><span className="sign_font">{menu.name}</span></h2>
 
-                {menu.comments && menu.comments.map(comment => {
-                    return <p>{comment}</p>
+                {menu.comments && menu.comments.map((comment, i) => {
+                    return (
+                        <div className="menu_comment_row" key={i}>
+                            {/* TODO: how would I make this emoji break to a new line with the <p> on smaller screens */}
+                            {/* <span className="emoji" role="image" aria-label="hamburger">🍔</span> */}
+                            <p className="menu_comment">{comment}</p>
+                        </div>
+                    )
                 })}
 
                 {menu.menuItems.map(menuItem => {
-                    return <MenuItem item={menuItem} />
+                    return (
+                        <MenuItem 
+                            item={menuItem} 
+                            id={menuItem._id} 
+                            key={menuItem._id}
+                        />
+                    )
                 })}
             </div>
 
             <style jsx>{`
-                div {
-                    margin: 10px;
-                }
                 h2 {
                     font-family: 'Bebas Neue', cursive;
                     color: rgb(219, 21, 18);
@@ -43,9 +52,18 @@ export default function Menu(props) {
                     margin: 2px 0 5px 5px;
                     font-size: .7em;
                 }
+                div.menu_comment_row p {
+                    margin-left: 10px;
+                }
+                .menu_comment:before {
+                    content: '🍔';
+                }
                 span {
                     background-color: rgb(219, 21, 18);
-                    margin-bottom: 10px;
+                    margin-bottom: 5px;
+                }
+                span.emoji {
+                    background-color: white;
                 }
             `}</style>
         </Layout>
