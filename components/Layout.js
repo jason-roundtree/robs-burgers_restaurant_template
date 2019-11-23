@@ -42,7 +42,11 @@ export default function Layout(props) {
             </Head>
             
             <header id="navbar_head">
-                <div><span className="sign_font">Rob's Burgers</span></div>
+                <div>
+                    <Link href="/">
+                        <span className="sign_font">Rob's Burgers</span>
+                    </Link>
+                </div>
 
                 <nav id="navbar">
                     <Link href="/">
@@ -87,6 +91,9 @@ export default function Layout(props) {
                     }
                     nav#navbar a:hover {
                         color: rgb(252, 202, 0);
+                    }
+                    span:hover {
+                        cursor: pointer;
                     }
                     @media (max-width: 400px) {
                         header#navbar_head div {
