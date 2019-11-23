@@ -20,13 +20,11 @@ export default function Menu(props) {
     return (
         <Layout>
             <div>
-                <h2><span className="sign_font">{menu.name}</span></h2>
+                <h1><span className="sign_font">{menu.name}</span></h1>
 
                 {menu.comments && menu.comments.map((comment, i) => {
                     return (
                         <div className="menu_comment_row" key={i}>
-                            {/* TODO: how would I make this emoji break to a new line with the <p> on smaller screens */}
-                            {/* <span className="emoji" role="image" aria-label="hamburger">🍔</span> */}
                             <p className="menu_comment">{comment}</p>
                         </div>
                     )

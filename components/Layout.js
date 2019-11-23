@@ -7,15 +7,14 @@ export default function Layout(props) {
             <Head>
                 <meta charSet="utf-8" />
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
-                <title>Restaurant Template built with Next.js + Sanity.io</title>
+                <title>🍔 Rob's Burgers - built with Next.js + Sanity.io</title>
                 <link href="https://fonts.googleapis.com/css?family=Londrina+Shadow&display=swap" rel="stylesheet" />
-                {/* <link href="https://fonts.googleapis.com/css?family=Londrina+Sketch&display=swap" rel="stylesheet" /> */}
                 <link href="https://fonts.googleapis.com/css?family=Bebas+Neue&display=swap" rel="stylesheet" />
                 <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet" />
                 {/* body {
                     font-family: 'Bebas Neue', cursive;
                 } */}
-                {/* TODO: do i even need this? */}
+                {/* TODO: do i even need this style tag? */}
                 <style
                     dangerouslySetInnerHTML={{
                         __html: `
@@ -35,6 +34,10 @@ export default function Layout(props) {
                             }
                             #main {
                                 padding: 0 15px;
+                            }
+                            h1 span.sign_font {
+                                font-size: .85em;
+                                background-color: rgb(219, 21, 18);
                             }
                         `
                     }}

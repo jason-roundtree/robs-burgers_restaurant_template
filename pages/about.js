@@ -3,7 +3,7 @@ import Layout from '../components/Layout'
 function Home() {
     return (
         <Layout>
-            <h2>About</h2>
+            <h1><span className="sign_font">About</span></h1>
         </Layout>
     )
 }
