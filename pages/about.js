@@ -1,4 +1,5 @@
 import Layout from '../components/Layout'
+import sanity from '../lib/sanity'
 
 function Home() {
     return (

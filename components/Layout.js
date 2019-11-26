@@ -1,5 +1,6 @@
 import Head from 'next/head'
 import Link from 'next/link'
+import SocialMedia from './SocialMedia'
 
 export default function Layout(props) {
     return (
@@ -7,6 +8,7 @@ export default function Layout(props) {
             <Head>
                 <meta charSet="utf-8" />
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
+                {/* TODO: figure out how to load the emoji as favicon */}
                 <title>🍔 Rob's Burgers - built with Next.js + Sanity.io</title>
                 <link href="https://fonts.googleapis.com/css?family=Londrina+Shadow&display=swap" rel="stylesheet" />
                 <link href="https://fonts.googleapis.com/css?family=Bebas+Neue&display=swap" rel="stylesheet" />
@@ -14,7 +16,7 @@ export default function Layout(props) {
                 {/* body {
                     font-family: 'Bebas Neue', cursive;
                 } */}
-                {/* TODO: do i even need this style tag? */}
+                {/* TODO: Better way to add global styles? */}
                 <style
                     dangerouslySetInnerHTML={{
                         __html: `
@@ -67,9 +69,21 @@ export default function Layout(props) {
                     <Link href="/contact">
                         <a>Contact</a>
                     </Link>
+                    
+                    <Link href="/social_media">
+                        <a>Social</a>
+                    </Link>
                 </nav>
-                {/* TODO: Setup menu titles to use same rule as header span */}
-                <style jsx>{`
+            </header>
+
+            <div id="main">{props.children}</div>
+
+            <footer>
+                <SocialMedia />
+            </footer>
+
+            {/* TODO: Setup menu titles to use same rule as header span */}
+            <style jsx>{`
                     header#navbar_head div {
                         background-color: rgb(219, 21, 18);
                         text-align: center;
@@ -116,9 +130,6 @@ export default function Layout(props) {
                        font-family: "Bebas Neue";
                     }
                 `}</style> */}
-            </header>
-
-            <div id="main">{props.children}</div>
         </div>
     )
 }

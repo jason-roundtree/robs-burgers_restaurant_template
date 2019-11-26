@@ -2,7 +2,7 @@ import Layout from '../components/Layout'
 import Link from 'next/link'
 // TODO: sanity vs client fetch vs isomorphic fetch??
 // import client from '../lib/sanity'
-import sanity from "../lib/sanity";
+import sanity from '../lib/sanity'
 
 const query = `*[ active == true ] {
     _id, 

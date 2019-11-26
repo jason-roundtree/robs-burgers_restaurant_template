@@ -1,5 +1,5 @@
 import Layout from '../components/Layout'
-import sanity from "../lib/sanity";
+import sanity from '../lib/sanity'
 
 const query = `*[ _type == "contact" ] {
     _id,
