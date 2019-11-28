@@ -69,10 +69,6 @@ export default function Layout(props) {
                     <Link href="/contact">
                         <a>Contact</a>
                     </Link>
-                    
-                    <Link href="/social_media">
-                        <a>Social</a>
-                    </Link>
                 </nav>
             </header>
 
@@ -83,53 +79,70 @@ export default function Layout(props) {
             </footer>
 
             {/* TODO: Setup menu titles to use same rule as header span */}
+            {/* html, body, footer rules currently only correspond to sticky footer */}
             <style jsx>{`
+                html {
+                    height: 100%;
+                }
+                body {
+                    min-height: 100%;
+                    display: grid;
+                    grid-template-rows: 1fr auto;
+                }
+                footer {
+                    background-color: rgb(255, 112, 110);
+                    padding: 15px;
+                    grid-row-start: 2;
+                    grid-row-end: 3;
+                    width: 100%;
+                }
+                header#navbar_head div {
+                    background-color: rgb(219, 21, 18);
+                    text-align: center;
+                    font-size: 2em;
+                    padding: 10px;
+                }
+                nav {
+                    font-size: 1.4em;
+                    display: flex;
+                    justify-content: space-evenly;
+                    padding: 10px 0;
+                    margin-bottom: 20px;
+                    background-color: rgb(255, 112, 110);
+                }
+                nav#navbar a {
+                    font-family: 'Bebas Neue', cursive;
+                    font-size: 1em;
+                    padding: 10px;
+                    color: black;
+                    text-decoration: none;
+                    padding: 0 5px;
+                }
+                nav#navbar a:hover {
+                    color: rgb(252, 202, 0);
+                }
+                span:hover {
+                    cursor: pointer;
+                }
+                
+                @media (max-width: 400px) {
                     header#navbar_head div {
-                        background-color: rgb(219, 21, 18);
-                        text-align: center;
-                        font-size: 2em;
-                        padding: 10px;
-                    }
-                    nav {
-                        font-size: 1.4em;
-                        display: flex;
-                        justify-content: space-evenly;
-                        padding: 10px 0;
-                        margin-bottom: 20px;
-                        background-color: rgb(255, 112, 110);
+                        font-size: 1.25em;
                     }
                     nav#navbar a {
-                        font-family: 'Bebas Neue', cursive;
-                        font-size: 1em;
-                        padding: 10px;
-                        color: black;
-                        text-decoration: none;
-                        padding: 0 5px;
+                        font-size: .75em;
                     }
-                    nav#navbar a:hover {
-                        color: rgb(252, 202, 0);
-                    }
-                    span:hover {
-                        cursor: pointer;
-                    }
-                    @media (max-width: 400px) {
-                        header#navbar_head div {
-                            font-size: 1.25em;
-                        }
-                        nav#navbar a {
-                            font-size: .75em;
-                        }
-                    }
-                `}</style>
-                {/* <style global jsx>{`
-                    @font-face {
-                        font-family: "Bebas Neue";
-                        src: url('https://fonts.googleapis.com/css?family=Bebas+Neue')
-                    }
-                    body {
-                       font-family: "Bebas Neue";
-                    }
-                `}</style> */}
+                }
+            `}</style>
+            {/* <style global jsx>{`
+                @font-face {
+                    font-family: "Bebas Neue";
+                    src: url('https://fonts.googleapis.com/css?family=Bebas+Neue')
+                }
+                body {
+                    font-family: "Bebas Neue";
+                }
+            `}</style> */}
         </div>
     )
 }

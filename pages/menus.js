@@ -16,18 +16,18 @@ export default function Menus(props) {
             <div className="menu_container">
                 {props.menus.map(menu => {
                     return (
-                        <>
+                        <div key={menu._id}>
                             <Link 
                                 href='/menu/[id]' 
                                 // TODO: change this to slug?
                                 as={`/menu/${menu._id}`}
 
                             >
-                                <div key={menu._id}>
+                                <div>
                                     <span className="sign_font">{menu.name}</span>
                                 </div>
                             </Link>
-                        </>
+                        </div>
                     )
                 })}
                 

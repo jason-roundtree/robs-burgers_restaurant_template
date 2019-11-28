@@ -16,7 +16,7 @@ export default function Menu(props) {
     const [ menu ] = props.menus.filter(menu => {
         return menu._id === router.query.id
     })
-    console.log('menu: ', menu)
+    // console.log('menu: ', menu)
     return (
         <Layout>
             <div>
