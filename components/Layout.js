@@ -13,9 +13,6 @@ export default function Layout(props) {
                 <link href="https://fonts.googleapis.com/css?family=Londrina+Shadow&display=swap" rel="stylesheet" />
                 <link href="https://fonts.googleapis.com/css?family=Bebas+Neue&display=swap" rel="stylesheet" />
                 <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet" />
-                {/* body {
-                    font-family: 'Bebas Neue', cursive;
-                } */}
                 {/* TODO: Better way to add global styles? */}
                 <style
                     dangerouslySetInnerHTML={{
@@ -25,6 +22,12 @@ export default function Layout(props) {
                                 margin: 0;
                                 padding: 0;
                                 box-sizing: border-box;
+                            }
+                            #content {
+                                min-height: calc(100vh - 50px);
+                            }
+                            footer {
+                                height: 50px;
                             }
                             .sign_font {
                                 display: inline-block;
@@ -37,6 +40,7 @@ export default function Layout(props) {
                             #main {
                                 padding: 0 15px;
                             }
+                            
                             h1 span.sign_font {
                                 font-size: .85em;
                                 background-color: rgb(219, 21, 18);
@@ -45,39 +49,40 @@ export default function Layout(props) {
                     }}
                 />
             </Head>
+            <div id="content">
+                <header id="navbar_head">
+                    <div>
+                        <Link href="/">
+                            <span className="sign_font">Rob's Burgers</span>
+                        </Link>
+                    </div>
+
+                    <nav id="navbar">
+                        <Link href="/">
+                            <a>Home</a>
+                        </Link>
+
+                        <Link href="/menus">
+                            <a>Menus</a>
+                        </Link>
+
+                        <Link href="/about">
+                            <a>About</a>
+                        </Link>
+
+                        <Link href="/contact">
+                            <a>Contact</a>
+                        </Link>
+                    </nav>
+                </header>
+
+                <div id="main">{props.children}</div>
+            </div>
             
-            <header id="navbar_head">
-                <div>
-                    <Link href="/">
-                        <span className="sign_font">Rob's Burgers</span>
-                    </Link>
-                </div>
-
-                <nav id="navbar">
-                    <Link href="/">
-                        <a>Home</a>
-                    </Link>
-
-                    <Link href="/menus">
-                        <a>Menus</a>
-                    </Link>
-
-                    <Link href="/about">
-                        <a>About</a>
-                    </Link>
-
-                    <Link href="/contact">
-                        <a>Contact</a>
-                    </Link>
-                </nav>
-            </header>
-
-            <div id="main">{props.children}</div>
-
             <footer>
                 <SocialMedia />
             </footer>
-
+            
             {/* TODO: Setup menu titles to use same rule as header span */}
             {/* html, body, footer rules currently only correspond to sticky footer */}
             <style jsx>{`
@@ -85,7 +90,6 @@ export default function Layout(props) {
                     height: 100%;
                 }
                 body {
-                    min-height: 100%;
                     display: grid;
                     grid-template-rows: 1fr auto;
                 }
@@ -124,7 +128,6 @@ export default function Layout(props) {
                 span:hover {
                     cursor: pointer;
                 }
-                
                 @media (max-width: 400px) {
                     header#navbar_head div {
                         font-size: 1.25em;
@@ -134,15 +137,6 @@ export default function Layout(props) {
                     }
                 }
             `}</style>
-            {/* <style global jsx>{`
-                @font-face {
-                    font-family: "Bebas Neue";
-                    src: url('https://fonts.googleapis.com/css?family=Bebas+Neue')
-                }
-                body {
-                    font-family: "Bebas Neue";
-                }
-            `}</style> */}
         </div>
     )
 }
