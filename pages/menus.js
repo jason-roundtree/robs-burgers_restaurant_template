@@ -1,7 +1,6 @@
 import Layout from '../components/Layout'
 import Link from 'next/link'
 // TODO: sanity vs client fetch vs isomorphic fetch??
-// import client from '../lib/sanity'
 import sanity from '../lib/sanity'
 
 const query = `*[ active == true ] {
@@ -16,18 +15,15 @@ export default function Menus(props) {
             <div className="menu_container">
                 {props.menus.map(menu => {
                     return (
-                        <div key={menu._id}>
-                            <Link 
-                                href='/menu/[id]' 
-                                // TODO: change this to slug?
-                                as={`/menu/${menu._id}`}
-
-                            >
-                                <div>
-                                    <span className="sign_font">{menu.name}</span>
-                                </div>
-                            </Link>
-                        </div>
+                        <Link 
+                            href='/menu/[id]' 
+                            // TODO: change this to slug?
+                            as={`/menu/${menu._id}`}
+                        >
+                            <div key={menu._id}>
+                                <span className="sign_font">{menu.name}</span>
+                            </div>
+                        </Link>
                     )
                 })}
                 
@@ -41,7 +37,10 @@ export default function Menus(props) {
                         margin: 0 10px;
                         border-radius: 3px;
                         width: 55%;
-                        border: 1px solid rgb(255, 112, 110);
+                    }
+                    .menu_container div:hover div {
+                        cursor: pointer;
+                        background-color: rgb(255, 205, 41);
                     }
                     .menu_container div:hover {
                         cursor: pointer;
@@ -56,6 +55,7 @@ export default function Menus(props) {
                         margin: 7px 7px 50px;
                         padding: 4px 8px;
                     }
+                    
                     @media (max-width: 640px) {
                         .menu_container {
                             flex-direction: column;
@@ -64,6 +64,7 @@ export default function Menus(props) {
                         }
                         .menu_container div {
                             margin: 10px 0;
+                            min-width: 60%;
                         }
                     }
                 `}</style>

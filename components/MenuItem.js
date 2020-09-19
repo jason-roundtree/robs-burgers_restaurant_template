@@ -1,42 +1,40 @@
+import OrderItem from '../components/OrderItem'
+import styled from 'styled-components'
+
+const ItemContainer = styled.div`
+    padding: 12px;
+    border-top: 2px solid rgb(255, 205, 41);
+    font-size: 16px;
+`
+const ItemTitle = styled.p`
+    font-family: 'Bebas Neue', cursive;
+    font-size: 1.5em;
+    color: rgb(255, 112, 110);
+`
+const ItemOption = styled.p`
+    font-size: .9em;
+    &::before {
+        content: '🍔 ';
+    }
+`
 export default function MenuItem(props) {
     return (
-        <div className="menu_item">
-            <p className="menu_item_title">{props.item.name}</p>
-            <p className="menu_item_description">{props.item.description}</p>
+        <ItemContainer>
+            <ItemTitle>{props.item.name}</ItemTitle>
+            <p>{props.item.description}</p>
             <p>${props.item.cost.toFixed(2)}</p>
-            {props.item.options && props.item.options.map((option, i) => {
+            {props.item.options && 
+                props.item.options.map((option, i) => {
                     return (
-                        <p className="menu_item_option" key={i}>
+                        <ItemOption key={i}>
                             {option}
-                        </p>
+                        </ItemOption>
                     )
                 })
             }
 
-            <style jsx>{`
-                p {
-                    margin: 0;
-                }
-                .menu_item {
-                    padding: 12px 0;
-                    border-top: 2px solid rgb(255, 205, 41);
-                    font-size: 16px;
-                }
-                .menu_item * {
-                    margin-left: 10px;
-                }
-                .menu_item_title {
-                    font-family: 'Bebas Neue', cursive;
-                    font-size: 1.5em;
-                    color: rgb(255, 112, 110);
-                }
-                .menu_item_option {
-                    font-size: .7em;
-                }
-                .menu_item_option:before {
-                    content: '🍔';
-                }
-            `}</style>
-        </div>
+            <OrderItem />
+
+        </ItemContainer>
     )
 }
