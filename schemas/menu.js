@@ -20,7 +20,7 @@ export default {
             of: [{ type: 'text' }]
         },
         {
-            title: 'MenuItems',
+            title: 'Menu Items',
             name: 'menu_items',
             type: 'array',
             of: [{

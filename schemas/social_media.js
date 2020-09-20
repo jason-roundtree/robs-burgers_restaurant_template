@@ -1,5 +1,5 @@
 export default {
-    title: 'SocialMedia',
+    title: 'Social Media',
     name: 'social_media',
     type: 'document',
     fields: [

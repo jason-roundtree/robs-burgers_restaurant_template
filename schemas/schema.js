@@ -5,6 +5,7 @@ import contact from './contact'
 import location from './location'
 import menu from './menu'
 import menu_item from './menu_item'
+import add_on from './add_on'
 import social_media from './social_media'
 
 // TODO: add models for these?: Emailing list, General restaurant images and media, online ordering, delivery, store/merch 
@@ -19,6 +20,7 @@ export default createSchema({
     location,
     menu,
     menu_item,
+    add_on,
     social_media
   ])
 })
