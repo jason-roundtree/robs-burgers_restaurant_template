@@ -2,21 +2,22 @@ import Layout from '../components/Layout'
 import sanity from '../lib/sanity'
 import MenuItem from '../components/MenuItem'
 
-
 export default function Order(props) {
-    console.log('props: ', props)
+    // console.log('props: ', props)
     return (
         <Layout>
             {props.menus.map(menu => {
-                return menu.menuItems.map(item => {
-                    return (
-                        <MenuItem 
-                            item={item} 
-                            id={item._id} 
-                            key={item._id}
-                        />
-                    )
-                })
+                return menu.menuItems && (
+                    menu.menuItems.map(item => {
+                        return (
+                            <MenuItem 
+                                item={item} 
+                                id={item._id} 
+                                key={item._id}
+                            />
+                        )
+                    })
+                )
             })}
         </Layout>
     )
@@ -27,7 +28,11 @@ const query = `*[ _type == "menu" ] {
     name,
     active,
     comments,
-    "menuItems": menu_items[]->
+    "menuItems": menu_items[]-> {
+        ...,
+        add_ons[]->,
+  	    "options": options[]->
+    }
 }`
 
 export async function getStaticProps() {

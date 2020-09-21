@@ -1,22 +1,21 @@
 import { useRouter } from 'next/router'
+import sanity from '../../lib/sanity'
+import styled from 'styled-components'
 import Layout from '../../components/Layout'
 import MenuItem from '../../components/MenuItem'
-import sanity from '../../lib/sanity'
 
-const query = `*[ _type == "menu" ] {
-    _id,
-    name,
-    active,
-    comments,
-    "menuItems": menu_items[]->
-}`
+const P = styled.p`
+    margin: 2px 0 5px 5px;      
+    font-size: .8em;
+`
+// const MenuCommentRowP = styled.p``
 
 export default function Menu(props) {
     const router = useRouter()
     const [ menu ] = props.menus.filter(menu => {
         return menu._id === router.query.id
     })
-    // console.log('menu: ', menu)
+    console.log('menu: ', menu)
     return (
         <Layout>
             <div>
@@ -28,13 +27,13 @@ export default function Menu(props) {
 
                 {menu.comments && menu.comments.map((comment, i) => {
                     return (
-                        <div className="menu_comment_row" key={i}>
-                            <p className="menu_comment">{comment}</p>
+                        <div key={i}>
+                            <P>{comment}</P>
                         </div>
                     )
                 })}
 
-                {menu.menuItems.map(menuItem => {
+                {menu.menuItems && menu.menuItems.map(menuItem => {
                     return (
                         <MenuItem 
                             item={menuItem} 
@@ -45,17 +44,16 @@ export default function Menu(props) {
                 })}
             </div>
 
-            <style jsx>{`
+            {/* <style jsx>{`
                 h2 {
                     font-family: 'Bebas Neue', cursive;
                     color: rgb(219, 21, 18);
                 }
                 p {
-                    margin: 2px 0 5px 5px;      
-                    font-size: .8em;
+                    
                 }
                 div.menu_comment_row p {
-                    margin-left: 10px;
+                    
                 }
                 .menu_comment:before {
                     content: '🍔 ';
@@ -67,10 +65,22 @@ export default function Menu(props) {
                 span.emoji {
                     background-color: white;
                 }
-            `}</style>
+            `}</style> */}
         </Layout>
     )
 }
+
+const query = `*[ _type == "menu" ] {
+    _id,
+    name,
+    active,
+    comments,
+    "menuItems": menu_items[]-> {
+        ...,
+        add_ons[]->,
+  	    options[]->
+    }
+}`
 
 Menu.getInitialProps = async () => {
     return {

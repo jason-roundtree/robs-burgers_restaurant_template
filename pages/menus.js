@@ -1,78 +1,76 @@
 import Layout from '../components/Layout'
 import Link from 'next/link'
-// TODO: sanity vs client fetch vs isomorphic fetch??
+import styled from 'styled-components'
 import sanity from '../lib/sanity'
 
-const query = `*[ active == true ] {
-    _id, 
-    name, 
-    active
-}`
- 
+const MenusContainer = styled.div`
+    display: flex;
+    margin: 0 25px;
+    @media (max-width: 640px) {
+        flex-direction: column;
+        align-items: center;
+    }
+`
+const MenuNameContainer = styled.div`
+    background-color: rgb(252, 98, 98);
+    margin: 0 10px;
+    border-radius: 3px;
+    width: 55%;
+    &:hover {
+        cursor: pointer;
+    }
+    @media (max-width: 640px) {
+        margin-bottom: 20px;
+        min-width: 80%;
+    }
+`
+const MenuTitle = styled.span`
+    background-color: rgb(0, 0, 0);
+    text-align: left;
+    vertical-align: text-top;
+    font-size: 1.5em;
+    display: inline-block;
+    margin: 7px 7px 50px;
+    padding: 4px 8px;
+    &:hover {
+        cursor: pointer;
+    }
+    @media (max-width: 640px) {
+        margin: 7px 7px 15px;
+        min-width: 60%;
+    }
+`
+
 export default function Menus(props) {
     return (
         <Layout>
-            <div className="menu_container">
+            <MenusContainer>
                 {props.menus.map(menu => {
                     return (
                         <Link 
                             href='/menu/[id]' 
                             // TODO: change this to slug?
                             as={`/menu/${menu._id}`}
+                            key={menu._id}
                         >
-                            <div key={menu._id}>
-                                <span className="sign_font">{menu.name}</span>
-                            </div>
+                            <MenuNameContainer key={menu._id}>
+                                <MenuTitle className="sign_font">{menu.name}</MenuTitle>
+                            </MenuNameContainer>
                         </Link>
                     )
                 })}
                 
-                <style jsx>{`
-                    .menu_container {
-                        display: flex;
-                        margin: 0 25px;
-                    }
-                    .menu_container div {
-                        background-color: rgb(252, 98, 98);
-                        margin: 0 10px;
-                        border-radius: 3px;
-                        width: 55%;
-                    }
-                    .menu_container div:hover div {
-                        cursor: pointer;
-                        background-color: rgb(255, 205, 41);
-                    }
-                    .menu_container div:hover {
-                        cursor: pointer;
-                        background-color: rgb(255, 205, 41);
-                    }
-                    .menu_container div > span {
-                        background-color: rgb(219, 21, 18);
-                        text-align: left;
-                        vertical-align: text-top;
-                        font-size: 1.5em;
-                        display: inline-block;
-                        margin: 7px 7px 50px;
-                        padding: 4px 8px;
-                    }
-                    
-                    @media (max-width: 640px) {
-                        .menu_container {
-                            flex-direction: column;
-                            justify-content: center;
-                            align-items: center;
-                        }
-                        .menu_container div {
-                            margin: 10px 0;
-                            min-width: 60%;
-                        }
-                    }
-                `}</style>
-            </div>
+            </MenusContainer>
         </Layout>
     )
 }
 
+const query = `*[ active == true ] {
+    _id, 
+    name, 
+    active
+} | order(menu_order asc)`
+ 
 Menus.getInitialProps = async () => {
     return {
       menus: await sanity.fetch(query)

@@ -17,14 +17,15 @@ const ItemOption = styled.p`
         content: '🍔 ';
     }
 `
-export default function MenuItem(props) {
+export default function MenuItem({ item }) {
+    console.log('item: ', item)
     return (
         <ItemContainer>
-            <ItemTitle>{props.item.name}</ItemTitle>
-            <p>{props.item.description}</p>
-            <p>${props.item.cost.toFixed(2)}</p>
-            {props.item.options && 
-                props.item.options.map((option, i) => {
+            <ItemTitle>{item.name}</ItemTitle>
+            <p>{item.description}</p>
+            <p>${item.cost.toFixed(2)}</p>
+            {item.options && 
+                item.options.map((option, i) => {
                     return (
                         <ItemOption key={i}>
                             {option}
@@ -33,7 +34,9 @@ export default function MenuItem(props) {
                 })
             }
 
-            <OrderItem />
+            <OrderItem 
+                item={item} 
+            />
 
         </ItemContainer>
     )

@@ -13,12 +13,12 @@ export default {
             name: 'active',
             type: 'boolean'
         },
-        {
-            title: 'Comments',
-            name: 'comments',
-            type: 'array',
-            of: [{ type: 'text' }]
-        },
+        // {
+        //     title: 'Comments',
+        //     name: 'comments',
+        //     type: 'array',
+        //     of: [{ type: 'text' }]
+        // },
         {
             title: 'Menu Items',
             name: 'menu_items',
@@ -29,5 +29,10 @@ export default {
                 to: [{type: 'menu_item'}]
             }]
         },
+        {
+            title: 'Menu Order',
+            name: 'menu_order',
+            type: 'number'
+        }
     ]
 }

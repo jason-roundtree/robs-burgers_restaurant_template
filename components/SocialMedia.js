@@ -1,13 +1,14 @@
 import { useState, useEffect } from 'react'
 import sanity from '../lib/sanity'
+import styled from 'styled-components'
 
-const query = `*[ _type == "social_media" ] {
-    _id,
-    name,
-    info,
-    "logoUrl": logo.asset->url
-}`
-
+const GridContainer = styled.div`
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    justify-items: center;
+`
+            
+// TODO: figure out why icons flicker when changing pages. Is sanity call being run each time?
 export default function SocialMedia() {
     const [socialMediaData, setSocialMediaData] = useState([])
     useEffect(() => {
@@ -21,7 +22,7 @@ export default function SocialMedia() {
     }, [])
 
     return (
-        <div className="social_grid">
+        <GridContainer>
             {/* TODO: remove this when actual business urls are in Sanity CMS */}
             {socialMediaData.map(socialEntity => {
                 let socialEntityUrl
@@ -52,20 +53,13 @@ export default function SocialMedia() {
                     </div>
                 )
             })}
-            <style jsx>{`
-                .social_grid {
-                    display: grid;
-                    grid-template-columns: 1fr 1fr 1fr;
-                    justify-items: center;
-                }
-                .social_grid {
-                    text-align: center;
-                }
-                li {
-                    list-style: none;
-                    font-size: .70em;
-                }
-            `}</style>
-        </div>
+        </GridContainer>
     )
 }
+
+const query = `*[ _type == "social_media" ] {
+    _id,
+    name,
+    info,
+    "logoUrl": logo.asset->url
+}`
