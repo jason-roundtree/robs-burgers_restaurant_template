@@ -43,29 +43,6 @@ export default function Menu(props) {
                     )
                 })}
             </div>
-
-            {/* <style jsx>{`
-                h2 {
-                    font-family: 'Bebas Neue', cursive;
-                    color: rgb(219, 21, 18);
-                }
-                p {
-                    
-                }
-                div.menu_comment_row p {
-                    
-                }
-                .menu_comment:before {
-                    content: '🍔 ';
-                }
-                span {
-                    background-color: rgb(219, 21, 18);
-                    margin-bottom: 5px;
-                }
-                span.emoji {
-                    background-color: white;
-                }
-            `}</style> */}
         </Layout>
     )
 }

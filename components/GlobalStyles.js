@@ -2,7 +2,8 @@ import { createGlobalStyle } from 'styled-components'
 
 export const GlobalStyles = createGlobalStyle`
     * {
-        font-family: 'Open Sans', sans-serif;
+        /* font-family: 'Open Sans', sans-serif; */
+        font-family: 'M PLUS Rounded 1c', sans-serif;
         margin: 0;
         padding: 0;
         box-sizing: border-box;
@@ -24,6 +25,10 @@ export const GlobalStyles = createGlobalStyle`
     li {
         list-style: none;
     }
+    
+    fieldset {
+        border: none;
+    }
 
     footer {
         background-color: rgb(255, 112, 110);
@@ -41,10 +46,15 @@ export const GlobalStyles = createGlobalStyle`
     .sign_font {
         display: inline-block;
         font-family: 'Londrina Shadow', cursive;
+        font-family: 'Bebas Neue', cursive;
         color: rgb(255, 205, 41);
         padding: 5px;
         border: 1px solid rgb(255, 205, 41);
         border-radius: 3px;
+    }
+
+    .sign_font:hover {
+        cursor: pointer;
     }
 
     h1 span.sign_font {

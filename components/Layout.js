@@ -42,7 +42,6 @@ export default function Layout(props) {
             <Head>
                 <meta charSet="utf-8" />
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
-                {/* TODO: figure out how to load the emoji as favicon */}
                 <title>Rob's Burgers - Restaurant Website Template built with Next.js + Sanity.io</title>
                 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
                 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
@@ -50,7 +49,7 @@ export default function Layout(props) {
                 <link rel="manifest" href="/site.webmanifest" />
                 <link href="https://fonts.googleapis.com/css?family=Londrina+Shadow&display=swap" rel="stylesheet" />
                 <link href="https://fonts.googleapis.com/css?family=Bebas+Neue&display=swap" rel="stylesheet" />
-                <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet" />
+                <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@300;400;500;700&display=swap" rel="stylesheet" />
             </Head>
 
             <div id="content">

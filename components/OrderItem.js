@@ -1,5 +1,7 @@
 import { useState } from 'react'
 import styled from 'styled-components'
+import AddOns from './AddOns'
+import Options from './Options'
 
 const Button = styled.button`
     margin: 10px 0 0;
@@ -26,7 +28,6 @@ const Input = styled.input`
 const QuantityInput = styled(Input)`
     width: 50px;
 `
-// TODO: is there a way to inherit Input from textarea?
 const SpecialRequests = styled.textarea`
     margin: 5px auto;
     width: 60%;
@@ -42,15 +43,14 @@ const SpecialRequests = styled.textarea`
         /* height: 100px; */
     }
 `
-const OrderOption = styled.input`
-    margin-right: .75em;
-`
-const OrderAddOn = styled(OrderOption)`
-    /* display: block; */
+const SectionLabel = styled.label`
+    font-weight: 500;
+    display: inline-block;
+    margin-top: 1em;
 `
 
 export default function OrderItem({ item }) {
-    console.log('item: ', item)
+    // console.log('item: ', item)
     const [itemEditorIsOpen, setItemEditorIsOpen] = useState(false)
     // TODO: how to setup options fields to dynamically be held in state?
     const [inputState, setInputState] = useState({
@@ -80,47 +80,19 @@ export default function OrderItem({ item }) {
                 <OrderEditor>
                     <h3>Order Details</h3>
 
-                    {/* TODO: make options and add-ons components */}
-                    {item.one_item_options && <p>Options</p>}
-                    {item.one_item_options && item.one_item_options.map(option => {
-                        return (
-                            <div>
-                                <OrderOption 
-                                    type="radio"
-                                    name="option"
-                                    value={option}
-                                    id={option}
-                                />
-                                <label htmlFor={option}>
-                                    {option}
-                                </label>
-                            </div>
-                        )
-                    })}
+                    {item.one_item_options && (
+                        <Options options={item.one_item_options} />
+                    )}
 
-                    {item.add_ons && <p>Add-Ons</p>}
-                    {item.add_ons && item.add_ons.map(addOn => {
-                        return (
-                            <>
-                                <OrderAddOn
-                                    type="checkbox"
-                                    // name={addOn.name}
-                                    id={addOn._id}
-                                />
-                                <label
-                                    // htmlFor={addOn.name}
-                                >
-                                    {addOn.description}
-                                </label>
-                            </>
-                        )
-                    })}
-
-                    <label 
+                    {item.add_ons && (
+                        <AddOns addOns={item.add_ons} />
+                    )}
+                 
+                    <SectionLabel 
                         htmlFor="quantity"
                     >
                         Quantity
-                    </label>
+                    </SectionLabel>
                     <QuantityInput 
                         type="number"
                         name="quantity"
@@ -130,11 +102,11 @@ export default function OrderItem({ item }) {
                         onChange={handleInputChange}
                     />
 
-                    <label 
+                    <SectionLabel 
                         htmlFor="specialRequests"
                     >
                         Special Requests
-                    </label>
+                    </SectionLabel>
                     <SpecialRequests 
                         name="specialRequests"
                         id="specialRequests"
