@@ -29,8 +29,7 @@ const MenuNameContainer = styled.div`
     }
 `
 const MenuTitle = styled.span`
-    /* background-color:  rgb(0, 65, 207); */
-    background-color: rgb(219,21,18);
+    background-color: rgb(219, 21, 18);
     color: white;
     text-align: left;
     vertical-align: text-top;
@@ -40,7 +39,6 @@ const MenuTitle = styled.span`
     padding: 4px 8px;
     &:hover {
         cursor: pointer;
-        /* color: rgb(255, 205, 41); */
     }
     @media (max-width: 640px) {
         margin: 7px 7px 15px;

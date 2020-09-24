@@ -40,7 +40,6 @@ const SpecialRequests = styled.textarea`
     }
     @media (max-width: 400px) {
         width: 100%;
-        /* height: 100px; */
     }
 `
 const SectionLabel = styled.label`

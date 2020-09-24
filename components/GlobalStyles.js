@@ -25,7 +25,7 @@ export const GlobalStyles = createGlobalStyle`
     li {
         list-style: none;
     }
-    
+
     fieldset {
         border: none;
     }
@@ -42,7 +42,7 @@ export const GlobalStyles = createGlobalStyle`
     #main {
         padding: 0 15px;
     }
-    
+
     .sign_font {
         display: inline-block;
         font-family: 'Londrina Shadow', cursive;

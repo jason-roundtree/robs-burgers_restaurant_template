@@ -57,7 +57,7 @@ const query = `*[ _type == "menu" ] {
         add_ons[]->,
   	    options[]->
     }
-}`
+} | order(menu_order asc)`
 
 Menu.getInitialProps = async () => {
     return {
