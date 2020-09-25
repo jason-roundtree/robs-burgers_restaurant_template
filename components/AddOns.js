@@ -14,7 +14,6 @@ const AddOnLabel = styled.label`
 `
 const Cost = styled.span`
     display: inline-block;
-    margin-left: .7em;
 `
 export default function AddOns({ addOns }) {
     return (
@@ -32,8 +31,8 @@ export default function AddOns({ addOns }) {
                             <AddOnLabel
                                 htmlFor={addOn.name}
                             >
-                                {addOn.description}
-                                <Cost>${addOn.cost}</Cost>
+                                {addOn.description}&nbsp; 
+                                <Cost> - ${addOn.cost.toFixed(2)}</Cost>
                             </AddOnLabel>
                         </li>
                     )

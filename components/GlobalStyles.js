@@ -2,7 +2,6 @@ import { createGlobalStyle } from 'styled-components'
 
 export const GlobalStyles = createGlobalStyle`
     * {
-        /* font-family: 'Open Sans', sans-serif; */
         font-family: 'M PLUS Rounded 1c', sans-serif;
         margin: 0;
         padding: 0;
@@ -19,7 +18,7 @@ export const GlobalStyles = createGlobalStyle`
     }
 
     #content {
-        min-height: calc(100vh - 50px);
+        min-height: calc(100vh - 70px);
     }
 
     li {
@@ -37,6 +36,8 @@ export const GlobalStyles = createGlobalStyle`
         grid-row-end: 3;
         width: 100%;
         height: 50px;
+        /* This and 70px in #content min-height rule give some room to content that exceeds browser window height. */
+        margin-top: 20px;
     }
 
     #main {
@@ -44,21 +45,21 @@ export const GlobalStyles = createGlobalStyle`
     }
 
     .sign_font {
-        display: inline-block;
-        font-family: 'Londrina Shadow', cursive;
+        /* font-family: 'Londrina Shadow', cursive; */
         font-family: 'Bebas Neue', cursive;
-        color: rgb(255, 205, 41);
+        display: inline-block;
         padding: 5px;
         border: 1px solid rgb(255, 205, 41);
-        border-radius: 3px;
     }
 
-    .sign_font:hover {
-        cursor: pointer;
-    }
-
-    h1 span.sign_font {
-        font-size: .85em;
+    h1.sign_font, h2.sign_font {
+        font-size: 1em;
         background-color: rgb(219, 21, 18);
+        border-radius: 3px;
+        color: rgb(255, 205, 41);
+    }
+
+    h2.sign_font {
+        font-size: 1.75em;
     }
 `

@@ -5,6 +5,7 @@ import Layout from '../components/Layout'
 import MenuItem from '../components/MenuItem'
 
 const MenuItemsContainer = styled.div`
+
     background-color: rgb(255, 205, 41);
     padding: 10px;
 `
@@ -13,23 +14,29 @@ const MenusUl = styled.ul`
     justify-content: center;
 `
 const MenuLi = styled.li`
-    font-size: .9em;
+    font-size: 1em;
     font-weight: 400;
     text-align: center;
     padding: 10px;
-    border-left: 1px solid rgb(255, 205, 41);
+    color: rgb(219, 21, 18);
+    border: 1px solid rgb(255, 205, 41);
+    border-radius: 3px 3px 0 0;
+    background-color: rgb(255, 112, 110);
     ${({ active }) => active && `
         background: linear-gradient(rgb(255, 222, 115), rgb(255, 205, 41));
-        font-size: 1em;
+        font-size: 1.1em;
         font-weight: 500;
     `}
-    &:last-child {
-        border-right: 1px solid rgb(255, 205, 41);
-    }
     &:hover {
         cursor: pointer;
     }
 `
+const MenuTitle = styled.span`
+    background-color: rgb(219, 21, 18);
+    color: rgb(255, 205, 41);
+    border-radius: 3px;
+`
+
 export default function Order(props) {
     // TODO: is it ok to derive this state from props? is there a better way?
     const [allMenusAndItems, setAllMenusAndItems] = useState(props.menus)
@@ -68,7 +75,10 @@ export default function Order(props) {
                                 onClick={handleMenuSelection}
                                 active={selectedMenu && (selectedMenu._id === menu._id)}
                             >
-                                {menu.name}
+                                {/* TODO: why doesn't this delegate? */}
+                                <MenuTitle className="sign_font" id={menu._id}>
+                                    {menu.name}
+                                </MenuTitle>
                             </MenuLi>
                         )
                     })}

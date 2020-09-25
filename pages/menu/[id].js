@@ -19,11 +19,9 @@ export default function Menu(props) {
     return (
         <Layout>
             <div>
-                <h1>
-                    <span className="sign_font">
-                        {menu.name}
-                    </span>
-                </h1>
+                <h2 className="sign_font">
+                    {menu.name}
+                </h2>
 
                 {menu.comments && menu.comments.map((comment, i) => {
                     return (

@@ -2,10 +2,11 @@ import Layout from '../components/Layout'
 import Link from 'next/link'
 import styled from 'styled-components'
 import sanity from '../lib/sanity'
+// import StyledHeading from '../components/StyledHeading'
 
 const MenusContainer = styled.div`
     display: flex;
-    margin: 0 25px;
+    margin: 0 25px 10px;
     @media (max-width: 640px) {
         flex-direction: column;
         align-items: center;
@@ -30,11 +31,11 @@ const MenuNameContainer = styled.div`
 `
 const MenuTitle = styled.span`
     background-color: rgb(219, 21, 18);
+    border-radius: 3px;
     color: white;
     text-align: left;
     vertical-align: text-top;
     font-size: 1.5em;
-    display: inline-block;
     margin: 7px 7px 50px;
     padding: 4px 8px;
     &:hover {
@@ -59,7 +60,15 @@ export default function Menus(props) {
                             key={menu._id}
                         >
                             <MenuNameContainer key={menu._id}>
-                                <MenuTitle className="sign_font">{menu.name}</MenuTitle>
+                                {/* <StyledHeading
+                                    hTag=`h3`
+                                    hTagText={menu.name}
+                                    bgColor=`rgb(255, 112, 110)`
+                                    borderRadius=`3px`
+                                /> */}
+                                <MenuTitle className="sign_font">
+                                    {menu.name}
+                                </MenuTitle>
                             </MenuNameContainer>
                         </Link>
                     )

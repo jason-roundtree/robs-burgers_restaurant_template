@@ -56,7 +56,7 @@ export default function Layout(props) {
                 <header id="navbar_head">
                     <TitleSignContainer>
                         <Link href="/">
-                            <span className="sign_font">Rob's Burgers</span>
+                            <h1 className="sign_font">Rob's Burgers</h1>
                         </Link>
                     </TitleSignContainer>
 
