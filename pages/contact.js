@@ -11,6 +11,7 @@ const H2 = styled.h2`
     font-size: 1.5em;
     color: rgb(255, 112, 110);
 `
+
 export default function Contact(props) {
     const { contacts } = props
     return (

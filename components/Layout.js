@@ -1,5 +1,6 @@
 import Head from 'next/head'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 import styled from 'styled-components'
 import SocialMedia from './SocialMedia'
 
@@ -24,7 +25,7 @@ const NavLink = styled.a`
     font-family: 'Bebas Neue', cursive;
     font-size: 1em;
     padding: 10px;
-    color: black;
+    color: ${props => props.active ? 'rgb(252, 202, 0)' : 'black'};
     text-decoration: none;
     padding: 0 5px;
     &:hover {
@@ -37,6 +38,7 @@ const NavLink = styled.a`
 `
     
 export default function Layout(props) {
+    const route = useRouter()
     return (
         <div>
             <Head>
@@ -56,29 +58,41 @@ export default function Layout(props) {
                 <header id="navbar_head">
                     <TitleSignContainer>
                         <Link href="/">
-                            <h1 className="sign_font">Rob's Burgers</h1>
+                            <h1 className="sign_font">
+                                Rob's Burgers
+                            </h1>
                         </Link>
                     </TitleSignContainer>
 
                     <Nav id="navbar">
                         <Link href="/">
-                            <NavLink>Home</NavLink>
+                            <NavLink active={route.pathname === "/"}>
+                                Home
+                            </NavLink>
                         </Link>
 
                         <Link href="/menus">
-                            <NavLink>Menus</NavLink>
+                            <NavLink active={route.pathname === "/menus"}>
+                                Menus
+                            </NavLink>
                         </Link>
 
                         <Link href="/about">
-                            <NavLink>About</NavLink>
+                            <NavLink active={route.pathname === "/about"}>
+                                About
+                            </NavLink>
                         </Link>
 
                         <Link href="/contact">
-                            <NavLink>Contact</NavLink>
+                            <NavLink active={route.pathname === "/contact"}>
+                                Contact
+                            </NavLink>
                         </Link>
                         
                         <Link href="/order">
-                            <NavLink>Order</NavLink>
+                            <NavLink active={route.pathname === "/order"}>
+                                Order
+                            </NavLink>
                         </Link>
                     </Nav>
                 </header>

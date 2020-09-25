@@ -52,11 +52,13 @@ export default function Menus(props) {
         <Layout>
             <MenusContainer>
                 {props.menus.map(menu => {
+                    // console.log('menu: ', menu)
                     return (
                         <Link 
                             href='/menu/[id]' 
                             // TODO: change this to slug?
                             as={`/menu/${menu._id}`}
+                            // as={`/menu/${menu.slug}`}
                             key={menu._id}
                         >
                             <MenuNameContainer key={menu._id}>
@@ -82,6 +84,7 @@ export default function Menus(props) {
 const query = `*[ active == true ] {
     _id, 
     name, 
+    slug,
     active
 } | order(menu_order asc)`
  

@@ -13,6 +13,7 @@ const P = styled.p`
 export default function Menu(props) {
     const router = useRouter()
     const [ menu ] = props.menus.filter(menu => {
+        // TODO: figure out how to turn slug to id
         return menu._id === router.query.id
     })
     console.log('menu: ', menu)

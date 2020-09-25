@@ -5,7 +5,6 @@ import Layout from '../components/Layout'
 import MenuItem from '../components/MenuItem'
 
 const MenuItemsContainer = styled.div`
-
     background-color: rgb(255, 205, 41);
     padding: 10px;
 `
@@ -18,23 +17,28 @@ const MenuLi = styled.li`
     font-weight: 400;
     text-align: center;
     padding: 10px;
-    color: rgb(219, 21, 18);
     border: 1px solid rgb(255, 205, 41);
     border-radius: 3px 3px 0 0;
-    background-color: rgb(255, 112, 110);
+    background: linear-gradient(rgb(255, 147, 145), rgb(255, 112, 110));
+    /* background-color: rgb(255, 112, 110); */
     ${({ active }) => active && `
-        background: linear-gradient(rgb(255, 222, 115), rgb(255, 205, 41));
-        font-size: 1.1em;
+        background: linear-gradient(rgb(255, 225, 125), rgb(255, 222, 115), rgb(255, 205, 41));
         font-weight: 500;
     `}
     &:hover {
+        /* color: rgb(219, 21, 18); */
+        color: rgb(255, 205, 41);
         cursor: pointer;
     }
 `
 const MenuTitle = styled.span`
     background-color: rgb(219, 21, 18);
-    color: rgb(255, 205, 41);
+    color: white;
     border-radius: 3px;
+    &:hover {
+        color: rgb(255, 205, 41);
+        cursor: pointer;
+    }
 `
 
 export default function Order(props) {
@@ -75,8 +79,10 @@ export default function Order(props) {
                                 onClick={handleMenuSelection}
                                 active={selectedMenu && (selectedMenu._id === menu._id)}
                             >
-                                {/* TODO: why doesn't this delegate? */}
-                                <MenuTitle className="sign_font" id={menu._id}>
+                                <MenuTitle 
+                                    className="sign_font" 
+                                    id={menu._id}
+                                >
                                     {menu.name}
                                 </MenuTitle>
                             </MenuLi>

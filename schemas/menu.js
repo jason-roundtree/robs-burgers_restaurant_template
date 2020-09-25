@@ -9,6 +9,11 @@ export default {
             type: 'string'
         },
         {
+            title: 'Slug',
+            name: 'slug',
+            type: 'string'
+        },
+        {
             title: 'Active',
             name: 'active',
             type: 'boolean'
