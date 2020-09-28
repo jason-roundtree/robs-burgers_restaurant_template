@@ -11,12 +11,9 @@ const P = styled.p`
 // const MenuCommentRowP = styled.p``
 
 export default function Menu(props) {
-    const router = useRouter()
-    const [ menu ] = props.menus.filter(menu => {
-        // TODO: figure out how to turn slug to id
-        return menu._id === router.query.id
-    })
-    console.log('menu: ', menu)
+    // const router = useRouter()
+    // console.log('props: ', props)
+    const [ menu ] = props.menu
     return (
         <Layout>
             <div>
@@ -46,7 +43,7 @@ export default function Menu(props) {
     )
 }
 
-const query = `*[ _type == "menu" ] {
+const query = `*[ _id == $menuId ] {
     _id,
     name,
     active,
@@ -58,8 +55,11 @@ const query = `*[ _type == "menu" ] {
     }
 } | order(menu_order asc)`
 
-Menu.getInitialProps = async () => {
+Menu.getInitialProps = async (ctx) => {
+    // console.log('ctx: ', ctx)
     return {
-      menus: await sanity.fetch(query)
+        menu: await sanity.fetch(query, { 
+            menuId: ctx.query.id 
+        })
     }
 }
