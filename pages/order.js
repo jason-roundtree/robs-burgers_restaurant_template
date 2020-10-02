@@ -7,6 +7,7 @@ import MenuItem from '../components/MenuItem'
 const MenuItemsContainer = styled.div`
     background-color: rgb(255, 205, 41);
     padding: 10px;
+    border-radius: 3px;
 `
 const MenusUl = styled.ul`
     display: flex;
@@ -100,6 +101,7 @@ export default function Order(props) {
                                     item={item} 
                                     id={item._id} 
                                     key={item._id}
+                                    orderItem={true}
                                 />
                             )
                         })}

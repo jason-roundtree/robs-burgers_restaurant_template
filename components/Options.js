@@ -10,23 +10,25 @@ const Legend = styled.legend`
     font-weight: 500;
     margin-top: .8em;
 `
-
+const Label = styled.label`
+    font-size: .85em;
+`
 export default function Options({ options }) {
     return (
         <Fieldset>
             <Legend>Options</Legend>
             {options.map(option => {
                 return (
-                    <div>
+                    <div key={option}>
                         <OrderOption 
                             type="radio"
                             name="option"
                             value={option}
                             id={option}
                         />
-                        <label htmlFor={option}>
+                        <Label htmlFor={option}>
                             {option}
-                        </label>
+                        </Label>
                     </div>
                 )
             })} 

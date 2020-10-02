@@ -4,6 +4,7 @@ import styled from 'styled-components'
 const ItemContainer = styled.div`
     padding: 12px;
     border: 1px solid rgb(255, 205, 41);
+    border-radius: 3px;
     font-size: 16px;
     margin: 10px 0;
     background-color: white;
@@ -22,7 +23,7 @@ const ItemTitle = styled.p`
 //         content: '🍔 ';
 //     }
 // `
-export default function MenuItem({ item }) {
+export default function MenuItem({ item, orderItem }) {
     // console.log('item: ', item)
     return (
         <ItemContainer>
@@ -39,9 +40,11 @@ export default function MenuItem({ item }) {
                 })
             }
 
-            <OrderItem 
-                item={item} 
-            />
+            {orderItem &&
+                <OrderItem 
+                    item={item} 
+                />
+            }
 
         </ItemContainer>
     )

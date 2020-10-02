@@ -47,13 +47,14 @@ const query = `*[ _id == $menuId ] {
     _id,
     name,
     active,
+    slug,
     comments,
     "menuItems": menu_items[]-> {
         ...,
         add_ons[]->,
   	    options[]->
     }
-} | order(menu_order asc)`
+}`
 
 Menu.getInitialProps = async (ctx) => {
     // console.log('ctx: ', ctx)
@@ -63,3 +64,47 @@ Menu.getInitialProps = async (ctx) => {
         })
     }
 }
+
+
+
+// TODO: This doesn't work yet because it seems the menus array of objects can't be serialized by getStaticProps. Might have to take the menu object apart and serialize menus before returning:
+
+// const query = `*[ _id == $menuId ] {
+// TODO: do i need anything other than slug here?
+// const allMenusQuery = `*[_type == "menu"] {
+//     _id,
+//     active,
+//     slug,
+// } | order(menu_order asc)`
+// // }
+
+// const menuQuery = `*[ _type == "menu" && slug.current == $slug ] {
+//     _id,
+//     name,
+//     active,
+//     slug,
+//     comments,
+//     "menuItems": menu_items[]-> {
+//         ...,
+//         add_ons[]->,
+//   	    options[]->
+//     }
+// }`
+
+// export async function getStaticPaths() {
+//     const menus = await sanity.fetch(allMenusQuery)
+//     console.log('menus: ', menus)
+//     const paths = menus.map(menu => ({
+//         params: { slug: menu.slug.current }
+//     }))
+//     console.log('paths: ', paths)
+//     return { paths, fallback: false }
+// }
+
+// export async function getStaticProps(ctx) {
+//     console.log('ctx: ', ctx)
+//     const { slug } = ctx.params
+//     const menu = await sanity.fetch(menuQuery, {slug})
+//     console.log('menu: ', menu)
+//     return { props: JSON.parse(JSON.stringify(menu)) }
+// }

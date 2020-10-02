@@ -11,19 +11,13 @@ export default {
         {
             title: 'Slug',
             name: 'slug',
-            type: 'string'
+            type: 'slug'
         },
         {
             title: 'Active',
             name: 'active',
             type: 'boolean'
         },
-        // {
-        //     title: 'Comments',
-        //     name: 'comments',
-        //     type: 'array',
-        //     of: [{ type: 'text' }]
-        // },
         {
             title: 'Menu Items',
             name: 'menu_items',
@@ -38,6 +32,12 @@ export default {
             title: 'Menu Order',
             name: 'menu_order',
             type: 'number'
-        }
+        },
+        // {
+        //     title: 'Comments',
+        //     name: 'comments',
+        //     type: 'array',
+        //     of: [{ type: 'text' }]
+        // },
     ]
 }

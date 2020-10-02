@@ -2,6 +2,7 @@ import Layout from '../components/Layout'
 import Link from 'next/link'
 import styled from 'styled-components'
 import sanity from '../lib/sanity'
+// import { route } from 'next/dist/next-server/server/router'
 // import StyledHeading from '../components/StyledHeading'
 
 const MenusContainer = styled.div`
@@ -13,7 +14,6 @@ const MenusContainer = styled.div`
     }
 `
 const MenuNameContainer = styled.div`
-    /* background-color: rgb(252, 98, 98); */
     background-color: rgb(255, 112, 110);
     margin: 0 10px;
     border-radius: 3px;
@@ -56,9 +56,9 @@ export default function Menus(props) {
                     return (
                         <Link 
                             href='/menu/[id]' 
-                            // TODO: change this to slug?
                             as={`/menu/${menu._id}`}
-                            // as={`/menu/${menu.slug}`}
+                            // href='/menu/[slug]' 
+                            // as={`/menu/${menu.slug.current}`}
                             key={menu._id}
                         >
                             <MenuNameContainer key={menu._id}>
@@ -93,3 +93,4 @@ Menus.getInitialProps = async () => {
       menus: await sanity.fetch(query)
     }
 }
+
