@@ -1,4 +1,3 @@
-import { useRouter } from 'next/router'
 import sanity from '../../lib/sanity'
 import styled from 'styled-components'
 import Layout from '../../components/Layout'
@@ -8,11 +7,8 @@ const P = styled.p`
     margin: 2px 0 5px 5px;      
     font-size: .8em;
 `
-// const MenuCommentRowP = styled.p``
 
 export default function Menu(props) {
-    // const router = useRouter()
-    // console.log('props: ', props)
     const [ menu ] = props.menu
     return (
         <Layout>
@@ -52,7 +48,7 @@ const query = `*[ _id == $menuId ] {
     "menuItems": menu_items[]-> {
         ...,
         add_ons[]->,
-  	    options[]->
+        options[]->
     }
 }`
 

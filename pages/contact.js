@@ -12,13 +12,12 @@ const H2 = styled.h2`
     color: rgb(255, 112, 110);
 `
 
-export default function Contact(props) {
-    const { contacts } = props
+export default function Contact({ contactInfo }) {
     return (
         <Layout>
             <h1><span className="sign_font">Contact</span></h1>
             <div>
-                {contacts.map(contact => {
+                {contactInfo.map(contact => {
                     return (
                         <ContactContainer key={contact._id}>
                             <H2>{contact.type}</H2>
@@ -37,8 +36,10 @@ const query = `*[ _type == "contact" ] {
     info
 }`
 
-Contact.getInitialProps = async () => {
+export async function getStaticProps() {
+    const contactInfo = await sanity.fetch(query)
+    console.log('contactInfo: ', contactInfo)
     return {
-      contacts: await sanity.fetch(query)
+        props: { contactInfo }
     }
 }

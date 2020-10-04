@@ -47,11 +47,11 @@ const MenuTitle = styled.span`
     }
 `
 
-export default function Menus(props) {
+export default function Menus({ menus }) {
     return (
         <Layout>
             <MenusContainer>
-                {props.menus.map(menu => {
+                {menus.map(menu => {
                     // console.log('menu: ', menu)
                     return (
                         <Link 
@@ -88,9 +88,11 @@ const query = `*[ active == true ] {
     active
 } | order(menu_order asc)`
  
-Menus.getInitialProps = async () => {
+export async function getStaticProps() {
+    const menus = await sanity.fetch(query)
     return {
-      menus: await sanity.fetch(query)
+        props: { menus }
     }
 }
+
 

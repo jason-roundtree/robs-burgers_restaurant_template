@@ -1,6 +1,8 @@
+// import { useState, useEffect } from 'react'
+// import sanity from '../lib/sanity'
 import { GlobalStyles } from '../components/GlobalStyles'
 
-function MyApp({ Component, pageProps }) {
+export default function MyApp({ Component, pageProps }) {
     return (
         <>
             <GlobalStyles />
@@ -11,4 +13,4 @@ function MyApp({ Component, pageProps }) {
     )
 }
 
-export default MyApp
+

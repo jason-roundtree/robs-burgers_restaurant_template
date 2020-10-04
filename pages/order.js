@@ -119,7 +119,7 @@ const query = `*[ _type == "menu" ] {
     "menuItems": menu_items[]-> {
         ...,
         add_ons[]->,
-  	    "options": options[]->
+        options[]->
     }
 } | order(menu_order asc)`
 
