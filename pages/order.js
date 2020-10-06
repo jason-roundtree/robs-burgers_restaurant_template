@@ -43,23 +43,15 @@ const MenuTitle = styled.span`
 `
 
 export default function Order(props) {
-    // TODO: is it ok to derive this state from props? is there a better way?
-    const [allMenusAndItems, setAllMenusAndItems] = useState(props.menus)
+     const [allMenusAndItems, setAllMenusAndItems] = useState(props.menus)
+    // TODO: add `default` menu boolean setting in sanity? 
     const [selectedMenu, setSelectedMenu] = useState(function() {
         const [ defaultMenu ] = allMenusAndItems.filter(menu => {
             return menu.name === 'Basic Burgers'
         })
         return defaultMenu
     })
-    // TODO: add `default` menu boolean setting in sanity? 
-    // TODO: difference between using useState vs setting directly in useState initializer????
-    // useState(() => {
-    //     const [ defaultMenu ] = allMenusAndItems.filter(menu => {
-    //         return menu.name === 'Basic Burgers'
-    //     })
-    //     setSelectedMenu(defaultMenu)
-    // }, [])
-
+    
     function handleMenuSelection(e) {
         const menuId = e.target.id
         const [ selectedMenu ] = allMenusAndItems.filter(menu => {
@@ -92,21 +84,20 @@ export default function Order(props) {
                 </MenusUl>
             </nav>
             
-            
-                {selectedMenu && (
-                    <MenuItemsContainer>
-                        {selectedMenu.menuItems.map(item => {
-                            return (
-                                <MenuItem 
-                                    item={item} 
-                                    id={item._id} 
-                                    key={item._id}
-                                    orderItem={true}
-                                />
-                            )
-                        })}
-                    </MenuItemsContainer>
-                )}
+            {selectedMenu && (
+                <MenuItemsContainer>
+                    {selectedMenu.menuItems.map(item => {
+                        return (
+                            <MenuItem 
+                                item={item} 
+                                id={item._id} 
+                                key={item._id}
+                                isOrderItem={true}
+                            />
+                        )
+                    })}
+                </MenuItemsContainer>
+            )}
         </Layout>
     )
 }
@@ -125,7 +116,6 @@ const query = `*[ _type == "menu" ] {
 
 export async function getStaticProps() {
     const menus = await sanity.fetch(query)
-    // console.log('menus: ', menus)
     return {
         props: { menus }
     }

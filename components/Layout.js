@@ -1,8 +1,10 @@
+import { useContext } from 'react'
 import Head from 'next/head'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import styled from 'styled-components'
 import SocialMedia from './SocialMedia'
+import OrderContext from './OrderContext'
 
 const TitleSignContainer = styled.div`
     background-color: rgb(219, 21, 18);
@@ -28,6 +30,7 @@ const NavLink = styled.a`
     color: ${props => props.active ? 'rgb(252, 202, 0)' : 'black'};
     text-decoration: none;
     padding: 0 5px;
+    position: relative;
     &:hover {
         color: rgb(252, 202, 0);
         cursor: pointer;    
@@ -36,8 +39,16 @@ const NavLink = styled.a`
         font-size: .75em;
     }
 `
-    
+const OrderItemCount = styled.span`
+    color: rgb(255,205,41);
+    font-size: .75em;
+    text-shadow: 1px 1px 5px rgb(255, 222, 115); 
+    margin-left: 3px;
+    position: relative;
+    bottom: 5px;
+`
 export default function Layout(props) {
+    const orderContext = useContext(OrderContext)
     const route = useRouter()
     return (
         <div>
@@ -92,6 +103,7 @@ export default function Layout(props) {
                         <Link href="/order">
                             <NavLink active={route.pathname === "/order"}>
                                 Order
+                                <OrderItemCount>{orderContext.orderItems.length}</OrderItemCount>
                             </NavLink>
                         </Link>
                     </Nav>

@@ -15,7 +15,13 @@ const AddOnLabel = styled.label`
 const Cost = styled.span`
     display: inline-block;
 `
-export default function AddOns({ addOns }) {
+export default function AddOns({ addOns, activeAddOns, onAddOnChange }) {
+    const formatter = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD',
+        minimumFractionDigits: 2,
+        //maximumFractionDigits: 2,
+    });
     return (
         <Fieldset>
             <Legend>Add-Ons</Legend>
@@ -26,13 +32,22 @@ export default function AddOns({ addOns }) {
                             <OrderAddOn
                                 type="checkbox"
                                 name={addOn.name}
-                                id={addOn.name}
+                                id={addOn._id}
+                                onChange={onAddOnChange}
+                                checked={
+                                    activeAddOns.includes(addOn._id)
+                                }
                             />
                             <AddOnLabel
-                                htmlFor={addOn.name}
+                                htmlFor={addOn._id}
                             >
                                 {addOn.description}&nbsp; 
-                                <Cost> - ${addOn.cost.toFixed(2)}</Cost>
+                                <Cost> 
+                                    - {
+                                    formatter.format(addOn.cost)
+                                    // addOn.cost.toFixed(2)
+                                }
+                                </Cost>
                             </AddOnLabel>
                         </li>
                     )

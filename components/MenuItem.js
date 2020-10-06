@@ -23,7 +23,7 @@ const ItemTitle = styled.p`
 //         content: '🍔 ';
 //     }
 // `
-export default function MenuItem({ item, orderItem }) {
+export default function MenuItem({ item, isOrderItem }) {
     // console.log('item: ', item)
     return (
         <ItemContainer>
@@ -40,7 +40,7 @@ export default function MenuItem({ item, orderItem }) {
                 })
             }
 
-            {orderItem &&
+            {isOrderItem &&
                 <OrderItem 
                     item={item} 
                 />

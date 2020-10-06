@@ -7,7 +7,12 @@ const GridContainer = styled.div`
     grid-template-columns: 1fr 1fr 1fr;
     justify-items: center;
 `
-            
+const query = `*[ _type == "social_media" ] {
+    _id,
+    name,
+    info,
+    "logoUrl": logo.asset->url
+}`
 // TODO: figure out why icons flicker when changing pages. Is sanity call being run each time?
 export default function SocialMedia() {
     const [socialMediaData, setSocialMediaData] = useState([])
@@ -56,10 +61,3 @@ export default function SocialMedia() {
         </GridContainer>
     )
 }
-
-const query = `*[ _type == "social_media" ] {
-    _id,
-    name,
-    info,
-    "logoUrl": logo.asset->url
-}`

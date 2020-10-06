@@ -13,18 +13,21 @@ const Legend = styled.legend`
 const Label = styled.label`
     font-size: .85em;
 `
-export default function Options({ options }) {
+export default function Options({ options, checkedOption, onOptionChange }) {
     return (
         <Fieldset>
             <Legend>Options</Legend>
             {options.map(option => {
                 return (
                     <div key={option}>
+                        {/* TODO: should i setup options schema to have id or is unique name fine? */}
                         <OrderOption 
                             type="radio"
                             name="option"
                             value={option}
+                            checked={option === checkedOption}
                             id={option}
+                            onChange={onOptionChange}
                         />
                         <Label htmlFor={option}>
                             {option}
