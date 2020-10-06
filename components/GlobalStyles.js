@@ -44,9 +44,10 @@ export const GlobalStyles = createGlobalStyle`
         padding: 0 15px;
     }
 
+    /* TODO: still need these since i took out h2 tags and removed this style for menu titles on order page? */
     .sign_font {
-        /* font-family: 'Londrina Shadow', cursive; */
-        font-family: 'Bebas Neue', cursive;
+        font-family: 'Londrina Shadow', cursive;
+        /* font-family: 'Bebas Neue', cursive; */
         display: inline-block;
         padding: 5px;
         border: 1px solid rgb(255, 205, 41);

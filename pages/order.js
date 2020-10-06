@@ -18,21 +18,21 @@ const MenuLi = styled.li`
     font-weight: 400;
     text-align: center;
     padding: 10px;
-    border: 1px solid rgb(255, 205, 41);
     border-radius: 3px 3px 0 0;
     background: linear-gradient(rgb(255, 147, 145), rgb(255, 112, 110));
-    /* background-color: rgb(255, 112, 110); */
     ${({ active }) => active && `
         background: linear-gradient(rgb(255, 225, 125), rgb(255, 222, 115), rgb(255, 205, 41));
         font-weight: 500;
     `}
     &:hover {
-        /* color: rgb(219, 21, 18); */
         color: rgb(255, 205, 41);
         cursor: pointer;
     }
 `
 const MenuTitle = styled.span`
+    font-family: 'Bebas Neue', cursive;
+    display: inline-block;
+    padding: 5px;
     background-color: rgb(219, 21, 18);
     color: white;
     border-radius: 3px;
@@ -40,6 +40,10 @@ const MenuTitle = styled.span`
         color: rgb(255, 205, 41);
         cursor: pointer;
     }
+    ${({ active }) => active && `
+        color: rgb(255, 225, 125);
+    `}
+
 `
 
 export default function Order(props) {
@@ -73,7 +77,8 @@ export default function Order(props) {
                                 active={selectedMenu && (selectedMenu._id === menu._id)}
                             >
                                 <MenuTitle 
-                                    className="sign_font" 
+                                    // className="sign_font" 
+                                    active={selectedMenu && (selectedMenu._id === menu._id)}
                                     id={menu._id}
                                 >
                                     {menu.name}

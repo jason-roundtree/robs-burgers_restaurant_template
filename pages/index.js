@@ -3,7 +3,7 @@ import Layout from '../components/Layout'
 function Home() {
     return (
         <Layout>
-            <h1>Welcome Home!</h1>
+            <h2>Welcome Home!</h2>
         </Layout>
     )
 }

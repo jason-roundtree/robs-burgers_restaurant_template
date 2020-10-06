@@ -5,23 +5,24 @@ import styled from 'styled-components'
 const ContactContainer = styled.div`
     text-align: center;
 `
-const H2 = styled.h2`
+const H3 = styled.h3`
     margin-top: 25px;
     font-family: 'Bebas Neue', cursive;
-    font-size: 1.5em;
+    font-size: 2em;
     color: rgb(255, 112, 110);
 `
-
+const P = styled.p`
+    font-size: 1.5em;
+`
 export default function Contact({ contactInfo }) {
     return (
         <Layout>
-            <h1><span className="sign_font">Contact</span></h1>
             <div>
                 {contactInfo.map(contact => {
                     return (
                         <ContactContainer key={contact._id}>
-                            <H2>{contact.type}</H2>
-                            <p>{contact.info}</p>
+                            <H3>{contact.type}</H3>
+                            <P>{contact.info}</P>
                         </ContactContainer>
                     )
                 })}

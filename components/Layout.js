@@ -103,7 +103,9 @@ export default function Layout(props) {
                         <Link href="/order">
                             <NavLink active={route.pathname === "/order"}>
                                 Order
-                                <OrderItemCount>{orderContext.orderItems.length}</OrderItemCount>
+                                <OrderItemCount>{
+                                    orderContext.orderItems.length > 0 && orderContext.orderItems.length
+                                }</OrderItemCount>
                             </NavLink>
                         </Link>
                     </Nav>
