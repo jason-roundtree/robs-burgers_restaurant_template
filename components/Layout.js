@@ -100,8 +100,8 @@ export default function Layout(props) {
                             </NavLink>
                         </Link>
                         
-                        <Link href="/order">
-                            <NavLink active={route.pathname === "/order"}>
+                        <Link href="/order-summary">
+                            <NavLink active={route.pathname === "/ororder-summaryder"}>
                                 Order
                                 <OrderItemCount>{
                                     orderContext.orderItems.length > 0 && orderContext.orderItems.length

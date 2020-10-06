@@ -23,7 +23,8 @@ const ItemTitle = styled.p`
 //         content: '🍔 ';
 //     }
 // `
-export default function MenuItem({ item, isOrderItem }) {
+
+export default function MenuItem({ item }) {
     // console.log('item: ', item)
     return (
         <ItemContainer>
@@ -39,12 +40,12 @@ export default function MenuItem({ item, isOrderItem }) {
                     )
                 })
             }
-
-            {isOrderItem &&
+            {/* TODO: remove this isOrderItem check if you don't do a separate component for non-ordering menu */}
+            {/* {isOrderItem && */}
                 <OrderItem 
                     item={item} 
                 />
-            }
+            {/* } */}
 
         </ItemContainer>
     )

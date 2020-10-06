@@ -39,7 +39,7 @@ const query = `*[ _type == "contact" ] {
 
 export async function getStaticProps() {
     const contactInfo = await sanity.fetch(query)
-    console.log('contactInfo: ', contactInfo)
+    // console.log('contactInfo: ', contactInfo)
     return {
         props: { contactInfo }
     }
