@@ -2,6 +2,9 @@ import Layout from '../components/Layout'
 import sanity from '../lib/sanity'
 import styled from 'styled-components'
 
+const PageContainer = styled.div`
+    padding-top: 70px;
+`
 const ContactContainer = styled.div`
     text-align: center;
 `
@@ -17,7 +20,7 @@ const P = styled.p`
 export default function Contact({ contactInfo }) {
     return (
         <Layout>
-            <div>
+            <PageContainer>
                 {contactInfo.map(contact => {
                     return (
                         <ContactContainer key={contact._id}>
@@ -26,7 +29,7 @@ export default function Contact({ contactInfo }) {
                         </ContactContainer>
                     )
                 })}
-            </div>
+            </PageContainer>
         </Layout>
     )
 }

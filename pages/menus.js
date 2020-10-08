@@ -47,6 +47,7 @@ const MenuTitle = styled.span`
 `
 
 export default function Order(props) {
+    console.log('asdjlsakjdlksa: ', props.menus)
      const [allMenusAndItems, setAllMenusAndItems] = useState(props.menus)
     // TODO: add `default` menu boolean setting in sanity? 
     const [selectedMenu, setSelectedMenu] = useState(function() {

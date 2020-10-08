@@ -53,10 +53,11 @@ export default function OrderItem({ item }) {
     // console.log('item: ', item)
     const [itemEditorIsOpen, setItemEditorIsOpen] = useState(false)
     const [orderItemState, setOrderItemState] = useState({
+        // item: {},
         specialRequests: '',
         quantity: 0,
         addOns: [],
-        option: null
+        option: ''
     })
     console.log('orderItemState: ', orderItemState)
 
@@ -69,18 +70,29 @@ export default function OrderItem({ item }) {
 
     // TODO: add something to UI confirming order was added
     function handleAddToOrderClick() {
-        // TODO: validate count
-
-        // TODO: validate option is picked if necessary (add options required field?)
-
-        orderObject.addItem(orderItemState)
-        setOrderItemState({
-            specialRequests: '',
-            quantity: 0,
-            addOns: [],
-            option: null
-        })
-        handleEditorToggleClick()
+        // TODO: add UI text instead of logs
+        if (orderItemState.quantity === 0) {
+            console.log('Please choose quantity')
+        } else if (item.one_item_options && orderItemState.option === '') {
+            console.log('Please select an option')
+        } else {
+            orderObject.addItem({
+                item: {
+                    id: item._id,
+                    name: item.name,
+                    cost: item.cost
+                },
+                ...orderItemState
+            })
+            setOrderItemState({
+                // item: {},
+                specialRequests: '',
+                quantity: 0,
+                addOns: [],
+                option: ''
+            })
+            handleEditorToggleClick()
+        }
     }
 
     function handleInputChange({ target }) {
@@ -113,26 +125,11 @@ export default function OrderItem({ item }) {
 
     return (
         <div>
-            {!itemEditorIsOpen 
-                ? (
-                    <Button 
-                        onClick={handleEditorToggleClick}
-                    >
-                        Order
-                    </Button>
-                )
-                : ( 
-                    <>
-                        <Button onClick={handleEditorToggleClick}>
-                            Cancel
-                        </Button>
-
-                        <Button onClick={handleAddToOrderClick}>
-                            Add to Order
-                        </Button>
-                    </>
-                )
-            }
+            {!itemEditorIsOpen && (
+                <Button onClick={handleEditorToggleClick}>
+                    Order
+                </Button>
+            )}
             
             {itemEditorIsOpen && (
                 <OrderEditor>
@@ -181,6 +178,13 @@ export default function OrderItem({ item }) {
                         placeholder="Not all special requests can be accomodated"
                     />
 
+                    <Button onClick={handleEditorToggleClick}>
+                        Cancel
+                    </Button>
+
+                    <Button onClick={handleAddToOrderClick}>
+                        Add to Order
+                    </Button>
                 </OrderEditor>
             )}
         </div>

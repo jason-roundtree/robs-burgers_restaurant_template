@@ -49,6 +49,10 @@ const OrderItemCount = styled.span`
 `
 export default function Layout(props) {
     const orderContext = useContext(OrderContext)
+    const totalOrders = orderContext.orderItems.reduce((total, item) => {
+        return total + item.quantity
+    }, 0)
+
     const route = useRouter()
     return (
         <div>
@@ -101,11 +105,9 @@ export default function Layout(props) {
                         </Link>
                         
                         <Link href="/order-summary">
-                            <NavLink active={route.pathname === "/ororder-summaryder"}>
+                            <NavLink active={route.pathname === "/order-summary"}>
                                 Order
-                                <OrderItemCount>{
-                                    orderContext.orderItems.length > 0 && orderContext.orderItems.length
-                                }</OrderItemCount>
+                                <OrderItemCount>{totalOrders > 0 && totalOrders}</OrderItemCount>
                             </NavLink>
                         </Link>
                     </Nav>

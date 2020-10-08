@@ -40,12 +40,11 @@ export default function MenuItem({ item }) {
                     )
                 })
             }
-            {/* TODO: remove this isOrderItem check if you don't do a separate component for non-ordering menu */}
-            {/* {isOrderItem && */}
-                <OrderItem 
-                    item={item} 
-                />
-            {/* } */}
+            
+            <OrderItem 
+                item={item} 
+            />
+            
 
         </ItemContainer>
     )
