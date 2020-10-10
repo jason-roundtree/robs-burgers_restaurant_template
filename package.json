@@ -41,7 +41,8 @@
     "react-dom": "^16.2",
     "sanity-plugin-dashboard-widget-notes": "^0.3.2",
     "sanity-plugin-seo-tools": "^1.0.6",
-    "styled-components": "^5.1.1"
+    "styled-components": "^5.1.1",
+    "uuid": "^8.3.1"
   },
   "devDependencies": {
     "babel-plugin-styled-components": "^1.10.7",

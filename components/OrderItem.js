@@ -1,8 +1,10 @@
 import { useState, useContext } from 'react'
+import { v4 as uuid } from 'uuid'
 import styled from 'styled-components'
 import AddOns from './AddOns'
 import Options from './Options'
 import OrderContext from './OrderContext'
+import QuantityInput from '../components/QuantityInput'
 
 const Button = styled.button`
     margin: 10px 10px 0 0;
@@ -20,14 +22,8 @@ const OrderEditor = styled.div`
     padding: 10px 5px;
     text-align: center;
 `
-const Input = styled.input`
-    padding: 5px;
-    display: block;
+const QuantityInputStyled = styled(QuantityInput)`
     margin: 5px auto;
-    width: 80%;
-`
-const QuantityInput = styled(Input)`
-    width: 50px;
 `
 const SpecialRequests = styled.textarea`
     margin: 5px auto;
@@ -53,7 +49,7 @@ export default function OrderItem({ item }) {
     // console.log('item: ', item)
     const [itemEditorIsOpen, setItemEditorIsOpen] = useState(false)
     const [orderItemState, setOrderItemState] = useState({
-        // item: {},
+        orderItemId: uuid(),
         specialRequests: '',
         quantity: 0,
         addOns: [],
@@ -77,15 +73,12 @@ export default function OrderItem({ item }) {
             console.log('Please select an option')
         } else {
             orderObject.addItem({
-                item: {
-                    id: item._id,
-                    name: item.name,
-                    cost: item.cost
-                },
+                itemId: item._id,
+                name: item.name,
+                cost: item.cost,
                 ...orderItemState
             })
             setOrderItemState({
-                // item: {},
                 specialRequests: '',
                 quantity: 0,
                 addOns: [],
@@ -156,13 +149,9 @@ export default function OrderItem({ item }) {
                     >
                         Quantity
                     </SectionLabel>
-                    <QuantityInput 
-                        type="number"
-                        name="quantity"
-                        id="quantity"
-                        min="0"
-                        value={orderItemState.quantity}
-                        onChange={handleInputChange}
+                    <QuantityInputStyled 
+                        quantity={orderItemState.quantity}
+                        _onChange={handleInputChange}
                     />
 
                     <SectionLabel 

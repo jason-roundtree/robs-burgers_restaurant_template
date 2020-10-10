@@ -43,7 +43,6 @@ const MenuTitle = styled.span`
     ${({ active }) => active && `
         color: rgb(255, 225, 125);
     `}
-
 `
 
 export default function Order(props) {
