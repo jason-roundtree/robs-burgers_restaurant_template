@@ -18,13 +18,16 @@ function OrderDetailsProvider({ children }) {
         setOrderItems([...orderItems, item])
     }
 
-    // TODO: Still need to add buttons that trigger remove item and delete order
     function removeItem(itemId) {
-        
+        const deletedItems = orderItems.filter(item => {
+            return item.orderItemId !== itemId
+        })
+        setOrderItems(deletedItems)
     }
 
-    function deleteOrder(itemId) {
-        
+    
+    function removeOrder() {
+        setOrderItems([])
     }
    
     function editItemQuantity(quantity, orderItemId) {
@@ -44,7 +47,7 @@ function OrderDetailsProvider({ children }) {
             orderItems,
             addItem,
             removeItem,
-            deleteOrder,
+            removeOrder,
             editItemQuantity,
             // totalCost,
         }}>

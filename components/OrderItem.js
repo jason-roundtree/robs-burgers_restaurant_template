@@ -73,6 +73,7 @@ export default function OrderItem({ item }) {
             console.log('Please select an option')
         } else {
             orderObject.addItem({
+                // itemId is actual item id from Sanity while orderItemId is the uuid for this specific item being ordered so we can later edit quantity or delete orders
                 itemId: item._id,
                 name: item.name,
                 cost: item.cost,
