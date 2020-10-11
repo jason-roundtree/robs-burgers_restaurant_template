@@ -1,7 +1,11 @@
 import React, { useState } from 'react'
+import { v4 as uuid } from 'uuid'
 
+// TODO: should orderId only be assigned when somebody submits the order?
+const orderId = uuid()
 // TODO: are these property outlines necessary when creating context?
 const OrderContext = React.createContext({
+    orderId,
     orderItems: [],
     addItem: () => {},
     removeItem: () => {},
@@ -43,6 +47,7 @@ function OrderDetailsProvider({ children }) {
 
     return (
         <OrderContext.Provider value={{
+            orderId,
             orderItems,
             addItem,
             removeItem,

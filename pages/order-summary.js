@@ -10,15 +10,30 @@ const OrderItemContainer = styled.div`
     padding: 10px;
     margin-top: 3px;
 `
-const DeleteButton = styled.button`
+const DeleteItem = styled.button`
     display: block;
 `
+const AddOnLi = styled.li`
+    margin-left: 10px;
+`
+// const DeleteOrderButton = styled(DeleteItem)`
+// `
+
 export default function OrderSummary() {
     const orderObject = useContext(OrderContext)
     // console.log('order summary context: ', orderObject)
-    {/* TODO: fix cost to account for add-ons */}
     const totalCost = orderObject.orderItems.reduce((total, orderItem) => {
-        return total + (orderItem.quantity * orderItem.cost)
+        let addOnTotal = 0
+        if (orderItem.addOns.length > 0) {
+            addOnTotal = orderItem.addOns.reduce((total, addOn) => {
+                return total + +addOn.cost
+            }, 0)
+        }
+        
+        return total + 
+            (orderItem.quantity * addOnTotal) + 
+            (orderItem.quantity * orderItem.cost)
+        
     }, 0)
     
     function handleQuantityChange(e, orderItemId) {
@@ -29,10 +44,33 @@ export default function OrderSummary() {
         <Layout>
             <h2>Order Summary</h2>
             {orderObject.orderItems.map(item => {
+                const option = item.option
+                let addOnsTotal = 0
+                if (item.addOns.length > 0) {
+                    addOnsTotal = item.addOns.reduce((total, addOn) => {
+                        return total + +addOn.cost
+                    }, 0)
+                }
+
                 return (
+                    // TODO: format costs below
                     <OrderItemContainer key={item.orderItemId}>
-                        <span>{item.name} - </span> 
+                        <span>{item.name} {option && `(${option})`} - </span> 
                         <span>${item.cost}</span>
+
+                        {item.addOns.length > 0 && (
+                            <ul>
+                                {item.addOns.map(addOn => {
+                                    return (
+                                        <AddOnLi>
+                                            <span>{addOn.description} - </span>
+                                            <span>${addOn.cost}</span>
+                                        </AddOnLi>
+                                    )
+                                    
+                                })}
+                            </ul>
+                        )}
 
                         <QuantityInput
                             quantity={item.quantity}
@@ -41,12 +79,17 @@ export default function OrderSummary() {
                             }}
                         />
 
-                        <span>${item.cost * item.quantity}</span>
+                        <span>Subtotal: ${
+                            (item.quantity * item.cost) +
+                            (item.quantity * addOnsTotal)
+                        }</span>
 
                         {/* TODO: add validation */}
-                        <DeleteButton
+                        <DeleteItem
                             onClick={() => orderObject.removeItem(item.orderItemId)}
-                        >Delete</DeleteButton>
+                        >
+                            Delete
+                        </DeleteItem>
                     </OrderItemContainer>
                 )
             })}
@@ -56,11 +99,11 @@ export default function OrderSummary() {
                 <>
                     <span>Total: {totalCost}</span>
                     {/* TODO: add validation */}
-                    <button
+                    <DeleteItem
                         onClick={orderObject.removeOrder}
                     >
                         Clear Order
-                    </button>
+                    </DeleteItem>
                 </>
             )}
         </Layout>

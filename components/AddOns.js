@@ -31,12 +31,14 @@ export default function AddOns({ addOns, activeAddOns, onAddOnChange }) {
                         <li key={addOn._id}>
                             <OrderAddOn
                                 type="checkbox"
-                                name={addOn.name}
                                 id={addOn._id}
+                                name={addOn.name}
+                                data-cost={addOn.cost}
+                                data-description={addOn.description}
                                 onChange={onAddOnChange}
-                                checked={
-                                    activeAddOns.includes(addOn._id)
-                                }
+                                checked={activeAddOns.find(addOn => {
+                                    return addOn.id === addOn._id
+                                })}
                             />
                             <AddOnLabel
                                 htmlFor={addOn._id}

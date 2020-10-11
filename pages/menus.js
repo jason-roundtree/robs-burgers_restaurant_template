@@ -7,7 +7,6 @@ import MenuItem from '../components/MenuItem'
 const MenuItemsContainer = styled.div`
     background-color: rgb(255, 205, 41);
     padding: 10px;
-    border-radius: 3px;
 `
 const MenusUl = styled.ul`
     display: flex;
@@ -21,7 +20,7 @@ const MenuLi = styled.li`
     border-radius: 3px 3px 0 0;
     background: linear-gradient(rgb(255, 147, 145), rgb(255, 112, 110));
     ${({ active }) => active && `
-        background: linear-gradient(rgb(255, 225, 125), rgb(255, 222, 115), rgb(255, 205, 41));
+        background: linear-gradient(rgb(255, 233, 161), rgb(255, 225, 125), rgb(255, 222, 115), rgb(255, 205, 41));
         font-weight: 500;
     `}
     &:hover {

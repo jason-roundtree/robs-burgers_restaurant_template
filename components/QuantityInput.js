@@ -9,13 +9,13 @@ const QuantityInputField = styled.input`
 export default function QuantityInput({ 
     quantity, 
     className, 
-    children, 
+    // children, 
     _onChange 
 }) {
     return (
         <QuantityInputField
             className={className}
-            children={children}
+            // children={children}
             type="number"
             name="quantity"
             id="quantity"

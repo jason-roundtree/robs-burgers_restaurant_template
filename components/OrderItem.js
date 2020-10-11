@@ -72,7 +72,10 @@ export default function OrderItem({ item }) {
     // TODO: add something to UI confirming order was added
     function handleAddToOrderClick() {
         // TODO: there's gotta be a cleaner way to do this logic, right?
-        if (orderItemState.quantity === 0 || (item.one_item_options && orderItemState.option === '')) {
+        if (
+            orderItemState.quantity === 0 || 
+            (item.one_item_options && orderItemState.option === '')
+        ) {
             if (orderItemState.quantity === 0) {
                 console.log('Please choose quantity')
                 setShowNoQuantityError(true)
@@ -85,8 +88,7 @@ export default function OrderItem({ item }) {
             } else {
                 setShowNoOptionError(false)
             }
-        }
-        else {
+        } else {
             orderObject.addItem({
                 // itemId is actual item id from Sanity while orderItemId is the uuid for this specific item being ordered so we can later edit quantity or delete orders
                 itemId: item._id,
@@ -100,6 +102,8 @@ export default function OrderItem({ item }) {
                 addOns: [],
                 option: ''
             })
+            setShowNoQuantityError(false)
+            setShowNoOptionError(false)
             handleEditorToggleClick()
         }
     }
@@ -116,18 +120,28 @@ export default function OrderItem({ item }) {
     }
 
     function handleAddOnToggle({ target }) {
-        if (!orderItemState.addOns.includes(target.id)) {
+        const index = orderItemState.addOns.findIndex(addOn => {
+            return addOn.id === target.id
+        })
+        if (index > -1) {
             setOrderItemState({
                 ...orderItemState,
-                addOns: [...orderItemState.addOns, target.id]
+                addOns: [
+                    ...orderItemState.addOns.slice(0, index),
+                    ...orderItemState.addOns.slice(index + 1)
+                ]
             })
         } else {
-            const filteredItems = orderItemState.addOns.filter(addOn => {
-                return addOn !== target.id
-            })
             setOrderItemState({
                 ...orderItemState,
-                addOns: filteredItems
+                addOns: [
+                    ...orderItemState.addOns,
+                    {
+                        id: target.id,
+                        cost: target.dataset.cost,
+                        description: target.dataset.description
+                    }
+                ]
             })
         }
     }
