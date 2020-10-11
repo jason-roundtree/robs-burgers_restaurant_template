@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext } from 'react'
+import { useState, useContext } from 'react'
 import styled from 'styled-components'
 import Layout from '../components/Layout'
 import OrderContext from '../components/OrderContext'
@@ -52,7 +52,6 @@ export default function OrderSummary() {
             })}
 
             {/* TODO: should item be deleted if quantity is set to 0? */}
-            
             {totalCost > 0 && (
                 <>
                     <span>Total: {totalCost}</span>

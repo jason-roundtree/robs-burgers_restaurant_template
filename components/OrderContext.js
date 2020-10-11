@@ -7,7 +7,7 @@ const OrderContext = React.createContext({
     removeItem: () => {},
     deleteOrder: () => {},
     editItemQuantity: () => {},
-    totalCost: null,
+    // totalCost: null,
 })
 
 function OrderDetailsProvider({ children }) {
@@ -25,7 +25,6 @@ function OrderDetailsProvider({ children }) {
         setOrderItems(deletedItems)
     }
 
-    
     function removeOrder() {
         setOrderItems([])
     }
@@ -34,7 +33,7 @@ function OrderDetailsProvider({ children }) {
         // console.log(quantity)
         // console.log(orderItemId)
         const updatedItems = orderItems.map(item => {
-            if(item.orderItemId === orderItemId) {
+            if (item.orderItemId === orderItemId) {
                 item.quantity = quantity
             }
             return item

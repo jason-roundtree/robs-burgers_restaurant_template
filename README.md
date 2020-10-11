@@ -11,5 +11,7 @@ This is a template website I'm building for restaurants and other businesses tha
 - [ ] add images and/or art
 - [ ] create modal for order details
 - [ ] Add some form of local storage for incomplete orders and favorite orders
-- [ ] Change menuIDs to menu slugs? Also change `getInitialProps` to newer options
+- [ ] Change menu IDs to menu slugs in url? 
 - [ ] add fields in Sanity to allow admin sorting of menu items on order page
+- [ ] Add some animation (maybe to menu names, order details, order "cart")
+- [ ] style order quantity increment/decrement

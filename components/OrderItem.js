@@ -44,9 +44,14 @@ const SectionLabel = styled.label`
     display: inline-block;
     margin-top: 1em;
 `
+const FormErrorP = styled.p`
+    color: red;
+`
 
 export default function OrderItem({ item }) {
     // console.log('item: ', item)
+    const [showNoQuantityError, setShowNoQuantityError] = useState(false)
+    const [showNoOptionError, setShowNoOptionError] = useState(false)
     const [itemEditorIsOpen, setItemEditorIsOpen] = useState(false)
     const [orderItemState, setOrderItemState] = useState({
         orderItemId: uuid(),
@@ -66,12 +71,22 @@ export default function OrderItem({ item }) {
 
     // TODO: add something to UI confirming order was added
     function handleAddToOrderClick() {
-        // TODO: add UI text instead of logs
-        if (orderItemState.quantity === 0) {
-            console.log('Please choose quantity')
-        } else if (item.one_item_options && orderItemState.option === '') {
-            console.log('Please select an option')
-        } else {
+        // TODO: there's gotta be a cleaner way to do this logic, right?
+        if (orderItemState.quantity === 0 || (item.one_item_options && orderItemState.option === '')) {
+            if (orderItemState.quantity === 0) {
+                console.log('Please choose quantity')
+                setShowNoQuantityError(true)
+            } else {
+                setShowNoQuantityError(false)
+            }
+            if (item.one_item_options && orderItemState.option === '') {
+                console.log('Please select an option')
+                setShowNoOptionError(true)
+            } else {
+                setShowNoOptionError(false)
+            }
+        }
+        else {
             orderObject.addItem({
                 // itemId is actual item id from Sanity while orderItemId is the uuid for this specific item being ordered so we can later edit quantity or delete orders
                 itemId: item._id,
@@ -167,6 +182,14 @@ export default function OrderItem({ item }) {
                         onChange={handleInputChange}
                         placeholder="Not all special requests can be accomodated"
                     />
+
+                    {showNoQuantityError && (
+                        <FormErrorP>Please choose a quantity</FormErrorP>
+                    )}
+
+                    {showNoOptionError && (
+                        <FormErrorP>Please choose an option</FormErrorP>
+                    )}
 
                     <Button onClick={handleEditorToggleClick}>
                         Cancel
