@@ -3,6 +3,7 @@ import { v4 as uuid } from 'uuid'
 
 // TODO: should orderId only be assigned when somebody submits the order?
 const orderId = uuid()
+
 // TODO: are these property outlines necessary when creating context?
 const OrderContext = React.createContext({
     orderId,
@@ -34,8 +35,6 @@ function OrderDetailsProvider({ children }) {
     }
    
     function editItemQuantity(quantity, orderItemId) {
-        // console.log(quantity)
-        // console.log(orderItemId)
         const updatedItems = orderItems.map(item => {
             if (item.orderItemId === orderItemId) {
                 item.quantity = quantity
@@ -53,7 +52,6 @@ function OrderDetailsProvider({ children }) {
             removeItem,
             removeOrder,
             editItemQuantity,
-            // totalCost,
         }}>
             {children}
         </OrderContext.Provider>

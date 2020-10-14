@@ -10,15 +10,44 @@ const OrderItemContainer = styled.div`
     padding: 10px;
     margin-top: 3px;
 `
-const DeleteItem = styled.button`
-    display: block;
+const QuantityInputStyled = styled(QuantityInput)`
+    margin-left: 1em;
 `
 const AddOnLi = styled.li`
     margin-left: 10px;
+    font-size: .9em;
 `
-// const DeleteOrderButton = styled(DeleteItem)`
-// `
+const ItemTopRow = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+`
+const ItemNameOptionCostContainer = styled.div`
+    
+`
+const Span = styled.span`
+    margin-right: 5px;
+`
 
+const DeleteItemButton = styled.button`
+    display: block;
+`
+const ItemEndContainer = styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1em;
+`
+// const DeleteOrderButton = styled(DeleteItemButton)`
+    
+// `
+const OrderEndContainer = styled.div`
+    width: 100%;
+    margin: 15px auto 0;
+    text-align: center;
+    display: grid;
+    justify-content: center;
+`
 export default function OrderSummary() {
     const orderObject = useContext(OrderContext)
     // console.log('order summary context: ', orderObject)
@@ -37,6 +66,7 @@ export default function OrderSummary() {
     }, 0)
     
     function handleQuantityChange(e, orderItemId) {
+        console.log('asdasdaas: ', e.target.value)
         orderObject.editItemQuantity(+e.target.value, orderItemId)
     }
 
@@ -55,15 +85,39 @@ export default function OrderSummary() {
                 return (
                     // TODO: format costs below
                     <OrderItemContainer key={item.orderItemId}>
-                        <span>{item.name} {option && `(${option})`} - </span> 
-                        <span>${item.cost}</span>
+                        <ItemTopRow>
+                            <ItemNameOptionCostContainer>
+                                <Span>
+                                    {item.name}
+                                </Span> 
+                                
+                                {option && (
+                                    <Span>
+                                        {`(${option})`}
+                                    </Span>
+                                )} 
 
+                                <Span>
+                                    ${item.cost}
+                                </Span>
+                            </ItemNameOptionCostContainer>
+                            
+                            <QuantityInputStyled
+                                quantity={item.quantity}
+                                _onChange={e => {
+                                    handleQuantityChange(e, item.orderItemId)
+                                }}
+                            />
+                        </ItemTopRow>
+                        
                         {item.addOns.length > 0 && (
                             <ul>
                                 {item.addOns.map(addOn => {
                                     return (
                                         <AddOnLi>
-                                            <span>{addOn.description} - </span>
+                                            <Span>
+                                                {addOn.description}
+                                            </Span>
                                             <span>${addOn.cost}</span>
                                         </AddOnLi>
                                     )
@@ -72,39 +126,42 @@ export default function OrderSummary() {
                             </ul>
                         )}
 
-                        <QuantityInput
-                            quantity={item.quantity}
-                            _onChange={e => {
-                                handleQuantityChange(e, item.orderItemId)
-                            }}
-                        />
+                        <ItemEndContainer>
+                            <p>Subtotal: ${
+                                (item.quantity * item.cost) +
+                                (item.quantity * addOnsTotal)
+                            }</p>
 
-                        <span>Subtotal: ${
-                            (item.quantity * item.cost) +
-                            (item.quantity * addOnsTotal)
-                        }</span>
+                            {/* TODO: add validation */}
+                            <DeleteItemButton
+                                onClick={() => {
+                                    orderObject.removeItem(item.orderItemId)
+                                }}
+                            >
+                                Delete Item
+                            </DeleteItemButton>
+                        </ItemEndContainer>
+                        
 
-                        {/* TODO: add validation */}
-                        <DeleteItem
-                            onClick={() => orderObject.removeItem(item.orderItemId)}
-                        >
-                            Delete
-                        </DeleteItem>
                     </OrderItemContainer>
                 )
             })}
 
             {/* TODO: should item be deleted if quantity is set to 0? */}
             {totalCost > 0 && (
-                <>
-                    <span>Total: {totalCost}</span>
+                <OrderEndContainer>
+                    <span>Total: ${totalCost}</span>
                     {/* TODO: add validation */}
-                    <DeleteItem
+                    <button>
+                        Submit Order
+                    </button>
+
+                    <button
                         onClick={orderObject.removeOrder}
                     >
-                        Clear Order
-                    </DeleteItem>
-                </>
+                        Delete Order
+                    </button>
+                </OrderEndContainer>
             )}
         </Layout>
     )

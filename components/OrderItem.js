@@ -48,6 +48,7 @@ const FormErrorP = styled.p`
     color: red;
 `
 
+// TODO: add validation for pending order items when user goes to new page (i.e. "are you sure you don't want to save this item to your order")
 export default function OrderItem({ item }) {
     // console.log('item: ', item)
     const [showNoQuantityError, setShowNoQuantityError] = useState(false)
@@ -56,7 +57,7 @@ export default function OrderItem({ item }) {
     const [orderItemState, setOrderItemState] = useState({
         orderItemId: uuid(),
         specialRequests: '',
-        quantity: 0,
+        quantity: '',
         addOns: [],
         option: ''
     })
@@ -97,8 +98,9 @@ export default function OrderItem({ item }) {
                 ...orderItemState
             })
             setOrderItemState({
+                orderItemId: '',
                 specialRequests: '',
-                quantity: 0,
+                quantity: '',
                 addOns: [],
                 option: ''
             })
@@ -109,6 +111,7 @@ export default function OrderItem({ item }) {
     }
 
     function handleInputChange({ target }) {
+        // TODO: easy way to remove leading zeros when user decrements quantity to 0 and then adds numbers after it without user refocusing input?
         let value = target.value
         if (target.name === 'quantity') {
             value = +value
