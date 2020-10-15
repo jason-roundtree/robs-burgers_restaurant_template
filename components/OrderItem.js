@@ -74,10 +74,10 @@ export default function OrderItem({ item }) {
     function handleAddToOrderClick() {
         // TODO: there's gotta be a cleaner way to do this logic, right?
         if (
-            orderItemState.quantity === 0 || 
+            !orderItemState.quantity || 
             (item.one_item_options && orderItemState.option === '')
         ) {
-            if (orderItemState.quantity === 0) {
+            if (!orderItemState.quantity) {
                 console.log('Please choose quantity')
                 setShowNoQuantityError(true)
             } else {

@@ -9,16 +9,15 @@ const QuantityInputField = styled.input`
 export default function QuantityInput({ 
     quantity, 
     className, 
-    // children, 
     _onChange 
 }) {
     return (
         <QuantityInputField
             className={className}
-            // children={children}
             type="number"
             name="quantity"
             id="quantity"
+            // TODO: do i need to add custom validation so that 0 doesn't show up when input is deleted?
             min="0"
             value={quantity}
             onChange={_onChange}

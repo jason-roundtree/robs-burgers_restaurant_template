@@ -1,5 +1,6 @@
 import { useState, useContext } from 'react'
 import styled from 'styled-components'
+import formatCost from '../utils/formatCost'
 import Layout from '../components/Layout'
 import OrderContext from '../components/OrderContext'
 import QuantityInput from '../components/QuantityInput'
@@ -66,7 +67,6 @@ export default function OrderSummary() {
     }, 0)
     
     function handleQuantityChange(e, orderItemId) {
-        console.log('asdasdaas: ', e.target.value)
         orderObject.editItemQuantity(+e.target.value, orderItemId)
     }
 
@@ -98,7 +98,7 @@ export default function OrderSummary() {
                                 )} 
 
                                 <Span>
-                                    ${item.cost}
+                                    {formatCost(item.cost)}
                                 </Span>
                             </ItemNameOptionCostContainer>
                             
@@ -114,11 +114,11 @@ export default function OrderSummary() {
                             <ul>
                                 {item.addOns.map(addOn => {
                                     return (
-                                        <AddOnLi>
+                                        <AddOnLi key={addOn._id}>
                                             <Span>
                                                 {addOn.description}
                                             </Span>
-                                            <span>${addOn.cost}</span>
+                                            <span>{formatCost(addOn.cost)}</span>
                                         </AddOnLi>
                                     )
                                     
@@ -127,10 +127,12 @@ export default function OrderSummary() {
                         )}
 
                         <ItemEndContainer>
-                            <p>Subtotal: ${
-                                (item.quantity * item.cost) +
-                                (item.quantity * addOnsTotal)
-                            }</p>
+                            <p>
+                                Subtotal: {formatCost(
+                                    (item.quantity * item.cost) +
+                                    (item.quantity * addOnsTotal)
+                                )}
+                            </p>
 
                             {/* TODO: add validation */}
                             <DeleteItemButton

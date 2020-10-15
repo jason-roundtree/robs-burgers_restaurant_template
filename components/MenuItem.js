@@ -1,5 +1,6 @@
-import OrderItem from '../components/OrderItem'
 import styled from 'styled-components'
+import formatCost from '../utils/formatCost'
+import OrderItem from '../components/OrderItem'
 
 const ItemContainer = styled.div`
     padding: 12px;
@@ -30,7 +31,7 @@ export default function MenuItem({ item }) {
         <ItemContainer>
             <ItemTitle>{item.name}</ItemTitle>
             <p>{item.description}</p>
-            <p>${item.cost.toFixed(2)}</p>
+            <p>{formatCost(item.cost)}</p>
             {item.options && 
                 item.options.map((option, i) => {
                     return (
@@ -41,11 +42,8 @@ export default function MenuItem({ item }) {
                 })
             }
             
-            <OrderItem 
-                item={item} 
-            />
+            <OrderItem item={item} />
             
-
         </ItemContainer>
     )
 }

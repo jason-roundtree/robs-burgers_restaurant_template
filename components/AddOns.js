@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import formatCost from '../utils/formatCost'
 
 const OrderAddOn = styled.input`
     margin-right: .5em;
@@ -45,10 +46,7 @@ export default function AddOns({ addOns, activeAddOns, onAddOnChange }) {
                             >
                                 {addOn.description}&nbsp; 
                                 <Cost> 
-                                    - {
-                                    formatter.format(addOn.cost)
-                                    // addOn.cost.toFixed(2)
-                                }
+                                    - {formatCost(addOn.cost)}
                                 </Cost>
                             </AddOnLabel>
                         </li>
