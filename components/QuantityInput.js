@@ -3,7 +3,7 @@ import styled from 'styled-components'
 const QuantityInputField = styled.input`
     display: block;
     padding: 3px;
-    width: 75px;
+    text-align: center;
 `
 
 export default function QuantityInput({ 
@@ -17,7 +17,7 @@ export default function QuantityInput({
             type="number"
             name="quantity"
             id="quantity"
-            // TODO: do i need to add custom validation so that 0 doesn't show up when input is deleted?
+            // TODO: do i need to add custom validation so that 0 doesn't show up when input is deleted or is this normal behavior?
             min="0"
             value={quantity}
             onChange={_onChange}
