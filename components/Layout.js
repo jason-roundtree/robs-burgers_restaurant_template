@@ -24,7 +24,7 @@ const Nav = styled.nav`
     background-color: rgb(255, 112, 110);
 `
 const NavLink = styled.a`
-    font-family: 'Bebas Neue', cursive;
+    font-family: 'Bebas Neue', sans-serif;
     font-size: 1em;
     padding: 10px;
     color: ${props => props.active ? 'rgb(252, 202, 0)' : 'black'};
@@ -107,7 +107,7 @@ export default function Layout(props) {
                         <Link href="/order-summary">
                             <NavLink active={route.pathname === "/order-summary"}>
                                 Order
-                                <OrderItemCount>{totalOrders > 0 && totalOrders}</OrderItemCount>
+                                <OrderItemCount>{totalOrders}</OrderItemCount>
                             </NavLink>
                         </Link>
                     </Nav>

@@ -11,7 +11,7 @@ const ItemContainer = styled.div`
     background-color: white;
 `
 const ItemTitle = styled.p`
-    font-family: 'Bebas Neue', cursive;
+    font-family: 'Bebas Neue', sans-serif;
     font-size: 1.5em;
     color: rgb(255, 112, 110);
     display: inline-block;

@@ -29,7 +29,7 @@ const MenuLi = styled.li`
     }
 `
 const MenuTitle = styled.span`
-    font-family: 'Bebas Neue', cursive;
+    font-family: 'Bebas Neue', sans-serif;
     display: inline-block;
     padding: 5px;
     background-color: rgb(219, 21, 18);

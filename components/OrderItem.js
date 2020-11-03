@@ -8,15 +8,6 @@ import QuantityInput from '../components/QuantityInput'
 
 const Button = styled.button`
     margin: 10px 10px 0 0;
-    padding: 3px 4px;
-    border-radius: 3px;
-    border: none;
-    background-color: rgb(255, 112, 110);
-    color: white;
-    &:hover {
-        cursor: pointer;
-        background: rgb(227, 70, 68);
-    }
 `
 const OrderEditor = styled.div`
     padding: 10px 5px;

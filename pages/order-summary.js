@@ -1,4 +1,5 @@
 import { useState, useContext } from 'react'
+import Link from 'next/link'
 import styled from 'styled-components'
 import formatCost from '../utils/formatCost'
 import Layout from '../components/Layout'
@@ -10,6 +11,9 @@ const OrderItemContainer = styled.div`
     border-radius: 3px;
     padding: 10px;
     margin-top: 3px;
+    @media (max-width: 400px) {
+        font-size: .85em;
+    }
 `
 const GridColContainer = styled.div`
     display: grid;
@@ -23,20 +27,29 @@ const TopLeftRow = styled.div`
 const BtmLeftRow = styled.div`
     grid-column-start: 1;
     grid-column-end: 2;
-    padding-top: 5px;
+    align-self: center;
 `
 const TopRightRow = styled.div`
     grid-column-start: 2;
     grid-column-end: 3;
-    padding-bottom: 10px;
 `
 const BtmRightRow = styled.div`
     grid-column-start: 2;
     grid-column-end: 3;
     justify-self: end;
+    align-self: center;
 `
+const Span = styled.span`
+    margin-right: 5px;
+`
+const ItemName = styled(Span)`
+    font-weight: 500;
+`
+const ItemCost = styled(ItemName)``
 const QuantityInputStyled = styled(QuantityInput)`
-    height: 100%;
+    /* border: none;
+    background-color: rgb(255,233,161); */
+    height: 70%;
     width: 100%;
     font-size: 1.2em;
 `
@@ -44,12 +57,19 @@ const AddOnLi = styled.li`
     margin-left: 10px;
     font-size: .9em;
 `
-const Span = styled.span`
-    margin-right: 5px;
-`
 const SpecialRequestP = styled(AddOnLi)``
+const DeleteAddOnBtn = styled.button`
+    margin-left: 5px;
+    padding: 0 2px;
+    /* text-align: center; */
+    font-family: 'M PLUS Rounded 1c',sans-serif;
+    font-weight: 500;
+    width: 20px;
+`
 const DeleteItemBtn = styled.button`
-    
+    @media (max-width: 400px) {
+        font-size: .85em;
+    }
 `
 const OrderEndContainer = styled.div`
     width: 100%;
@@ -59,11 +79,12 @@ const OrderEndContainer = styled.div`
     justify-content: center;
 `
 const SubmitOrderBtn = styled.button`
-    margin-bottom: 10px;
-    font-size: 1em;
+    margin: 15px 0;
+    /* font-size: 1em; */
 `
-const DeleteOrderBtn = styled.button`
-    
+const DeleteOrderBtn = styled.button``
+const TotalCost = styled.span`
+    font-weight: 500;
 `
 
 export default function OrderSummary() {
@@ -76,11 +97,9 @@ export default function OrderSummary() {
                 return total + +addOn.cost
             }, 0)
         }
-        
         return total + 
             (orderItem.quantity * addOnTotal) + 
             (orderItem.quantity * orderItem.cost)
-        
     }, 0)
     
     function handleQuantityChange(e, orderItemId) {
@@ -90,6 +109,11 @@ export default function OrderSummary() {
     return (
         <Layout>
             <h2>Order Summary</h2>
+
+            {orderObject.orderItems.length === 0 && (
+                <p>You currently have no items added to your order. Please add items from the <Link href="/menus">Menus</Link> page.</p>
+            )}
+
             {orderObject.orderItems.map(item => {
                 // console.log(item)
                 const option = item.option
@@ -105,9 +129,9 @@ export default function OrderSummary() {
                     <OrderItemContainer key={item.orderItemId}>
                         <GridColContainer>
                             <TopLeftRow>
-                                <Span>
+                                <ItemName>
                                     {item.name}
-                                </Span> 
+                                </ItemName> 
                                 
                                 {option && (
                                     <Span>
@@ -127,7 +151,19 @@ export default function OrderSummary() {
                                                     <Span>
                                                         {addOn.description}
                                                     </Span>
+
                                                     <span>{formatCost(addOn.cost)}</span>
+
+                                                    {/* TODO: add validation */}
+                                                    <DeleteAddOnBtn
+                                                        onClick={() => {
+                                                            orderObject.removeItemAddOn(
+                                                                item.orderItemId, addOn.id
+                                                            )
+                                                        }}
+                                                    >
+                                                        X
+                                                    </DeleteAddOnBtn>
                                                 </AddOnLi>
                                             )
                                         })}
@@ -152,12 +188,12 @@ export default function OrderSummary() {
                             </TopRightRow>
                         
                             <BtmLeftRow>
-                                <p>
+                                <ItemCost>
                                     Subtotal: {formatCost(
                                         (item.quantity * item.cost) +
                                         (item.quantity * addOnsTotal)
                                     )}
-                                </p>
+                                </ItemCost>
                             </BtmLeftRow>
 
                             <BtmRightRow>
@@ -180,7 +216,7 @@ export default function OrderSummary() {
             {/* TODO: should item be deleted if quantity is set to 0? */}
             {totalCost > 0 && (
                 <OrderEndContainer>
-                    <span>Total: {formatCost(totalCost)}</span>
+                    <TotalCost>Total: {formatCost(totalCost)}</TotalCost>
                     {/* TODO: add validation */}
                     <SubmitOrderBtn>
                         Submit Order

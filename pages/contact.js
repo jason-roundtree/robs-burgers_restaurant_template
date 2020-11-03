@@ -10,7 +10,7 @@ const ContactContainer = styled.div`
 `
 const H3 = styled.h3`
     margin-top: 25px;
-    font-family: 'Bebas Neue', cursive;
+    font-family: 'Bebas Neue', sans-serif;
     font-size: 2em;
     color: rgb(255, 112, 110);
 `

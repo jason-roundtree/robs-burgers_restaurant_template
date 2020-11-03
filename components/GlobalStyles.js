@@ -21,6 +21,19 @@ export const GlobalStyles = createGlobalStyle`
         min-height: calc(100vh - 70px);
     }
 
+    button {
+        padding: 3px 4px;
+        border-radius: 3px;
+        border: none;
+        background-color: rgb(255, 112, 110);
+        color: white;
+    }
+
+    button:hover {
+        cursor: pointer;
+        background: rgb(227, 70, 68);
+    }
+
     li {
         list-style: none;
     }
@@ -46,8 +59,8 @@ export const GlobalStyles = createGlobalStyle`
 
     /* TODO: still need these since i took out h2 tags and removed this style for menu titles on order page? */
     .sign_font {
-        font-family: 'Londrina Shadow', cursive;
-        /* font-family: 'Bebas Neue', cursive; */
+        font-family: 'Londrina Shadow', sans-serif;
+        /* font-family: 'Bebas Neue', sans-serif; */
         display: inline-block;
         padding: 5px;
         border: 1px solid rgb(255, 205, 41);

@@ -13,7 +13,7 @@ const Heading = ({ className, children, hTag }) => {
 }
 
 const StyledHeadingTag = styled(Heading)`
-    font-family: 'Bebas Neue', cursive;
+    font-family: 'Bebas Neue', sans-serif;
     display: inline-block;
     padding: 5px;
     background-color: ${props => props.bgColor};
