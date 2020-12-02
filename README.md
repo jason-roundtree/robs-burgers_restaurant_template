@@ -7,11 +7,14 @@ This is a template website I'm building for restaurants and other businesses tha
 - Styled Components
 
 ## TODOs
-- [ ] add order/check out functionality (for user and client admin)
-- [ ] add images and/or art
-- [ ] create modal for order details
-- [ ] Add some form of local storage for incomplete orders and favorite orders
-- [ ] Change menu IDs to menu slugs in url? 
-- [ ] add fields in Sanity to allow admin sorting of menu items on order page
-- [ ] Add some animation (maybe to menu names, order details, order "cart")
-- [ ] style order quantity increment/decrement
+- style order quantity increment/decrement
+- setup env variables
+- add "Burger of the Day" feature that randomly chooses and displays a non-basic burger
+- allow Special Requests to be edited from order summary page
+- add order/check out functionality (for user and client admin)
+- add images and/or art
+- create modal for order details
+- Add some form of local storage for incomplete orders and favorite orders
+- Change menu IDs to menu slugs in url? 
+- add fields in Sanity to allow admin sorting of menu items on order page
+- add some animation (maybe to menu names, order details, order "cart")

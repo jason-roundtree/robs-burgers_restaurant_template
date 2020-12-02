@@ -7,7 +7,7 @@ const orderId = uuid()
 // TODO: are these property outlines necessary when creating context?
 const OrderContext = React.createContext({
     orderId,
-    // orderItems: [],
+    orderItems: [],
     addItem: () => {},
     removeItem: () => {},
     deleteOrder: () => {},
@@ -18,7 +18,7 @@ const OrderContext = React.createContext({
 function OrderDetailsProvider({ children }) {
     const [orderItems, setOrderItems] = useState([])
     // const [totalCost, setTotalCost] = useState(null)
-    console.log('all orderItems: ', orderItems)
+    // console.log('all orderItems: ', orderItems)
     function addItem(item) {
         setOrderItems([...orderItems, item])
     }
@@ -31,16 +31,12 @@ function OrderDetailsProvider({ children }) {
     }
 
     function removeItemAddOn(orderItemId, addOnId) {
-        // console.log('orderItemId: ', orderItemId)
-        // console.log('addOnId: ', addOnId)
         const itemIndex = orderItems.findIndex(item => {
             return item.orderItemId === orderItemId
         })
-        // console.log('itemIndex: ', itemIndex)
         const updatedAddOns = orderItems[itemIndex].addOns.filter(_addOn => {
             return _addOn.id !== addOnId
         })
-        // console.log('updatedAddOns: ', updatedAddOns)
         const orderItemsCopy = [...orderItems]
         orderItemsCopy[itemIndex].addOns = updatedAddOns
         setOrderItems(orderItemsCopy)

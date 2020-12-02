@@ -40,11 +40,11 @@ const FormErrorP = styled.p`
 `
 
 // TODO: add validation for pending order items when user goes to new page (i.e. "are you sure you don't want to save this item to your order")
-export default function OrderItem({ item }) {
+export default function OrderItem({ item, itemEditorIsOpen, handleEditorToggleClick }) {
     // console.log('item: ', item)
     const [showNoQuantityError, setShowNoQuantityError] = useState(false)
     const [showNoOptionError, setShowNoOptionError] = useState(false)
-    const [itemEditorIsOpen, setItemEditorIsOpen] = useState(false)
+    // const [itemEditorIsOpen, setItemEditorIsOpen] = useState(false)
     const [orderItemState, setOrderItemState] = useState({
         orderItemId: uuid(),
         specialRequests: '',
@@ -56,10 +56,6 @@ export default function OrderItem({ item }) {
 
     const orderObject = useContext(OrderContext)
     console.log('orderObject: ', orderObject)
-
-    function handleEditorToggleClick() {
-        setItemEditorIsOpen(itemEditorIsOpen ? false : true)
-    }
 
     // TODO: add something to UI confirming order was added
     function handleAddToOrderClick() {
@@ -142,11 +138,6 @@ export default function OrderItem({ item }) {
 
     return (
         <div>
-            {!itemEditorIsOpen && (
-                <Button onClick={handleEditorToggleClick}>
-                    Order
-                </Button>
-            )}
             
             {itemEditorIsOpen && (
                 <OrderEditor>

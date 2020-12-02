@@ -6,6 +6,11 @@ import styled from 'styled-components'
 import SocialMedia from './SocialMedia'
 import OrderContext from './OrderContext'
 
+const MainContainer = styled.div`
+    /* background: url(${({ bgImg }) => bgImg}) no-repeat center fixed;
+    background-size: cover;
+    min-height: calc(100vh - 70px); */
+`
 const TitleSignContainer = styled.div`
     background-color: rgb(219, 21, 18);
     text-align: center;
@@ -113,7 +118,12 @@ export default function Layout(props) {
                     </Nav>
                 </header>
 
-                <div id="main">{props.children}</div>
+                <MainContainer 
+                    id="main" 
+                    bgImg={props.bgImg}
+                >
+                    {props.children}
+                </MainContainer>
             </div>
 
             <footer>

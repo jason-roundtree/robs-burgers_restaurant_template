@@ -173,7 +173,7 @@ export default function OrderSummary() {
                                 {item.specialRequests && (
                                     <SpecialRequestP as="p">
                                         Special Request: 
-                                        <em> {item.specialRequests}</em>
+                                        <em>{item.specialRequests}</em>
                                     </SpecialRequestP>
                                 )}
                             </TopLeftRow>
