@@ -106,9 +106,16 @@ export const GlobalStyles = createGlobalStyle`
         /* -webkit-clip-path: polygon(0 0, 1200px 0, 1200px 50%, 0 100%);
         clip-path: polygon(0 0, 1200px 0, 1200px 50%, 0 100%); */
         transform: skewY(-1.5deg);
-        margin-bottom: 1em;
         width: 65%;
-        margin: 0 auto 1em auto;
+        padding: 5px;
+        margin: 0 auto 1em;
+        /* @media (max-width: 1000px) {
+            width: 70%;
+        } */
+        @media (max-width: 400px) {
+            font-size: .9em;  
+            width: 90%;
+        }
     }
 
 `
