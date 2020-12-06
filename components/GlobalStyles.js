@@ -21,6 +21,20 @@ export const GlobalStyles = createGlobalStyle`
         min-height: calc(100vh - 70px);
     }
 
+    .page_container {
+        width: 80%;
+        margin: 0 auto;
+        text-align: center;
+        @media (max-width: 1000px) {
+            font-size: .9em;
+            width: 80%;
+        }
+        @media (max-width: 750px) {
+            font-size: .75em;  
+            width: 90%;
+        }
+    }
+
     button {
         padding: 3px 4px;
         border-radius: 3px;
@@ -76,4 +90,25 @@ export const GlobalStyles = createGlobalStyle`
     h2.sign_font {
         font-size: 1.75em;
     }
+
+    h2, h3.radial_gradient_text {
+        font-size: 3.25em;
+        font-family: 'Bebas Neue',sans-serif;
+        background: radial-gradient(rgb(255, 147, 145), rgb(255, 233, 161));
+        -webkit-text-fill-color: transparent;
+        -webkit-background-clip: text;
+        background-clip: text;
+        /* -webkit-text-stroke: .000001em black; */
+    }
+
+    div.heading_container {
+        background-color: black;
+        /* -webkit-clip-path: polygon(0 0, 1200px 0, 1200px 50%, 0 100%);
+        clip-path: polygon(0 0, 1200px 0, 1200px 50%, 0 100%); */
+        transform: skewY(-1.5deg);
+        margin-bottom: 1em;
+        width: 65%;
+        margin: 0 auto 1em auto;
+    }
+
 `

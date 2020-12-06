@@ -25,8 +25,14 @@ const Nav = styled.nav`
     display: flex;
     justify-content: space-evenly;
     padding: 10px 0;
-    margin-bottom: 20px;
+    margin-bottom: 50px;
     background-color: rgb(255, 112, 110);
+    @media (max-width: 1000px) {
+        margin-bottom: 30px;   
+    }
+    @media (max-width: 50px) {
+        margin-bottom: 20px;  
+    }
 `
 const NavLink = styled.a`
     font-family: 'Bebas Neue', sans-serif;

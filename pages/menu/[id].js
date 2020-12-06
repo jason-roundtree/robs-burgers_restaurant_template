@@ -31,6 +31,7 @@ export default function Menu(props) {
                             item={menuItem} 
                             id={menuItem._id} 
                             key={menuItem._id}
+                            
                         />
                     )
                 })}

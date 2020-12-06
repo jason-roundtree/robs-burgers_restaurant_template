@@ -108,127 +108,131 @@ export default function OrderSummary() {
 
     return (
         <Layout>
-            <h2>Order Summary</h2>
+            <div className="page_container">
+                <div className='heading_container'>
+                    <h2>Order Summary</h2>
+                </div>
 
-            {orderObject.orderItems.length === 0 && (
-                <p>You currently have no items added to your order. Please add items from the <Link href="/menus">Menus</Link> page.</p>
-            )}
+                {orderObject.orderItems.length === 0 && (
+                    <p>You currently have no items added to your order. Please add items from the <Link href="/menus">Menus</Link> page.</p>
+                )}
 
-            {orderObject.orderItems.map(item => {
-                // console.log(item)
-                const option = item.option
-                let addOnsTotal = 0
-                if (item.addOns.length > 0) {
-                    addOnsTotal = item.addOns.reduce((total, addOn) => {
-                        return total + +addOn.cost
-                    }, 0)
-                }
+                {orderObject.orderItems.map(item => {
+                    // console.log(item)
+                    const option = item.option
+                    let addOnsTotal = 0
+                    if (item.addOns.length > 0) {
+                        addOnsTotal = item.addOns.reduce((total, addOn) => {
+                            return total + +addOn.cost
+                        }, 0)
+                    }
 
-                return (
-                    // TODO: format costs below
-                    <OrderItemContainer key={item.orderItemId}>
-                        <GridColContainer>
-                            <TopLeftRow>
-                                <ItemName>
-                                    {item.name}
-                                </ItemName> 
-                                
-                                {option && (
+                    return (
+                        // TODO: format costs below
+                        <OrderItemContainer key={item.orderItemId}>
+                            <GridColContainer>
+                                <TopLeftRow>
+                                    <ItemName>
+                                        {item.name}
+                                    </ItemName> 
+                                    
+                                    {option && (
+                                        <Span>
+                                            {`(${option})`}
+                                        </Span>
+                                    )} 
+
                                     <Span>
-                                        {`(${option})`}
+                                        {formatCost(item.cost)}
                                     </Span>
-                                )} 
 
-                                <Span>
-                                    {formatCost(item.cost)}
-                                </Span>
+                                    {item.addOns.length > 0 && (
+                                        <ul>
+                                            {item.addOns.map(addOn => {
+                                                return (
+                                                    <AddOnLi key={addOn.id}>
+                                                        <Span>
+                                                            {addOn.description}
+                                                        </Span>
 
-                                {item.addOns.length > 0 && (
-                                    <ul>
-                                        {item.addOns.map(addOn => {
-                                            return (
-                                                <AddOnLi key={addOn.id}>
-                                                    <Span>
-                                                        {addOn.description}
-                                                    </Span>
+                                                        <span>{formatCost(addOn.cost)}</span>
 
-                                                    <span>{formatCost(addOn.cost)}</span>
-
-                                                    {/* TODO: add validation */}
-                                                    <DeleteAddOnBtn
-                                                        onClick={() => {
-                                                            orderObject.removeItemAddOn(
-                                                                item.orderItemId, addOn.id
-                                                            )
-                                                        }}
-                                                    >
-                                                        X
-                                                    </DeleteAddOnBtn>
-                                                </AddOnLi>
-                                            )
-                                        })}
-                                    </ul>
-                                )}
-                                
-                                {item.specialRequests && (
-                                    <SpecialRequestP as="p">
-                                        Special Request: 
-                                        <em>{item.specialRequests}</em>
-                                    </SpecialRequestP>
-                                )}
-                            </TopLeftRow>
-                            
-                            <TopRightRow>
-                                <QuantityInputStyled 
-                                    quantity={item.quantity}
-                                    _onChange={e => {
-                                        handleQuantityChange(e, item.orderItemId)
-                                    }}
-                                />
-                            </TopRightRow>
-                        
-                            <BtmLeftRow>
-                                <ItemCost>
-                                    Subtotal: {formatCost(
-                                        (item.quantity * item.cost) +
-                                        (item.quantity * addOnsTotal)
+                                                        {/* TODO: add validation */}
+                                                        <DeleteAddOnBtn
+                                                            onClick={() => {
+                                                                orderObject.removeItemAddOn(
+                                                                    item.orderItemId, addOn.id
+                                                                )
+                                                            }}
+                                                        >
+                                                            X
+                                                        </DeleteAddOnBtn>
+                                                    </AddOnLi>
+                                                )
+                                            })}
+                                        </ul>
                                     )}
-                                </ItemCost>
-                            </BtmLeftRow>
+                                    
+                                    {item.specialRequests && (
+                                        <SpecialRequestP as="p">
+                                            Special Request: 
+                                            <em>{item.specialRequests}</em>
+                                        </SpecialRequestP>
+                                    )}
+                                </TopLeftRow>
+                                
+                                <TopRightRow>
+                                    <QuantityInputStyled 
+                                        quantity={item.quantity}
+                                        _onChange={e => {
+                                            handleQuantityChange(e, item.orderItemId)
+                                        }}
+                                    />
+                                </TopRightRow>
+                            
+                                <BtmLeftRow>
+                                    <ItemCost>
+                                        Subtotal: {formatCost(
+                                            (item.quantity * item.cost) +
+                                            (item.quantity * addOnsTotal)
+                                        )}
+                                    </ItemCost>
+                                </BtmLeftRow>
 
-                            <BtmRightRow>
-                                {/* TODO: add validation */}
-                                <DeleteItemBtn
-                                    onClick={() => {
-                                        orderObject.removeItem(item.orderItemId)
-                                    }}
-                                >
-                                    Delete Item
-                                </DeleteItemBtn>
-                            </BtmRightRow>
-                           
-                        </GridColContainer>
-                        
-                    </OrderItemContainer>
-                )
-            })}
+                                <BtmRightRow>
+                                    {/* TODO: add validation */}
+                                    <DeleteItemBtn
+                                        onClick={() => {
+                                            orderObject.removeItem(item.orderItemId)
+                                        }}
+                                    >
+                                        Delete Item
+                                    </DeleteItemBtn>
+                                </BtmRightRow>
+                            
+                            </GridColContainer>
+                            
+                        </OrderItemContainer>
+                    )
+                })}
 
-            {/* TODO: should item be deleted if quantity is set to 0? */}
-            {totalCost > 0 && (
-                <OrderEndContainer>
-                    <TotalCost>Total: {formatCost(totalCost)}</TotalCost>
-                    {/* TODO: add validation */}
-                    <SubmitOrderBtn>
-                        Submit Order
-                    </SubmitOrderBtn>
+                {/* TODO: should item be deleted if quantity is set to 0? */}
+                {totalCost > 0 && (
+                    <OrderEndContainer>
+                        <TotalCost>Total: {formatCost(totalCost)}</TotalCost>
+                        {/* TODO: add validation */}
+                        <SubmitOrderBtn>
+                            Submit Order
+                        </SubmitOrderBtn>
 
-                    <DeleteOrderBtn
-                        onClick={orderObject.removeOrder}
-                    >
-                        Delete Order
-                    </DeleteOrderBtn>
-                </OrderEndContainer>
-            )}
+                        <DeleteOrderBtn
+                            onClick={orderObject.removeOrder}
+                        >
+                            Delete Order
+                        </DeleteOrderBtn>
+                    </OrderEndContainer>
+                )}
+            </div>
         </Layout>
     )
 }

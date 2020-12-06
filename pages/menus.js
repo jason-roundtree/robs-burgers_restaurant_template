@@ -94,12 +94,13 @@ export default function Order(props) {
             
             {selectedMenu && (
                 <MenuItemsContainer>
-                    {selectedMenu.menuItems.map(item => {
+                    {selectedMenu.menuItems.map((item, i) => {
                         return (
                             <MenuItem 
                                 item={item} 
                                 id={item._id} 
                                 key={item._id}
+                                index={i}
                                 // TODO: remove this isOrderItem prop if you don't do a separate component for non-ordering menu
                                 // isOrderItem={true}
                             />

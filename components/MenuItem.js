@@ -50,7 +50,7 @@ const AddToOrderButton = styled.button`
 //     }
 // `
 
-export default function MenuItem({ item }) {
+export default function MenuItem({ item, index }) {
     // console.log('item: ', item)
     const [itemEditorIsOpen, setItemEditorIsOpen] = useState(false)
 
@@ -62,7 +62,8 @@ export default function MenuItem({ item }) {
         <ItemContainer>
             <ItemInfoContainer>
                 <ItemImage 
-                    src='/burger_angels_1.jpg'
+                    // TODO: remove this when actual images are used
+                    src={(index % 2) ? '/burger_angels_1.jpg' : '/burger_angels_2.jpg'}
                     alt={`placeholder image for ${item.name}`}
                     width="200"
                 />
