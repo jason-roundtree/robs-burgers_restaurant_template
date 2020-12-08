@@ -13,12 +13,11 @@ const MenusUl = styled.ul`
     justify-content: center;
 `
 const MenuLi = styled.li`
-    font-size: 1em;
-    font-weight: 400;
-    text-align: center;
-    padding: 10px;
+    
+    padding: 5px;
     border-radius: 3px 3px 0 0;
     background: linear-gradient(rgb(255, 147, 145), rgb(255, 112, 110));
+    /* background: mistyrose; */
     ${({ active }) => active && `
         background: linear-gradient(
             rgb(255, 233, 161), 
@@ -32,11 +31,15 @@ const MenuLi = styled.li`
         color: rgb(255, 205, 41);
         cursor: pointer;
     }
+    
 `
 const MenuTitle = styled.span`
     font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.3em;
+    font-weight: 400;
+    text-align: center;
     display: inline-block;
-    padding: 5px;
+    padding: 10px;
     background-color: rgb(219, 21, 18);
     color: white;
     border-radius: 3px;
@@ -47,6 +50,9 @@ const MenuTitle = styled.span`
     ${({ active }) => active && `
         color: rgb(255, 225, 125);
     `}
+    @media (max-width: 750px) {
+        font-size: 1.1em;
+    } 
 `
 
 export default function Order(props) {

@@ -3,7 +3,7 @@ import sanity from '../lib/sanity'
 import styled from 'styled-components'
 
 const P = styled.p`
-    font-size: 1.5em;
+    font-size: 1.25em;
     margin-bottom: 1em;
 `
 export default function Contact({ contactInfo }) {

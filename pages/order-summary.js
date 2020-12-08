@@ -86,6 +86,9 @@ const DeleteOrderBtn = styled.button``
 const TotalCost = styled.span`
     font-weight: 500;
 `
+const P = styled.p`
+    font-size: 1.25em;
+`
 
 export default function OrderSummary() {
     const orderObject = useContext(OrderContext)
@@ -114,7 +117,7 @@ export default function OrderSummary() {
                 </div>
 
                 {orderObject.orderItems.length === 0 && (
-                    <p>You currently have no items added to your order. Please add items from the <Link href="/menus">Menus</Link> page.</p>
+                    <P>You currently have no items added to your order. Please add items from the <Link href="/menus">Menus</Link> page.</P>
                 )}
 
                 {orderObject.orderItems.map(item => {

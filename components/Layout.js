@@ -12,7 +12,8 @@ const MainContainer = styled.div`
     min-height: calc(100vh - 70px); */
 `
 const TitleSignContainer = styled.div`
-    background-color: rgb(219, 21, 18);
+    /* background-color: rgb(219, 21, 18); */
+    background-color: black;
     text-align: center;
     font-size: 2em;
     padding: 10px;
@@ -24,9 +25,9 @@ const Nav = styled.nav`
     font-size: 1.4em;
     display: flex;
     justify-content: space-evenly;
-    padding: 10px 0;
+    padding: 7px 0;
     margin-bottom: 50px;
-    background-color: rgb(255, 112, 110);
+    background-color: rgb(245, 245, 245);
     @media (max-width: 1000px) {
         margin-bottom: 30px;   
     }
@@ -37,23 +38,29 @@ const Nav = styled.nav`
 const NavLink = styled.a`
     font-family: 'Bebas Neue', sans-serif;
     font-size: 1em;
-    padding: 10px;
-    color: ${props => props.active ? 'rgb(252, 202, 0)' : 'black'};
+    color: 'black';
+    background-color: ${({ active }) => active && 'mistyrose'};
+    transform: skewY(-1.5deg);
     text-decoration: none;
-    padding: 0 5px;
-    position: relative;
+    padding: 2px 5px;
+    border: 1px solid ${({ active }) => active ? 'rgb(255,112,110)' : 'rgb(245, 245, 245)'};
+    /* position: relative; */
     &:hover {
         color: rgb(252, 202, 0);
+        /* TODO: why does bg only highlight with double black? */
+        background-color: ${({ active }) => active ? 'black' : 'black'};
+        border: 1px solid ${({ active }) => active ? 'rgb(252, 202, 0)' : 'rgb(252, 202, 0)'};
         cursor: pointer;    
+    }
+    &:hover span {
+        text-shadow: 1px 1px 5px rgb(255, 222, 115);
     }
     @media (max-width: 400px) {
         font-size: .75em;
     }
 `
 const OrderItemCount = styled.span`
-    color: rgb(255,205,41);
     font-size: .75em;
-    text-shadow: 1px 1px 5px rgb(255, 222, 115); 
     margin-left: 3px;
     position: relative;
     bottom: 5px;
