@@ -3,6 +3,7 @@ import sanity from '../lib/sanity'
 import styled from 'styled-components'
 import Layout from '../components/Layout'
 import MenuItem from '../components/MenuItem'
+import MenuItemOfTheDay from '../components/MenuItemOfTheDay'
 
 const MenuItemsContainer = styled.div`
     background-color: rgb(255, 205, 41);
@@ -13,7 +14,6 @@ const MenusUl = styled.ul`
     justify-content: center;
 `
 const MenuLi = styled.li`
-    
     padding: 5px;
     border-radius: 3px 3px 0 0;
     background: linear-gradient(rgb(255, 147, 145), rgb(255, 112, 110));
@@ -54,6 +54,12 @@ const MenuTitle = styled.span`
         font-size: 1.1em;
     } 
 `
+const BtnContainer = styled.div`
+    text-align: center; 
+`
+const BurgerOfTheDayBtn = styled.button`
+    margin-bottom: 1em;
+`
 
 export default function Order(props) {
      const [allMenusAndItems, setAllMenusAndItems] = useState(props.menus)
@@ -64,6 +70,7 @@ export default function Order(props) {
         })
         return defaultMenu
     })
+    const [itemOfTheDayIsActive, setItemOfTheDayIsActive] = useState(false)
     
     function handleMenuSelection(e) {
         const menuId = e.target.id
@@ -75,6 +82,21 @@ export default function Order(props) {
 
     return (
         <Layout>
+            <BtnContainer>
+                <BurgerOfTheDayBtn
+                    onClick={() => setItemOfTheDayIsActive(itemOfTheDayIsActive ? false : true)}
+                >
+                    {itemOfTheDayIsActive
+                        ? 'Hide Burger of the Day'
+                        : 'Show Burger of the Day'
+                    }
+                </BurgerOfTheDayBtn>
+            </BtnContainer>
+            
+            {itemOfTheDayIsActive && (
+                <MenuItemOfTheDay />
+            )}
+
             <nav>
                 <MenusUl>
                     {props.menus.map(menu => {

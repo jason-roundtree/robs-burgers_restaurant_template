@@ -45,15 +45,20 @@ export default {
             }]
         },
         {
+            title: 'Thumbnail',
+            name: 'thumbnail',
+            type: 'image'
+        },
+        {
+            title: 'Eliglble Menu Item of the Day',
+            name: 'menu_item_of_day_eligible',
+            type: 'boolean'
+        },
+        {
             title: 'Allergens',
             name: 'allergens',
             type: 'array',
             of: [{type: 'string'}]
-        },
-        {
-            title: 'Thumbnail',
-            name: 'thumbnail',
-            type: 'image'
         },
     ]
 }
