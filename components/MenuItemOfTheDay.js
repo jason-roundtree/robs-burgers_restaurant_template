@@ -26,7 +26,7 @@ const H3 = styled.h3`
     text-decoration: underline;
 `
 const P = styled.p`
-    font-family: 'Annie Use Your Telescope', cursive;
+    font-family: 'Annie Use Your Telescope', sans-serif;
     margin-top: 10px;
 `
 const ItemDescription = styled(P)`
@@ -36,7 +36,6 @@ const ItemDescription = styled(P)`
 const ItemName = styled(P)`
 `
 const OriginalItemCost = styled(P)`
-    font-family: 'Annie Use Your Telescope', cursive;
     text-decoration: line-through;
 `
 const ItemCost = styled(OriginalItemCost)`
@@ -56,9 +55,17 @@ const query = `*[
     options[]->
 }` 
 
+// TODO:
+// - make into a modal
+// - store burger of day state higher up in component tree so that you can also alter the item on the regular menu. Also, maybe fetch data from higher up
+// - move toggle button under menu names or to menu tabs?
+// - allow user to add to order directly from board?
+// - setup so that it only calculates once per day
+// - track prior burgers of day so they can be removed from future days of that week
+
 export default function MenuItemOfTheDay() {
     const [itemOfTheDay, setItemOfTheDay] = useState({})
-    const discount = 1.5
+    const DISCOUNT = 1.5
 
     useEffect(() => {
         sanity.fetch(query)
@@ -72,7 +79,7 @@ export default function MenuItemOfTheDay() {
         <Container>
             <H3>Burger of the Day</H3>
             <ItemName>
-                {itemOfTheDay.name}
+                "{itemOfTheDay.name}"
             </ItemName>
 
             <ItemDescription>
@@ -84,7 +91,7 @@ export default function MenuItemOfTheDay() {
             </OriginalItemCost>
 
             <ItemCost>
-                {formatCost(itemOfTheDay.cost - discount)}
+                {formatCost(itemOfTheDay.cost - DISCOUNT)}
             </ItemCost>
         </Container>
     )

@@ -138,7 +138,6 @@ export default function OrderItem({ item, itemEditorIsOpen, handleEditorToggleCl
 
     return (
         <div>
-            
             {itemEditorIsOpen && (
                 <OrderEditor>
                     <h3>Order Details</h3>
