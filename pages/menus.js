@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import sanity from '../lib/sanity'
 import styled from 'styled-components'
 import Layout from '../components/Layout'
@@ -61,6 +61,18 @@ const BurgerOfTheDayBtn = styled.button`
     margin-bottom: 1em;
 `
 
+const itemOfTheDayQuery = `*[ 
+    _type == "menu_item" && 
+    menu_item_of_day_eligible == true 
+] {
+    _id,
+    name,
+  	description,
+  	cost,
+  	add_ons[]->,
+    options[]->
+}` 
+
 export default function Order(props) {
      const [allMenusAndItems, setAllMenusAndItems] = useState(props.menus)
     // TODO: add `default` menu boolean setting in sanity? 
@@ -70,8 +82,18 @@ export default function Order(props) {
         })
         return defaultMenu
     })
+    const [itemOfTheDay, setItemOfTheDay] = useState({})
     const [itemOfTheDayIsActive, setItemOfTheDayIsActive] = useState(false)
+    const ITEM_OF_DAY_DISCOUNT = 1.5
     
+    useEffect(() => {
+        sanity.fetch(itemOfTheDayQuery)
+            .then(data =>  {
+                setItemOfTheDay(data[Math.floor(Math.random() * data.length)]) 
+            })
+            .catch(err => console.log('error fetching eligible menu items of the day: ', err))
+    }, [])
+
     function handleMenuSelection(e) {
         const menuId = e.target.id
         const [ selectedMenu ] = allMenusAndItems.filter(menu => {
@@ -94,7 +116,10 @@ export default function Order(props) {
             </BtnContainer>
             
             {itemOfTheDayIsActive && (
-                <MenuItemOfTheDay />
+                <MenuItemOfTheDay 
+                    itemOfTheDay={itemOfTheDay} 
+                    discount={ITEM_OF_DAY_DISCOUNT}
+                />
             )}
 
             <nav>
@@ -129,6 +154,12 @@ export default function Order(props) {
                                 id={item._id} 
                                 key={item._id}
                                 index={i}
+                                isItemOfTheDay={item._id === itemOfTheDay._id}
+                                itemOfDayDiscount={
+                                    item._id === itemOfTheDay._id
+                                        ? ITEM_OF_DAY_DISCOUNT
+                                        : null
+                                }
                                 // TODO: remove this isOrderItem prop if you don't do a separate component for non-ordering menu
                                 // isOrderItem={true}
                             />
@@ -140,7 +171,7 @@ export default function Order(props) {
     )
 }
 
-const query = `*[ _type == "menu" ] {
+const menusQuery = `*[ _type == "menu" ] {
     _id,
     name,
     active,
@@ -153,7 +184,8 @@ const query = `*[ _type == "menu" ] {
 } | order(menu_order asc)`
 
 export async function getStaticProps() {
-    const menus = await sanity.fetch(query)
+    const menus = await sanity.fetch(menusQuery)
+    // const itemOfDayEligibleItems = await sanity.fetch(itemOfDayEligibleItemsQuery)
     return {
         props: { menus }
     }

@@ -43,6 +43,9 @@ const AddToOrderButton = styled.button`
         position: relative;
     }
 `
+const ItemOfTheDayPreDiscount = styled.p`
+    text-decoration: line-through;
+`
 // const ItemOption = styled.p`
 //     font-size: .9em;
 //     &::before {
@@ -50,13 +53,23 @@ const AddToOrderButton = styled.button`
 //     }
 // `
 
-export default function MenuItem({ item, index }) {
-    // console.log('item: ', item)
+export default function MenuItem({ 
+    item, 
+    index, 
+    isItemOfTheDay,
+    itemOfDayDiscount 
+}) {
+    console.log('item: ', item)
+    console.log('isItemOfTheDay: ', isItemOfTheDay)
     const [itemEditorIsOpen, setItemEditorIsOpen] = useState(false)
 
     function handleEditorToggleClick() {
         setItemEditorIsOpen(itemEditorIsOpen ? false : true)
     }
+    
+    const cost = isItemOfTheDay 
+        ? item.cost - itemOfDayDiscount
+        : item.cost
 
     return (
         <ItemContainer>
@@ -69,9 +82,18 @@ export default function MenuItem({ item, index }) {
                 />
 
                 <ItemTextContainer>
-                    <ItemTitle>{item.name}</ItemTitle>
+                    <ItemTitle>
+                        {/* TODO: styled Burger of the Day text differently */}
+                        {item.name} {isItemOfTheDay ? '(Burger of the Day)' : ''}
+                    </ItemTitle>
                     <p>{item.description}</p>
-                    <p>{formatCost(item.cost)}</p>
+                    {isItemOfTheDay && (
+                        <ItemOfTheDayPreDiscount>
+                            {formatCost(cost + itemOfDayDiscount)}
+                        </ItemOfTheDayPreDiscount>
+                    )}
+                    <p>{formatCost(cost)}</p>
+
                     {item.options && 
                         item.options.map((option, i) => {
                             return (
@@ -91,7 +113,8 @@ export default function MenuItem({ item, index }) {
 
             {itemEditorIsOpen && (
                 <OrderItem 
-                    item={item} 
+                    item={item}
+                    costIncludingDiscount={cost}
                     itemEditorIsOpen={itemEditorIsOpen}
                     handleEditorToggleClick={handleEditorToggleClick}
                 />

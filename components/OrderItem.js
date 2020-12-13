@@ -40,11 +40,15 @@ const FormErrorP = styled.p`
 `
 
 // TODO: add validation for pending order items when user goes to new page (i.e. "are you sure you don't want to save this item to your order")
-export default function OrderItem({ item, itemEditorIsOpen, handleEditorToggleClick }) {
+export default function OrderItem({ 
+    item, 
+    itemEditorIsOpen, 
+    handleEditorToggleClick,
+    costIncludingDiscount
+}) {
     // console.log('item: ', item)
     const [showNoQuantityError, setShowNoQuantityError] = useState(false)
     const [showNoOptionError, setShowNoOptionError] = useState(false)
-    // const [itemEditorIsOpen, setItemEditorIsOpen] = useState(false)
     const [orderItemState, setOrderItemState] = useState({
         orderItemId: uuid(),
         specialRequests: '',
@@ -52,7 +56,7 @@ export default function OrderItem({ item, itemEditorIsOpen, handleEditorToggleCl
         addOns: [],
         option: ''
     })
-    console.log('orderItemState: ', orderItemState)
+    // console.log('orderItemState: ', orderItemState)
 
     const orderObject = useContext(OrderContext)
     console.log('orderObject: ', orderObject)
@@ -81,7 +85,7 @@ export default function OrderItem({ item, itemEditorIsOpen, handleEditorToggleCl
                 // itemId is actual item id from Sanity while orderItemId is the uuid for this specific item being ordered so we can later edit quantity or delete orders
                 itemId: item._id,
                 name: item.name,
-                cost: item.cost,
+                cost: costIncludingDiscount,
                 ...orderItemState
             })
             setOrderItemState({

@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import sanity from '../lib/sanity'
+// import { useEffect, useState } from 'react'
+// import sanity from '../lib/sanity'
 import styled from 'styled-components'
 import formatCost from '../utils/formatCost'
 
@@ -43,38 +43,16 @@ const ItemCost = styled(OriginalItemCost)`
     margin-top: 0;
     /* padding: ; */
 `
-const query = `*[ 
-    _type == "menu_item" && 
-    menu_item_of_day_eligible == true 
-] {
-    _id,
-    name,
-  	description,
-  	cost,
-  	add_ons[]->,
-    options[]->
-}` 
 
 // TODO:
+// - store the date that the item of the day was calculated last and only recalculate random if it's a new day 
 // - make into a modal
-// - store burger of day state higher up in component tree so that you can also alter the item on the regular menu. Also, maybe fetch data from higher up
 // - move toggle button under menu names or to menu tabs?
 // - allow user to add to order directly from board?
 // - setup so that it only calculates once per day
-// - track prior burgers of day so they can be removed from future days of that week
 
-export default function MenuItemOfTheDay() {
-    const [itemOfTheDay, setItemOfTheDay] = useState({})
-    const DISCOUNT = 1.5
 
-    useEffect(() => {
-        sanity.fetch(query)
-            .then(data =>  {
-                setItemOfTheDay(data[Math.floor(Math.random() * data.length)]) 
-            })
-            .catch(err => console.log('error fetching eligible menu items of the day'))
-    }, [])
-
+export default function MenuItemOfTheDay({ itemOfTheDay, discount }) {
     return (
         <Container>
             <H3>Burger of the Day</H3>
@@ -91,7 +69,7 @@ export default function MenuItemOfTheDay() {
             </OriginalItemCost>
 
             <ItemCost>
-                {formatCost(itemOfTheDay.cost - DISCOUNT)}
+                {formatCost(itemOfTheDay.cost - discount)}
             </ItemCost>
         </Container>
     )

@@ -3,6 +3,8 @@ import styled from 'styled-components'
 import Layout from '../../components/Layout'
 import MenuItem from '../../components/MenuItem'
 
+// TODO: This component is currently not being used because I moved the menus from having separate routes to all be under `menus`. 
+
 const P = styled.p`
     margin: 2px 0 5px 5px;      
     font-size: .8em;
@@ -62,18 +64,15 @@ Menu.getInitialProps = async (ctx) => {
     }
 }
 
+// TODO: This doesn't work yet because it seems the menus array of objects can't be serialized by getStaticProps. Might have to take the menu object apart and serialize menus before returning.
 
 
-// TODO: This doesn't work yet because it seems the menus array of objects can't be serialized by getStaticProps. Might have to take the menu object apart and serialize menus before returning:
-
-// const query = `*[ _id == $menuId ] {
 // TODO: do i need anything other than slug here?
 // const allMenusQuery = `*[_type == "menu"] {
 //     _id,
 //     active,
 //     slug,
 // } | order(menu_order asc)`
-// // }
 
 // const menuQuery = `*[ _type == "menu" && slug.current == $slug ] {
 //     _id,
@@ -105,3 +104,6 @@ Menu.getInitialProps = async (ctx) => {
 //     console.log('menu: ', menu)
 //     return { props: JSON.parse(JSON.stringify(menu)) }
 // }
+
+// not sure what this it. remove if above gets successfully refactored
+// const query = `*[ _id == $menuId ] {}
