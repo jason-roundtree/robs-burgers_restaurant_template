@@ -5,64 +5,64 @@ import MenuItem from '../../components/MenuItem'
 
 // TODO: This component is currently not being used because I moved the menus from having separate routes to all be under `menus`. 
 
-const P = styled.p`
-    margin: 2px 0 5px 5px;      
-    font-size: .8em;
-`
+// const P = styled.p`
+//     margin: 2px 0 5px 5px;      
+//     font-size: .8em;
+// `
 
-export default function Menu(props) {
-    const [ menu ] = props.menu
-    return (
-        <Layout>
-            <div>
-                <h2 className="sign_font">
-                    {menu.name}
-                </h2>
+// export default function Menu(props) {
+//     const [ menu ] = props.menu
+//     return (
+//         <Layout>
+//             <div>
+//                 <h2 className="sign_font">
+//                     {menu.name}
+//                 </h2>
 
-                {menu.comments && menu.comments.map((comment, i) => {
-                    return (
-                        <div key={i}>
-                            <P>{comment}</P>
-                        </div>
-                    )
-                })}
+//                 {menu.comments && menu.comments.map((comment, i) => {
+//                     return (
+//                         <div key={i}>
+//                             <P>{comment}</P>
+//                         </div>
+//                     )
+//                 })}
 
-                {menu.menuItems && menu.menuItems.map(menuItem => {
-                    return (
-                        <MenuItem 
-                            item={menuItem} 
-                            id={menuItem._id} 
-                            key={menuItem._id}
+//                 {menu.menuItems && menu.menuItems.map(menuItem => {
+//                     return (
+//                         <MenuItem 
+//                             item={menuItem} 
+//                             id={menuItem._id} 
+//                             key={menuItem._id}
                             
-                        />
-                    )
-                })}
-            </div>
-        </Layout>
-    )
-}
+//                         />
+//                     )
+//                 })}
+//             </div>
+//         </Layout>
+//     )
+// }
 
-const query = `*[ _id == $menuId ] {
-    _id,
-    name,
-    active,
-    slug,
-    comments,
-    "menuItems": menu_items[]-> {
-        ...,
-        add_ons[]->,
-        options[]->
-    }
-}`
+// const query = `*[ _id == $menuId ] {
+//     _id,
+//     name,
+//     active,
+//     slug,
+//     comments,
+//     "menuItems": menu_items[]-> {
+//         ...,
+//         add_ons[]->,
+//         options[]->
+//     }
+// }`
 
-Menu.getInitialProps = async (ctx) => {
-    // console.log('ctx: ', ctx)
-    return {
-        menu: await sanity.fetch(query, { 
-            menuId: ctx.query.id 
-        })
-    }
-}
+// Menu.getInitialProps = async (ctx) => {
+//     // console.log('ctx: ', ctx)
+//     return {
+//         menu: await sanity.fetch(query, { 
+//             menuId: ctx.query.id 
+//         })
+//     }
+// }
 
 // TODO: This doesn't work yet because it seems the menus array of objects can't be serialized by getStaticProps. Might have to take the menu object apart and serialize menus before returning.
 

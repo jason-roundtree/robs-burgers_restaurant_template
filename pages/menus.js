@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import Layout from '../components/Layout'
 import MenuItem from '../components/MenuItem'
 import MenuItemOfTheDay from '../components/MenuItemOfTheDay'
+import OrderItemModal from '../components/OrderItemModal'
 
 const MenuItemsContainer = styled.div`
     background-color: rgb(255, 205, 41);
@@ -82,6 +83,9 @@ export default function Order(props) {
         })
         return defaultMenu
     })
+    const [orderItemModalIsOpen, setOrderItemModalIsOpen] = useState(false)
+    const [activeMenuItem, setActiveMenuItem] = useState(null)
+    // console.log('activeMenuItem: ', activeMenuItem)
     const [itemOfTheDay, setItemOfTheDay] = useState({})
     const [itemOfTheDayIsActive, setItemOfTheDayIsActive] = useState(false)
     const ITEM_OF_DAY_DISCOUNT = 1.5
@@ -94,6 +98,12 @@ export default function Order(props) {
             .catch(err => console.log('error fetching eligible menu items of the day: ', err))
     }, [])
 
+    useEffect(() => {
+        return ((orderItemModalIsOpen === false) && (activeMenuItem !== null))
+            ? setOrderItemModalIsOpen(true)
+            : setOrderItemModalIsOpen(false)
+    }, [activeMenuItem])
+
     function handleMenuSelection(e) {
         const menuId = e.target.id
         const [ selectedMenu ] = allMenusAndItems.filter(menu => {
@@ -102,11 +112,23 @@ export default function Order(props) {
         setSelectedMenu(selectedMenu)
     }
 
+    function handleOpenOrderItemModal(item) {
+        setActiveMenuItem(item)
+    }
+
+    function handleCloseOrderItemModal() {
+        // TODO: is it OK to set multiple states back-to-back when one depends on other being set first? If it's OK should I change handleOpenOrderItemModal to set orderItemModalIsOpen to true after activeMenuItem is set? Should i just move all these to one toggle function?
+        setOrderItemModalIsOpen(false)
+        setActiveMenuItem(null)
+    }
+
     return (
         <Layout>
             <BtnContainer>
                 <BurgerOfTheDayBtn
-                    onClick={() => setItemOfTheDayIsActive(itemOfTheDayIsActive ? false : true)}
+                    onClick={() => setItemOfTheDayIsActive(
+                        itemOfTheDayIsActive ? false : true
+                    )}
                 >
                     {itemOfTheDayIsActive
                         ? 'Hide Burger of the Day'
@@ -130,11 +152,14 @@ export default function Order(props) {
                                 id={menu._id}
                                 key={menu._id}
                                 onClick={handleMenuSelection}
-                                active={selectedMenu && (selectedMenu._id === menu._id)}
+                                active={selectedMenu && 
+                                    (selectedMenu._id === menu._id)
+                                }
                             >
                                 <MenuTitle 
-                                    // className="sign_font" 
-                                    active={selectedMenu && (selectedMenu._id === menu._id)}
+                                    active={selectedMenu && 
+                                        (selectedMenu._id === menu._id)
+                                    }
                                     id={menu._id}
                                 >
                                     {menu.name}
@@ -148,25 +173,45 @@ export default function Order(props) {
             {selectedMenu && (
                 <MenuItemsContainer>
                     {selectedMenu.menuItems.map((item, i) => {
+                        const isItemOfTheDay = (item._id === itemOfTheDay._id)
+                        const cost = isItemOfTheDay 
+                            ? item.cost - ITEM_OF_DAY_DISCOUNT
+                            : item.cost
+
                         return (
                             <MenuItem 
                                 item={item} 
                                 id={item._id} 
                                 key={item._id}
                                 index={i}
-                                isItemOfTheDay={item._id === itemOfTheDay._id}
+                                _onClick={() => handleOpenOrderItemModal(item)}
+                                isItemOfTheDay={isItemOfTheDay}
+                                // TODO: update this here and inside of MenuItem?
                                 itemOfDayDiscount={
-                                    item._id === itemOfTheDay._id
+                                    isItemOfTheDay
                                         ? ITEM_OF_DAY_DISCOUNT
-                                        : null
+                                        : 0
                                 }
-                                // TODO: remove this isOrderItem prop if you don't do a separate component for non-ordering menu
-                                // isOrderItem={true}
                             />
                         )
                     })}
                 </MenuItemsContainer>
             )}
+
+            {activeMenuItem && (
+                <OrderItemModal 
+                    item={activeMenuItem}
+                    isOpen={orderItemModalIsOpen}
+                    handleEditorToggleClick={handleCloseOrderItemModal}
+                    isItemOfTheDay={activeMenuItem._id === itemOfTheDay._id}
+                    itemOfDayDiscount={
+                        activeMenuItem._id === itemOfTheDay._id
+                            ? ITEM_OF_DAY_DISCOUNT
+                            : 0
+                    }
+                />
+            )}
+            
         </Layout>
     )
 }

@@ -1,5 +1,3 @@
-import { useEffect, useState } from 'react'
-import sanity from '../lib/sanity'
 import styled from 'styled-components'
 import Layout from '../components/Layout'
 

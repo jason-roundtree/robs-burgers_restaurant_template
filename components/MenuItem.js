@@ -1,7 +1,5 @@
-import { useState } from 'react'
 import styled from 'styled-components'
 import formatCost from '../utils/formatCost'
-import OrderItem from '../components/OrderItem'
 
 const ItemContainer = styled.div`
     padding: 12px;
@@ -29,9 +27,25 @@ const ItemTitle = styled.p`
     font-family: 'Bebas Neue', sans-serif;
     font-size: 1.5em;
     color: rgb(255, 112, 110);
-    display: inline-block;
     border-radius: 5px;
     margin: 0 0 5px 0;
+`
+const ItemOfTheDayTitle = styled(ItemTitle)`
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.3em;
+    color: rgb(255, 205, 41);
+    background: rgb(33, 117, 252);
+    display: inline-block;
+    box-shadow: 0 0 5px rgb(33, 117, 252);
+    padding: 0 5px;
+    /* &:before{ content: ' 🍔 🎉 '; }
+    &:after { content: ' 🎉 🍔 '; } */
+`
+const ItemOfTheDayPreDiscount = styled.p`
+    text-decoration: line-through;
+`
+const Cost = styled.p`
+    color: rgb(33, 117, 252);
 `
 const AddToOrderButton = styled.button`
     display: block;
@@ -43,30 +57,17 @@ const AddToOrderButton = styled.button`
         position: relative;
     }
 `
-const ItemOfTheDayPreDiscount = styled.p`
-    text-decoration: line-through;
-`
-// const ItemOption = styled.p`
-//     font-size: .9em;
-//     &::before {
-//         content: '🍔 ';
-//     }
-// `
 
 export default function MenuItem({ 
     item, 
-    index, 
     isItemOfTheDay,
-    itemOfDayDiscount 
+    itemOfDayDiscount ,
+    _onClick
 }) {
-    console.log('item: ', item)
-    console.log('isItemOfTheDay: ', isItemOfTheDay)
-    const [itemEditorIsOpen, setItemEditorIsOpen] = useState(false)
+    // console.log('item: ', item)
+    // console.log('isItemOfTheDay: ', isItemOfTheDay)
 
-    function handleEditorToggleClick() {
-        setItemEditorIsOpen(itemEditorIsOpen ? false : true)
-    }
-    
+    // TODO: move up to menus or utils?
     const cost = isItemOfTheDay 
         ? item.cost - itemOfDayDiscount
         : item.cost
@@ -76,23 +77,31 @@ export default function MenuItem({
             <ItemInfoContainer>
                 <ItemImage 
                     // TODO: remove this when actual images are used
-                    src={(index % 2) ? '/burger_angels_1.jpg' : '/burger_angels_2.jpg'}
+                    src={'/burger_angels_2.jpg'}
                     alt={`placeholder image for ${item.name}`}
+                    title={`placeholder image for ${item.name}`}
                     width="200"
                 />
 
                 <ItemTextContainer>
-                    <ItemTitle>
-                        {/* TODO: styled Burger of the Day text differently */}
-                        {item.name} {isItemOfTheDay ? '(Burger of the Day)' : ''}
-                    </ItemTitle>
+                    <ItemTitle>{item.name}</ItemTitle>
+                    {isItemOfTheDay && (
+                        // TODO: fix this so emojis don't partially wrap on smaller screen
+                        <ItemOfTheDayTitle>
+                            🍔 🎉 &nbsp;
+                            Burger of the Day
+                            &nbsp; 🎉 🍔
+                        </ItemOfTheDayTitle>
+                    )}
+
                     <p>{item.description}</p>
+
                     {isItemOfTheDay && (
                         <ItemOfTheDayPreDiscount>
                             {formatCost(cost + itemOfDayDiscount)}
                         </ItemOfTheDayPreDiscount>
                     )}
-                    <p>{formatCost(cost)}</p>
+                    <Cost>{formatCost(cost)}</Cost>
 
                     {item.options && 
                         item.options.map((option, i) => {
@@ -103,24 +112,15 @@ export default function MenuItem({
                             )
                         })
                     }
-                    {!itemEditorIsOpen && (
-                        <AddToOrderButton onClick={handleEditorToggleClick}>
-                            Order
-                        </AddToOrderButton>
-                    )}
+
+                    <AddToOrderButton 
+                        onClick={_onClick}
+                    >
+                        Order
+                    </AddToOrderButton>
+
                 </ItemTextContainer>
             </ItemInfoContainer>       
-
-            {itemEditorIsOpen && (
-                <OrderItem 
-                    item={item}
-                    costIncludingDiscount={cost}
-                    itemEditorIsOpen={itemEditorIsOpen}
-                    handleEditorToggleClick={handleEditorToggleClick}
-                />
-            )}
-            
-            
         </ItemContainer>
     )
 }

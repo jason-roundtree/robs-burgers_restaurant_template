@@ -135,7 +135,7 @@ export default function Layout(props) {
 
                 <MainContainer 
                     id="main" 
-                    bgImg={props.bgImg}
+                    // bgImg={props.bgImg}
                 >
                     {props.children}
                 </MainContainer>

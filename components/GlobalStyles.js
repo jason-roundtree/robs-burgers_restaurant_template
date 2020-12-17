@@ -120,5 +120,4 @@ export const GlobalStyles = createGlobalStyle`
             width: 90%;
         }
     }
-
 `
