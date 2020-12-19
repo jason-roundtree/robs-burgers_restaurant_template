@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react'
+import { useState, useContext, useRef } from 'react'
 import { v4 as uuid } from 'uuid'
 import styled from 'styled-components'
 import formatCost from '../utils/formatCost'
@@ -18,12 +18,17 @@ const ModalContainer = styled.div`
     align-items: center;
     background: rgba(0,0,0,0.3);
 `
-const ModalDialog = styled.div`
+const ModalContent = styled.div`
     width: 90%;
     max-width: 900px;
     max-height: 90vh;
     background: white;
     border-radius: 3px;
+`
+const H3 = styled.h3`
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.5em;
+    color: rgb(255, 112, 110);
 `
 const Button = styled.button`
     margin: 10px 10px 0 0;
@@ -62,14 +67,15 @@ const FormErrorP = styled.p`
     color: red;
 `
 
+// TODO: add something to UI confirming order was added
+// TODO: factor in add-ons/options to cost
 // TODO: add validation for pending order items when user goes to new page (i.e. "are you sure you don't want to save this item to your order")
 export default function OrderItemModal({ 
     item, 
     isOpen, 
     isItemOfTheDay,
     itemOfDayDiscount,
-    handleEditorToggleClick,
-    // costIncludingDiscount
+    handleModalBtnClick
 }) {
     // console.log('item: ', item)
     const [showNoQuantityError, setShowNoQuantityError] = useState(false)
@@ -88,23 +94,22 @@ export default function OrderItemModal({
         : item.cost
 
     const orderObject = useContext(OrderContext)
-    console.log('orderObject: ', orderObject)
+    // console.log('orderObject: ', orderObject)
 
-    // TODO: add something to UI confirming order was added
     function handleAddToOrderClick() {
-        // TODO: there's gotta be a cleaner way to do this logic, right?
+        // TODO: is there a cleaner way to do this logic?
         if (
             !orderItemState.quantity || 
             (item.one_item_options && orderItemState.option === '')
         ) {
             if (!orderItemState.quantity) {
-                console.log('Please choose quantity')
+                // console.log('Please choose quantity')
                 setShowNoQuantityError(true)
             } else {
                 setShowNoQuantityError(false)
             }
             if (item.one_item_options && orderItemState.option === '') {
-                console.log('Please select an option')
+                // console.log('Please select an option')
                 setShowNoOptionError(true)
             } else {
                 setShowNoOptionError(false)
@@ -126,7 +131,7 @@ export default function OrderItemModal({
             })
             setShowNoQuantityError(false)
             setShowNoOptionError(false)
-            handleEditorToggleClick()
+            handleModalBtnClick(null)
         }
     }
 
@@ -174,12 +179,15 @@ export default function OrderItemModal({
     }
     
     return (
-        <ModalContainer>
-            <ModalDialog>
+        <ModalContainer id='modal-container'>
+            <ModalContent>
                 {isOpen && (
                     <OrderEditor>
-                        {/* TODO: add name and description to modal */}
-                        <h3>Order Details</h3>
+                        <div>
+                            <H3>ORDER DETAILS</H3>
+                        </div>
+                        <h4>{item.name}</h4>
+                        <p>{item.description}</p>
 
                         {item.one_item_options && (
                             <Options 
@@ -220,7 +228,6 @@ export default function OrderItemModal({
                             placeholder="Not all special requests can be accomodated"
                         />
 
-                        {/* TODO: factor in add-ons/options to cost */}
                         <Cost>{formatCost(cost)}</Cost>
 
                         {showNoQuantityError && (
@@ -231,7 +238,7 @@ export default function OrderItemModal({
                             <FormErrorP>Please choose an option</FormErrorP>
                         )}
 
-                        <Button onClick={handleEditorToggleClick}>
+                        <Button onClick={() => handleModalBtnClick(null)}>
                             Cancel
                         </Button>
 
@@ -240,7 +247,7 @@ export default function OrderItemModal({
                         </Button>
                     </OrderEditor>
                 )}
-            </ModalDialog>
+            </ModalContent>
         </ModalContainer>
     )
 }

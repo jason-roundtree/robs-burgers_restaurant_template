@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import sanity from '../lib/sanity'
 import styled from 'styled-components'
 import Layout from '../components/Layout'
@@ -85,11 +85,10 @@ export default function Order(props) {
     })
     const [orderItemModalIsOpen, setOrderItemModalIsOpen] = useState(false)
     const [activeMenuItem, setActiveMenuItem] = useState(null)
-    // console.log('activeMenuItem: ', activeMenuItem)
     const [itemOfTheDay, setItemOfTheDay] = useState({})
     const [itemOfTheDayIsActive, setItemOfTheDayIsActive] = useState(false)
     const ITEM_OF_DAY_DISCOUNT = 1.5
-    
+
     useEffect(() => {
         sanity.fetch(itemOfTheDayQuery)
             .then(data =>  {
@@ -98,11 +97,16 @@ export default function Order(props) {
             .catch(err => console.log('error fetching eligible menu items of the day: ', err))
     }, [])
 
-    useEffect(() => {
-        return ((orderItemModalIsOpen === false) && (activeMenuItem !== null))
-            ? setOrderItemModalIsOpen(true)
-            : setOrderItemModalIsOpen(false)
-    }, [activeMenuItem])
+    // useEffect(() => {
+    //     if (orderItemModalIsOpen) {
+    //         document.addEventListener('click', handleOutsideModalClick)
+    //     } else {
+    //         document.removeEventListener('click', handleOutsideModalClick)
+    //     }
+    //     // return () => {
+    //     //     document.removeEventListener('click', handleOutsideModalClick)
+    //     // }
+    // }, [orderItemModalIsOpen])
 
     function handleMenuSelection(e) {
         const menuId = e.target.id
@@ -112,105 +116,115 @@ export default function Order(props) {
         setSelectedMenu(selectedMenu)
     }
 
-    function handleOpenOrderItemModal(item) {
-        setActiveMenuItem(item)
+    function handleModalBtnClick(item) {
+        // console.log('handleModalBtnClick item: ', item)
+        if (item) {
+            setActiveMenuItem(item)
+            setOrderItemModalIsOpen(true)
+            document.addEventListener('click', handleOutsideModalClick)
+        } else {
+            setOrderItemModalIsOpen(false)
+            document.removeEventListener('click', handleOutsideModalClick)
+        }
     }
 
-    function handleCloseOrderItemModal() {
-        // TODO: is it OK to set multiple states back-to-back when one depends on other being set first? If it's OK should I change handleOpenOrderItemModal to set orderItemModalIsOpen to true after activeMenuItem is set? Should i just move all these to one toggle function?
-        setOrderItemModalIsOpen(false)
-        setActiveMenuItem(null)
+    function handleOutsideModalClick(e) {
+        // console.log('handleOutsideModalClick')
+        if (e.target.id === 'modal-container') {
+            handleModalBtnClick(null)
+        }
     }
 
     return (
         <Layout>
-            <BtnContainer>
-                <BurgerOfTheDayBtn
-                    onClick={() => setItemOfTheDayIsActive(
-                        itemOfTheDayIsActive ? false : true
-                    )}
-                >
-                    {itemOfTheDayIsActive
-                        ? 'Hide Burger of the Day'
-                        : 'Show Burger of the Day'
-                    }
-                </BurgerOfTheDayBtn>
-            </BtnContainer>
-            
-            {itemOfTheDayIsActive && (
-                <MenuItemOfTheDay 
-                    itemOfTheDay={itemOfTheDay} 
-                    discount={ITEM_OF_DAY_DISCOUNT}
-                />
-            )}
+                <BtnContainer>
+                    <BurgerOfTheDayBtn
+                        onClick={() => setItemOfTheDayIsActive(
+                            itemOfTheDayIsActive ? false : true
+                        )}
+                    >
+                        {itemOfTheDayIsActive
+                            ? 'Hide Burger of the Day'
+                            : 'Show Burger of the Day'
+                        }
+                    </BurgerOfTheDayBtn>
+                </BtnContainer>
+                
+                {itemOfTheDayIsActive && (
+                    <MenuItemOfTheDay 
+                        itemOfTheDay={itemOfTheDay} 
+                        discount={ITEM_OF_DAY_DISCOUNT}
+                    />
+                )}
 
-            <nav>
-                <MenusUl>
-                    {props.menus.map(menu => {
-                        return (
-                            <MenuLi
-                                id={menu._id}
-                                key={menu._id}
-                                onClick={handleMenuSelection}
-                                active={selectedMenu && 
-                                    (selectedMenu._id === menu._id)
-                                }
-                            >
-                                <MenuTitle 
+                <nav>
+                    <MenusUl>
+                        {props.menus.map(menu => {
+                            return (
+                                <MenuLi
+                                    id={menu._id}
+                                    key={menu._id}
+                                    onClick={handleMenuSelection}
                                     active={selectedMenu && 
                                         (selectedMenu._id === menu._id)
                                     }
-                                    id={menu._id}
                                 >
-                                    {menu.name}
-                                </MenuTitle>
-                            </MenuLi>
-                        )
-                    })}
-                </MenusUl>
-            </nav>
-            
-            {selectedMenu && (
-                <MenuItemsContainer>
-                    {selectedMenu.menuItems.map((item, i) => {
-                        const isItemOfTheDay = (item._id === itemOfTheDay._id)
-                        const cost = isItemOfTheDay 
-                            ? item.cost - ITEM_OF_DAY_DISCOUNT
-                            : item.cost
+                                    <MenuTitle 
+                                        active={selectedMenu && 
+                                            (selectedMenu._id === menu._id)
+                                        }
+                                        id={menu._id}
+                                    >
+                                        {menu.name}
+                                    </MenuTitle>
+                                </MenuLi>
+                            )
+                        })}
+                    </MenusUl>
+                </nav>
+                
+                {selectedMenu && (
+                    <MenuItemsContainer>
+                        {selectedMenu.menuItems.map((item, i) => {
+                            const isItemOfTheDay = (item._id === itemOfTheDay._id)
+                            // TODO: remove or move this to util?
+                            // const cost = isItemOfTheDay 
+                            //     ? item.cost - ITEM_OF_DAY_DISCOUNT
+                            //     : item.cost
 
-                        return (
-                            <MenuItem 
-                                item={item} 
-                                id={item._id} 
-                                key={item._id}
-                                index={i}
-                                _onClick={() => handleOpenOrderItemModal(item)}
-                                isItemOfTheDay={isItemOfTheDay}
-                                // TODO: update this here and inside of MenuItem?
-                                itemOfDayDiscount={
-                                    isItemOfTheDay
-                                        ? ITEM_OF_DAY_DISCOUNT
-                                        : 0
-                                }
-                            />
-                        )
-                    })}
-                </MenuItemsContainer>
-            )}
+                            return (
+                                <MenuItem 
+                                    item={item} 
+                                    id={item._id} 
+                                    key={item._id}
+                                    index={i}
+                                    handleModalBtnClick={handleModalBtnClick}
+                                    isItemOfTheDay={isItemOfTheDay}
+                                    // TODO: update this here and inside of MenuItem?
+                                    itemOfDayDiscount={
+                                        isItemOfTheDay
+                                            ? ITEM_OF_DAY_DISCOUNT
+                                            : 0
+                                    }
+                                />
+                            )
+                        })}
+                    </MenuItemsContainer>
+                )}
 
-            {activeMenuItem && (
-                <OrderItemModal 
-                    item={activeMenuItem}
-                    isOpen={orderItemModalIsOpen}
-                    handleEditorToggleClick={handleCloseOrderItemModal}
-                    isItemOfTheDay={activeMenuItem._id === itemOfTheDay._id}
-                    itemOfDayDiscount={
-                        activeMenuItem._id === itemOfTheDay._id
-                            ? ITEM_OF_DAY_DISCOUNT
-                            : 0
-                    }
-                />
-            )}
+                {activeMenuItem && (
+                    <OrderItemModal 
+                        item={activeMenuItem}
+                        isOpen={orderItemModalIsOpen}
+                        isItemOfTheDay={activeMenuItem._id === itemOfTheDay._id}
+                        itemOfDayDiscount={
+                            activeMenuItem._id === itemOfTheDay._id
+                                ? ITEM_OF_DAY_DISCOUNT
+                                : 0
+                        }
+                        handleModalBtnClick={handleModalBtnClick}
+                    />
+                )}
             
         </Layout>
     )

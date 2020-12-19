@@ -47,7 +47,7 @@ const ItemOfTheDayPreDiscount = styled.p`
 const Cost = styled.p`
     color: rgb(33, 117, 252);
 `
-const AddToOrderButton = styled.button`
+const OrderButton = styled.button`
     display: block;
     position: absolute;
     bottom: 0;
@@ -61,8 +61,8 @@ const AddToOrderButton = styled.button`
 export default function MenuItem({ 
     item, 
     isItemOfTheDay,
-    itemOfDayDiscount ,
-    _onClick
+    itemOfDayDiscount,
+    handleModalBtnClick,
 }) {
     // console.log('item: ', item)
     // console.log('isItemOfTheDay: ', isItemOfTheDay)
@@ -113,11 +113,11 @@ export default function MenuItem({
                         })
                     }
 
-                    <AddToOrderButton 
-                        onClick={_onClick}
+                    <OrderButton 
+                        onClick={() => handleModalBtnClick(item)}
                     >
                         Order
-                    </AddToOrderButton>
+                    </OrderButton>
 
                 </ItemTextContainer>
             </ItemInfoContainer>       
