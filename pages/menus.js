@@ -1,9 +1,9 @@
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useState } from 'react'
 import sanity from '../lib/sanity'
 import styled from 'styled-components'
 import Layout from '../components/Layout'
 import MenuItem from '../components/MenuItem'
-import MenuItemOfTheDay from '../components/MenuItemOfTheDay'
+import MenuItemOfDay from '../components/MenuItemOfDay'
 import OrderItemModal from '../components/OrderItemModal'
 
 const MenuItemsContainer = styled.div`
@@ -58,11 +58,11 @@ const MenuTitle = styled.span`
 const BtnContainer = styled.div`
     text-align: center; 
 `
-const BurgerOfTheDayBtn = styled.button`
+const BurgerOfDayBtn = styled.button`
     margin-bottom: 1em;
 `
 
-const itemOfTheDayQuery = `*[ 
+const itemOfDayQuery = `*[ 
     _type == "menu_item" && 
     menu_item_of_day_eligible == true 
 ] {
@@ -85,14 +85,15 @@ export default function Order(props) {
     })
     const [orderItemModalIsOpen, setOrderItemModalIsOpen] = useState(false)
     const [activeMenuItem, setActiveMenuItem] = useState(null)
-    const [itemOfTheDay, setItemOfTheDay] = useState({})
-    const [itemOfTheDayIsActive, setItemOfTheDayIsActive] = useState(false)
+    const [itemOfDay, setItemOfDay] = useState({})
+    // console.log('itemOfDay: ', itemOfDay)
+    const [itemOfDayIsActive, setItemOfDayIsActive] = useState(false)
     const ITEM_OF_DAY_DISCOUNT = 1.5
 
     useEffect(() => {
-        sanity.fetch(itemOfTheDayQuery)
+        sanity.fetch(itemOfDayQuery)
             .then(data =>  {
-                setItemOfTheDay(data[Math.floor(Math.random() * data.length)]) 
+                setItemOfDay(data[Math.floor(Math.random() * data.length)]) 
             })
             .catch(err => console.log('error fetching eligible menu items of the day: ', err))
     }, [])
@@ -138,21 +139,21 @@ export default function Order(props) {
     return (
         <Layout>
                 <BtnContainer>
-                    <BurgerOfTheDayBtn
-                        onClick={() => setItemOfTheDayIsActive(
-                            itemOfTheDayIsActive ? false : true
+                    <BurgerOfDayBtn
+                        onClick={() => setItemOfDayIsActive(
+                            itemOfDayIsActive ? false : true
                         )}
                     >
-                        {itemOfTheDayIsActive
+                        {itemOfDayIsActive
                             ? 'Hide Burger of the Day'
                             : 'Show Burger of the Day'
                         }
-                    </BurgerOfTheDayBtn>
+                    </BurgerOfDayBtn>
                 </BtnContainer>
                 
-                {itemOfTheDayIsActive && (
-                    <MenuItemOfTheDay 
-                        itemOfTheDay={itemOfTheDay} 
+                {itemOfDayIsActive && (
+                    <MenuItemOfDay 
+                        itemOfDay={itemOfDay} 
                         discount={ITEM_OF_DAY_DISCOUNT}
                     />
                 )}
@@ -186,9 +187,9 @@ export default function Order(props) {
                 {selectedMenu && (
                     <MenuItemsContainer>
                         {selectedMenu.menuItems.map((item, i) => {
-                            const isItemOfTheDay = (item._id === itemOfTheDay._id)
+                            const isItemOfDay = (item._id === itemOfDay._id)
                             // TODO: remove or move this to util?
-                            // const cost = isItemOfTheDay 
+                            // const cost = isItemOfDay 
                             //     ? item.cost - ITEM_OF_DAY_DISCOUNT
                             //     : item.cost
 
@@ -199,10 +200,10 @@ export default function Order(props) {
                                     key={item._id}
                                     index={i}
                                     handleModalBtnClick={handleModalBtnClick}
-                                    isItemOfTheDay={isItemOfTheDay}
+                                    isItemOfDay={isItemOfDay}
                                     // TODO: update this here and inside of MenuItem?
                                     itemOfDayDiscount={
-                                        isItemOfTheDay
+                                        isItemOfDay
                                             ? ITEM_OF_DAY_DISCOUNT
                                             : 0
                                     }
@@ -216,9 +217,9 @@ export default function Order(props) {
                     <OrderItemModal 
                         item={activeMenuItem}
                         isOpen={orderItemModalIsOpen}
-                        isItemOfTheDay={activeMenuItem._id === itemOfTheDay._id}
+                        isItemOfDay={activeMenuItem._id === itemOfDay._id}
                         itemOfDayDiscount={
-                            activeMenuItem._id === itemOfTheDay._id
+                            activeMenuItem._id === itemOfDay._id
                                 ? ITEM_OF_DAY_DISCOUNT
                                 : 0
                         }

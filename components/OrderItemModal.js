@@ -2,6 +2,7 @@ import { useState, useContext, useRef } from 'react'
 import { v4 as uuid } from 'uuid'
 import styled from 'styled-components'
 import formatCost from '../utils/formatCost'
+import calculateCostWithDiscount from '../utils/calculateCostWithDiscount'
 import AddOns from './AddOns'
 import Options from './Options'
 import OrderContext from './OrderContext'
@@ -69,11 +70,12 @@ const FormErrorP = styled.p`
 
 // TODO: add something to UI confirming order was added
 // TODO: factor in add-ons/options to cost
-// TODO: add validation for pending order items when user goes to new page (i.e. "are you sure you don't want to save this item to your order")
+// TODO: add validation for pending order items when user goes to new page 
+// (i.e. "are you sure you don't want to save this item to your order")
 export default function OrderItemModal({ 
     item, 
     isOpen, 
-    isItemOfTheDay,
+    isItemOfDay,
     itemOfDayDiscount,
     handleModalBtnClick
 }) {
@@ -89,9 +91,7 @@ export default function OrderItemModal({
     })
     // console.log('orderItemState: ', orderItemState)
     // console.log('item.cost: ', item.cost)
-    const cost = isItemOfTheDay 
-        ? item.cost - itemOfDayDiscount 
-        : item.cost
+    const cost = calculateCostWithDiscount(item, isItemOfDay, itemOfDayDiscount)
 
     const orderObject = useContext(OrderContext)
     // console.log('orderObject: ', orderObject)

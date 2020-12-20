@@ -52,24 +52,24 @@ const ItemCost = styled(OriginalItemCost)`
 // - setup so that it only calculates once per day
 
 
-export default function MenuItemOfTheDay({ itemOfTheDay, discount }) {
+export default function MenuItemOfDay({ itemOfDay, discount }) {
     return (
         <Container>
             <H3>Burger of the Day</H3>
             <ItemName>
-                "{itemOfTheDay.name}"
+                "{itemOfDay.name}"
             </ItemName>
 
             <ItemDescription>
-                {itemOfTheDay.description}
+                {itemOfDay.description}
             </ItemDescription>
 
             <OriginalItemCost>
-                {formatCost(itemOfTheDay.cost)}
+                {formatCost(itemOfDay.cost)}
             </OriginalItemCost>
 
             <ItemCost>
-                {formatCost(itemOfTheDay.cost - discount)}
+                {formatCost(itemOfDay.cost - discount)}
             </ItemCost>
         </Container>
     )

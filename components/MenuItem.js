@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 import formatCost from '../utils/formatCost'
+import calculateCostWithDiscount from '../utils/calculateCostWithDiscount'
 
 const ItemContainer = styled.div`
     padding: 12px;
@@ -30,7 +31,7 @@ const ItemTitle = styled.p`
     border-radius: 5px;
     margin: 0 0 5px 0;
 `
-const ItemOfTheDayTitle = styled(ItemTitle)`
+const ItemOfDayTitle = styled(ItemTitle)`
     font-family: 'Bebas Neue', sans-serif;
     font-size: 1.3em;
     color: rgb(255, 205, 41);
@@ -41,7 +42,7 @@ const ItemOfTheDayTitle = styled(ItemTitle)`
     /* &:before{ content: ' 🍔 🎉 '; }
     &:after { content: ' 🎉 🍔 '; } */
 `
-const ItemOfTheDayPreDiscount = styled.p`
+const ItemOfDayPreDiscount = styled.p`
     text-decoration: line-through;
 `
 const Cost = styled.p`
@@ -60,18 +61,17 @@ const OrderButton = styled.button`
 
 export default function MenuItem({ 
     item, 
-    isItemOfTheDay,
+    isItemOfDay,
     itemOfDayDiscount,
     handleModalBtnClick,
 }) {
     // console.log('item: ', item)
-    // console.log('isItemOfTheDay: ', isItemOfTheDay)
+    // console.log('isItemOfDay: ', isItemOfDay)
 
     // TODO: move up to menus or utils?
-    const cost = isItemOfTheDay 
-        ? item.cost - itemOfDayDiscount
-        : item.cost
 
+    const cost = calculateCostWithDiscount(item, isItemOfDay, itemOfDayDiscount)
+    
     return (
         <ItemContainer>
             <ItemInfoContainer>
@@ -85,21 +85,21 @@ export default function MenuItem({
 
                 <ItemTextContainer>
                     <ItemTitle>{item.name}</ItemTitle>
-                    {isItemOfTheDay && (
+                    {isItemOfDay && (
                         // TODO: fix this so emojis don't partially wrap on smaller screen
-                        <ItemOfTheDayTitle>
+                        <ItemOfDayTitle>
                             🍔 🎉 &nbsp;
                             Burger of the Day
                             &nbsp; 🎉 🍔
-                        </ItemOfTheDayTitle>
+                        </ItemOfDayTitle>
                     )}
 
                     <p>{item.description}</p>
 
-                    {isItemOfTheDay && (
-                        <ItemOfTheDayPreDiscount>
+                    {isItemOfDay && (
+                        <ItemOfDayPreDiscount>
                             {formatCost(cost + itemOfDayDiscount)}
-                        </ItemOfTheDayPreDiscount>
+                        </ItemOfDayPreDiscount>
                     )}
                     <Cost>{formatCost(cost)}</Cost>
 
