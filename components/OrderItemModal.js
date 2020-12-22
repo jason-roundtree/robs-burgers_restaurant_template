@@ -5,20 +5,10 @@ import formatCost from '../utils/formatCost'
 import calculateCostWithDiscount from '../utils/calculateCostWithDiscount'
 import AddOns from './AddOns'
 import Options from './Options'
-import OrderContext from './OrderContext'
 import QuantityInput from './QuantityInput'
+import OrderContext from './OrderContext'
+import ModalContainer from './ModalContainer'
 
-const ModalContainer = styled.div`
-    position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: rgba(0,0,0,0.3);
-`
 const ModalContent = styled.div`
     width: 90%;
     max-width: 900px;
@@ -28,7 +18,7 @@ const ModalContent = styled.div`
 `
 const H3 = styled.h3`
     font-family: 'Bebas Neue', sans-serif;
-    font-size: 1.5em;
+    font-size: 1.75em;
     color: rgb(255, 112, 110);
 `
 const Button = styled.button`
@@ -62,7 +52,6 @@ const SectionLabel = styled.label`
 `
 const Cost = styled.span`
     display: block;
-    margin-top: 1em;
 `
 const FormErrorP = styled.p`
     color: red;
@@ -89,7 +78,7 @@ export default function OrderItemModal({
         addOns: [],
         option: ''
     })
-    // console.log('orderItemState: ', orderItemState)
+    console.log('orderItemState: ', orderItemState)
     // console.log('item.cost: ', item.cost)
     const cost = calculateCostWithDiscount(item, isItemOfDay, itemOfDayDiscount)
 
@@ -122,17 +111,21 @@ export default function OrderItemModal({
                 cost: cost,
                 ...orderItemState
             })
-            setOrderItemState({
-                orderItemId: '',
-                specialRequests: '',
-                quantity: '',
-                addOns: [],
-                option: ''
-            })
+            clearOrderState()
             setShowNoQuantityError(false)
             setShowNoOptionError(false)
             handleModalBtnClick(null)
         }
+    }
+
+    function clearOrderState() {
+        setOrderItemState({
+            orderItemId: '',
+            specialRequests: '',
+            quantity: '',
+            addOns: [],
+            option: ''
+        })
     }
 
     function handleInputChange({ target }) {
@@ -174,6 +167,12 @@ export default function OrderItemModal({
         }
     }
 
+    function handleCancelOrder() {
+        clearOrderState()
+        handleModalBtnClick(null)
+    }
+
+    // TODO: is this still needed?
     if (!isOpen) {
         return null
     }
@@ -184,10 +183,12 @@ export default function OrderItemModal({
                 {isOpen && (
                     <OrderEditor>
                         <div>
-                            <H3>ORDER DETAILS</H3>
+                            <H3 className='h3-no-global-style'>ORDER DETAILS</H3>
                         </div>
+                        {/* TODO: styled these 3 a little different than options below? */}
                         <h4>{item.name}</h4>
                         <p>{item.description}</p>
+                        <Cost>{formatCost(cost)}</Cost>
 
                         {item.one_item_options && (
                             <Options 
@@ -228,8 +229,6 @@ export default function OrderItemModal({
                             placeholder="Not all special requests can be accomodated"
                         />
 
-                        <Cost>{formatCost(cost)}</Cost>
-
                         {showNoQuantityError && (
                             <FormErrorP>Please choose a quantity</FormErrorP>
                         )}
@@ -238,7 +237,7 @@ export default function OrderItemModal({
                             <FormErrorP>Please choose an option</FormErrorP>
                         )}
 
-                        <Button onClick={() => handleModalBtnClick(null)}>
+                        <Button onClick={() => handleCancelOrder()}>
                             Cancel
                         </Button>
 

@@ -93,31 +93,32 @@ export const GlobalStyles = createGlobalStyle`
         font-size: 1.75em;
     }
 
-    h2, h3.radial_gradient_text {
+    h2, h3:not(.h3-no-global-style) {
+        font-family: 'Bebas Neue', sans-serif;
+        font-size: 3em;
+    }
+
+    /* h2, h3.radial_gradient_text {
         font-size: 3.25em;
         font-family: 'Bebas Neue',sans-serif;
         background: radial-gradient(rgb(255, 147, 145), rgb(255, 233, 161));
         -webkit-text-fill-color: transparent;
         -webkit-background-clip: text;
         background-clip: text;
-        /* -webkit-text-stroke: .000001em black; */
-    }
+    } */
 
-    div.heading_container {
+    /* div.heading_container {
         background-color: black;
         border: 1px solid rgb(255,205,41);
-        /* -webkit-clip-path: polygon(0 0, 1200px 0, 1200px 50%, 0 100%);
-        clip-path: polygon(0 0, 1200px 0, 1200px 50%, 0 100%); */
+        // -webkit-clip-path: polygon(0 0, 1200px 0, 1200px 50%, 0 100%);
+        // clip-path: polygon(0 0, 1200px 0, 1200px 50%, 0 100%);
         transform: skewY(-1.5deg);
         width: 65%;
         padding: 5px;
         margin: 0 auto 1em;
-        /* @media (max-width: 1000px) {
-            width: 70%;
-        } */
         @media (max-width: 400px) {
             font-size: .9em;  
             width: 90%;
         }
-    }
+    } */
 `

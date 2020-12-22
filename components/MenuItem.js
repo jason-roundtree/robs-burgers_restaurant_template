@@ -67,9 +67,6 @@ export default function MenuItem({
 }) {
     // console.log('item: ', item)
     // console.log('isItemOfDay: ', isItemOfDay)
-
-    // TODO: move up to menus or utils?
-
     const cost = calculateCostWithDiscount(item, isItemOfDay, itemOfDayDiscount)
     
     return (

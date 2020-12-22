@@ -4,6 +4,7 @@ import styled from 'styled-components'
 
 const P = styled.p`
     font-size: 1.25em;
+    font-weight: 500;
     margin-bottom: 1em;
 `
 export default function Contact({ contactInfo }) {
@@ -14,7 +15,7 @@ export default function Contact({ contactInfo }) {
                     return (
                         <div key={contact._id}>
                             <div className='heading_container'>
-                                <h3 className='radial_gradient_text'>{contact.type}</h3>
+                                <h3 className='radial_gradient_text'>{contact.type.toUpperCase()}</h3>
                             </div>
                             {contact.type === 'Email' 
                                 ? (

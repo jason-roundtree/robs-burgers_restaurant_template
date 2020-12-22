@@ -3,7 +3,8 @@ import sanity from '../lib/sanity'
 import styled from 'styled-components'
 import Layout from '../components/Layout'
 import MenuItem from '../components/MenuItem'
-import MenuItemOfDay from '../components/MenuItemOfDay'
+import MenuItemOfDayModal from '../components/MenuItemOfDayModal'
+import ModalContainer from '../components/ModalContainer'
 import OrderItemModal from '../components/OrderItemModal'
 
 const MenuItemsContainer = styled.div`
@@ -15,10 +16,11 @@ const MenusUl = styled.ul`
     justify-content: center;
 `
 const MenuLi = styled.li`
+    display: flex;
+    align-items: stretch;
     padding: 5px;
     border-radius: 3px 3px 0 0;
     background: linear-gradient(rgb(255, 147, 145), rgb(255, 112, 110));
-    /* background: mistyrose; */
     ${({ active }) => active && `
         background: linear-gradient(
             rgb(255, 233, 161), 
@@ -40,6 +42,7 @@ const MenuTitle = styled.span`
     font-weight: 400;
     text-align: center;
     display: inline-block;
+    /* height: 100%; */
     padding: 10px;
     background-color: rgb(219, 21, 18);
     color: white;
@@ -117,20 +120,30 @@ export default function Order(props) {
         setSelectedMenu(selectedMenu)
     }
 
+    // TODO: clear quantity on click in modal container and cancel
+    // TODO: why does event listener not get removed when you select Cancel/Close buttons from modals?
     function handleModalBtnClick(item) {
         // console.log('handleModalBtnClick item: ', item)
         if (item) {
-            setActiveMenuItem(item)
-            setOrderItemModalIsOpen(true)
+            if (item === 'item-of-day') {
+                setItemOfDayIsActive(true)
+            }
+            else {
+                setActiveMenuItem(item)
+                setOrderItemModalIsOpen(true)
+            }
             document.addEventListener('click', handleOutsideModalClick)
-        } else {
+        }
+        else {
+            // console.log('else')
             setOrderItemModalIsOpen(false)
+            setItemOfDayIsActive(false)
             document.removeEventListener('click', handleOutsideModalClick)
         }
     }
 
     function handleOutsideModalClick(e) {
-        // console.log('handleOutsideModalClick')
+        // console.log('handleOutsideModalClick: ', e.target.id)
         if (e.target.id === 'modal-container') {
             handleModalBtnClick(null)
         }
@@ -138,95 +151,86 @@ export default function Order(props) {
 
     return (
         <Layout>
-                <BtnContainer>
-                    <BurgerOfDayBtn
-                        onClick={() => setItemOfDayIsActive(
-                            itemOfDayIsActive ? false : true
-                        )}
-                    >
-                        {itemOfDayIsActive
-                            ? 'Hide Burger of the Day'
-                            : 'Show Burger of the Day'
-                        }
-                    </BurgerOfDayBtn>
-                </BtnContainer>
-                
-                {itemOfDayIsActive && (
-                    <MenuItemOfDay 
-                        itemOfDay={itemOfDay} 
-                        discount={ITEM_OF_DAY_DISCOUNT}
-                    />
-                )}
-
-                <nav>
-                    <MenusUl>
-                        {props.menus.map(menu => {
-                            return (
-                                <MenuLi
-                                    id={menu._id}
-                                    key={menu._id}
-                                    onClick={handleMenuSelection}
+            <BtnContainer>
+                <BurgerOfDayBtn
+                    onClick={() => handleModalBtnClick('item-of-day')}
+                >
+                    Burger of the Day
+                </BurgerOfDayBtn>
+            </BtnContainer>
+            
+            <nav>
+                <MenusUl>
+                    {props.menus.map(menu => {
+                        return (
+                            <MenuLi
+                                id={menu._id}
+                                key={menu._id}
+                                onClick={handleMenuSelection}
+                                active={selectedMenu && 
+                                    (selectedMenu._id === menu._id)
+                                }
+                            >
+                                <MenuTitle 
                                     active={selectedMenu && 
                                         (selectedMenu._id === menu._id)
                                     }
+                                    id={menu._id}
                                 >
-                                    <MenuTitle 
-                                        active={selectedMenu && 
-                                            (selectedMenu._id === menu._id)
-                                        }
-                                        id={menu._id}
-                                    >
-                                        {menu.name}
-                                    </MenuTitle>
-                                </MenuLi>
-                            )
-                        })}
-                    </MenusUl>
-                </nav>
-                
-                {selectedMenu && (
-                    <MenuItemsContainer>
-                        {selectedMenu.menuItems.map((item, i) => {
-                            const isItemOfDay = (item._id === itemOfDay._id)
-                            // TODO: remove or move this to util?
-                            // const cost = isItemOfDay 
-                            //     ? item.cost - ITEM_OF_DAY_DISCOUNT
-                            //     : item.cost
-
-                            return (
-                                <MenuItem 
-                                    item={item} 
-                                    id={item._id} 
-                                    key={item._id}
-                                    index={i}
-                                    handleModalBtnClick={handleModalBtnClick}
-                                    isItemOfDay={isItemOfDay}
-                                    // TODO: update this here and inside of MenuItem?
-                                    itemOfDayDiscount={
-                                        isItemOfDay
-                                            ? ITEM_OF_DAY_DISCOUNT
-                                            : 0
-                                    }
-                                />
-                            )
-                        })}
-                    </MenuItemsContainer>
-                )}
-
-                {activeMenuItem && (
-                    <OrderItemModal 
-                        item={activeMenuItem}
-                        isOpen={orderItemModalIsOpen}
-                        isItemOfDay={activeMenuItem._id === itemOfDay._id}
-                        itemOfDayDiscount={
-                            activeMenuItem._id === itemOfDay._id
-                                ? ITEM_OF_DAY_DISCOUNT
-                                : 0
-                        }
-                        handleModalBtnClick={handleModalBtnClick}
-                    />
-                )}
+                                    {menu.name}
+                                </MenuTitle>
+                            </MenuLi>
+                        )
+                    })}
+                </MenusUl>
+            </nav>
             
+            {selectedMenu && (
+                <MenuItemsContainer>
+                    {selectedMenu.menuItems.map((item, i) => {
+                        const isItemOfDay = (item._id === itemOfDay._id)
+                        return (
+                            <MenuItem 
+                                item={item} 
+                                id={item._id} 
+                                key={item._id}
+                                index={i}
+                                handleModalBtnClick={handleModalBtnClick}
+                                isItemOfDay={isItemOfDay}
+                                // TODO: update this here and inside of MenuItem?
+                                itemOfDayDiscount={
+                                    isItemOfDay
+                                        ? ITEM_OF_DAY_DISCOUNT
+                                        : 0
+                                }
+                            />
+                        )
+                    })}
+                </MenuItemsContainer>
+            )}
+
+            {itemOfDayIsActive && (
+                <MenuItemOfDayModal 
+                    isOpen={itemOfDayIsActive}
+                    itemOfDay={itemOfDay} 
+                    discount={ITEM_OF_DAY_DISCOUNT}
+                    handleModalBtnClick={handleModalBtnClick}
+                />
+            )}
+
+            {activeMenuItem && (
+                <OrderItemModal 
+                    item={activeMenuItem}
+                    isOpen={orderItemModalIsOpen}
+                    isItemOfDay={activeMenuItem._id === itemOfDay._id}
+                    itemOfDayDiscount={
+                        activeMenuItem._id === itemOfDay._id
+                            ? ITEM_OF_DAY_DISCOUNT
+                            : 0
+                    }
+                    handleModalBtnClick={handleModalBtnClick}
+                />
+            )}
         </Layout>
     )
 }
