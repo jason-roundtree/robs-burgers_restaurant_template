@@ -2,7 +2,6 @@ import { createGlobalStyle } from 'styled-components'
 
 export const GlobalStyles = createGlobalStyle`
     * {
-        font-family: 'M PLUS Rounded 1c', sans-serif;
         margin: 0;
         padding: 0;
         box-sizing: border-box;
@@ -10,6 +9,7 @@ export const GlobalStyles = createGlobalStyle`
 
     html {
         height: 100%;
+        font-family: 'M PLUS Rounded 1c', sans-serif;
     }
 
     body {
@@ -41,6 +41,8 @@ export const GlobalStyles = createGlobalStyle`
         border: none;
         background-color: rgb(255, 112, 110);
         color: white;
+        font-size: 1.25em;
+        font-family: 'Contrail One', sans-serif;
     }
 
     button:hover {
@@ -50,6 +52,10 @@ export const GlobalStyles = createGlobalStyle`
 
     li {
         list-style: none;
+    }
+
+    textarea, input[type=number] {
+        font-family: 'M PLUS Rounded 1c', sans-serif;
     }
 
     fieldset {
@@ -74,7 +80,6 @@ export const GlobalStyles = createGlobalStyle`
 
     /* TODO: still need these since i took out h2 tags and removed this style for menu titles on order page? */
     .sign_font {
-        /* font-family: 'Londrina Shadow', sans-serif; */
         font-family: 'Bebas Neue', sans-serif;
         display: inline-block;
         padding: 5px;
@@ -98,27 +103,14 @@ export const GlobalStyles = createGlobalStyle`
         font-size: 3em;
     }
 
-    /* h2, h3.radial_gradient_text {
-        font-size: 3.25em;
-        font-family: 'Bebas Neue',sans-serif;
-        background: radial-gradient(rgb(255, 147, 145), rgb(255, 233, 161));
-        -webkit-text-fill-color: transparent;
-        -webkit-background-clip: text;
-        background-clip: text;
-    } */
+    .cost {
+        color: rgb(33, 117, 252);
+        font-weight: 500;
+        /* font-family: 'Contrail One', sans-serif; */
+    }
 
-    /* div.heading_container {
-        background-color: black;
-        border: 1px solid rgb(255,205,41);
-        // -webkit-clip-path: polygon(0 0, 1200px 0, 1200px 50%, 0 100%);
-        // clip-path: polygon(0 0, 1200px 0, 1200px 50%, 0 100%);
-        transform: skewY(-1.5deg);
-        width: 65%;
-        padding: 5px;
-        margin: 0 auto 1em;
-        @media (max-width: 400px) {
-            font-size: .9em;  
-            width: 90%;
-        }
-    } */
+    .item-of-day-title {
+        font-family: 'Contrail One', sans-serif;
+        color: rgb(33, 117, 252);
+    }
 `

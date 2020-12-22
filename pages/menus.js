@@ -4,12 +4,12 @@ import styled from 'styled-components'
 import Layout from '../components/Layout'
 import MenuItem from '../components/MenuItem'
 import MenuItemOfDayModal from '../components/MenuItemOfDayModal'
-import ModalContainer from '../components/ModalContainer'
 import OrderItemModal from '../components/OrderItemModal'
 
 const MenuItemsContainer = styled.div`
     background-color: rgb(255, 205, 41);
     padding: 10px;
+    min-width: 370px;
 `
 const MenusUl = styled.ul`
     display: flex;
@@ -101,6 +101,7 @@ export default function Order(props) {
             .catch(err => console.log('error fetching eligible menu items of the day: ', err))
     }, [])
 
+    // TODO: test this to see if it solves issue of listener not getting removed on cancel/close buttons
     // useEffect(() => {
     //     if (orderItemModalIsOpen) {
     //         document.addEventListener('click', handleOutsideModalClick)
@@ -127,14 +128,12 @@ export default function Order(props) {
         if (item) {
             if (item === 'item-of-day') {
                 setItemOfDayIsActive(true)
-            }
-            else {
+            } else {
                 setActiveMenuItem(item)
                 setOrderItemModalIsOpen(true)
             }
             document.addEventListener('click', handleOutsideModalClick)
-        }
-        else {
+        } else {
             // console.log('else')
             setOrderItemModalIsOpen(false)
             setItemOfDayIsActive(false)

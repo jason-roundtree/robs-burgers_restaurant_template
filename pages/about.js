@@ -1,15 +1,11 @@
 import Layout from '../components/Layout'
 import styled from 'styled-components'
 
-const Container = styled.div`
-    width: 80%;
-    margin: 0 auto;
-    
-`
 const P = styled.p`
-    line-height: 2em;
+    font-family: 'Contrail One', sans-serif;
     font-weight: 500;
-    font-size: 1.2em;
+    font-size: 1.5em;
+    line-height: 2em;
     @media (max-width: 750px) {
         line-height: 1.75em;  
     }

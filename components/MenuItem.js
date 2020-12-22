@@ -32,21 +32,15 @@ const ItemTitle = styled.p`
     margin: 0 0 5px 0;
 `
 const ItemOfDayTitle = styled(ItemTitle)`
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 1.3em;
-    color: rgb(255, 205, 41);
-    background: rgb(33, 117, 252);
-    display: inline-block;
-    box-shadow: 0 0 5px rgb(33, 117, 252);
-    padding: 0 5px;
-    /* &:before{ content: ' 🍔 🎉 '; }
-    &:after { content: ' 🎉 🍔 '; } */
-`
-const ItemOfDayPreDiscount = styled.p`
-    text-decoration: line-through;
-`
-const Cost = styled.p`
     color: rgb(33, 117, 252);
+    font-family: 'Contrail One', sans-serif;
+`
+const ItemOfDayPreDiscount = styled.span`
+    text-decoration: line-through;
+    margin-right: 10px;
+`
+const Cost = styled.span`
+    /* color: rgb(33, 117, 252); */
 `
 const OrderButton = styled.button`
     display: block;
@@ -85,9 +79,7 @@ export default function MenuItem({
                     {isItemOfDay && (
                         // TODO: fix this so emojis don't partially wrap on smaller screen
                         <ItemOfDayTitle>
-                            🍔 🎉 &nbsp;
                             Burger of the Day
-                            &nbsp; 🎉 🍔
                         </ItemOfDayTitle>
                     )}
 
@@ -98,9 +90,9 @@ export default function MenuItem({
                             {formatCost(cost + itemOfDayDiscount)}
                         </ItemOfDayPreDiscount>
                     )}
-                    <Cost>{formatCost(cost)}</Cost>
+                    <Cost className='cost'>{formatCost(cost)}</Cost>
 
-                    {item.options && 
+                    {item.options && (
                         item.options.map((option, i) => {
                             return (
                                 <ItemOption key={i}>
@@ -108,7 +100,7 @@ export default function MenuItem({
                                 </ItemOption>
                             )
                         })
-                    }
+                    )}
 
                     <OrderButton 
                         onClick={() => handleModalBtnClick(item)}

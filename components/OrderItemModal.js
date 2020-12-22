@@ -188,7 +188,7 @@ export default function OrderItemModal({
                         {/* TODO: styled these 3 a little different than options below? */}
                         <h4>{item.name}</h4>
                         <p>{item.description}</p>
-                        <Cost>{formatCost(cost)}</Cost>
+                        <Cost className='cost'>{formatCost(cost)}</Cost>
 
                         {item.one_item_options && (
                             <Options 
@@ -237,13 +237,14 @@ export default function OrderItemModal({
                             <FormErrorP>Please choose an option</FormErrorP>
                         )}
 
-                        <Button onClick={() => handleCancelOrder()}>
-                            Cancel
-                        </Button>
-
                         <Button onClick={handleAddToOrderClick}>
                             Add to Order
                         </Button>
+
+                        <Button onClick={() => handleCancelOrder()}>
+                            Cancel
+                        </Button>
+                        
                     </OrderEditor>
                 )}
             </ModalContent>

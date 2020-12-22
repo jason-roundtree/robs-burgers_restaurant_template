@@ -2,6 +2,8 @@ import styled from 'styled-components'
 import Layout from '../components/Layout'
 
 const Container = styled.div`
+    font-family: 'Contrail One', sans-serif;
+    font-size: 1.2em;
     text-align: center;
     width: 70%;
     margin: 0 auto;
@@ -19,7 +21,7 @@ const P = styled.p`
         line-height: 1.75em;  
     }
 `
-
+// TODO: link to burger of the day modal from end of <p>?
 function Home() {
     return (
         <Layout>

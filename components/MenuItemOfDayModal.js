@@ -1,64 +1,53 @@
-// import { useEffect, useState } from 'react'
-// import sanity from '../lib/sanity'
 import styled from 'styled-components'
 import formatCost from '../utils/formatCost'
 import ModalContainer from './ModalContainer'
 
-const Container = styled.div`
-    border: 20px solid rgb(191, 63, 0);
-    background: rgb(64, 59, 56);
-    width: 60%;
-    margin: 0 auto 20px;
-    padding: 0 50px 50px 50px;
-    color: white;
+const ItemOfDay = styled.div`
+    padding: 0 30px 10px 30px;
     font-size: 2.4em;   
     text-align: center;
-    @media (max-width: 750px) {
-        width: 90%;
-    } 
-    @media (max-width: 600px) {
-        width: 100%;
-    } 
 `
 const ModalContent = styled.div`
-    text-align: center;
     width: 90%;
     max-width: 900px;
     max-height: 90vh;
     background: white;
     border-radius: 3px;
+    @media (max-width: 700px) {
+        font-size: .8em;   
+    }
+`
+const Button = styled.button`
+    margin: 10px 10px 0 0;
+    font-size: .6em;
 `
 const H3 = styled.h3`
-    /* font-family: 'Londrina Shadow', sans-serif; */
-    font-family: 'Bebas Neue', sans-serif;
-    /* text-decoration: underline; */
     margin-top: 10px;
 `
 const P = styled.p`
-    font-family: 'Annie Use Your Telescope', sans-serif;
     margin-top: 10px;
 `
 const ItemDescription = styled(P)`
-    margin: 25px;
-    font-size: .9em; 
+    margin: 15px;
+    font-size: .75em; 
 `
 const ItemName = styled(P)`
+    font-family: 'Bebas Neue', sans-serif;
+    color: rgb(255, 112, 110);
 `
 const OriginalItemCost = styled(P)`
     text-decoration: line-through;
+    font-size: .75em; 
 `
-const ItemCost = styled(OriginalItemCost)`
+const ItemCost = styled.p`
+    font-family: 'Contrail One', sans-serif;
     text-decoration: none;
     margin-top: 0;
-    /* padding: ; */
 `
 
 // TODO:
-// - store the date that the item of the day was calculated last and only recalculate random if it's a new day 
-// - make into a modal
-// - move toggle button under menu names or to menu tabs?
-// - allow user to add to order directly from board?
-// - setup so that it only calculates once per day
+// - add image/placeholder?
+// - setup so that it only calculates once per day and store the date that the item of the day was calculated last and only recalculate random if it's a new day 
 
 export default function MenuItemOfDayModal({ 
     isOpen,
@@ -68,12 +57,17 @@ export default function MenuItemOfDayModal({
 }) {
     return (
         <ModalContainer id='modal-container'>
-            <ModalContent>
+            <ModalContent id='item-modal-content'>
                 {isOpen && (
-                    <>
-                        <H3 className='h3-no-global-style'>Burger of the Day</H3>
+                    <ItemOfDay>
+                        <H3 className='h3-no-global-style item-of-day-title'>
+                            {/* 🍔 🎉 &nbsp; */}
+                            Burger of the Day
+                            {/* &nbsp; 🎉 🍔 */}
+                        </H3>
+
                         <ItemName>
-                            "{itemOfDay.name}"
+                            {itemOfDay.name}
                         </ItemName>
 
                         <ItemDescription>
@@ -84,16 +78,18 @@ export default function MenuItemOfDayModal({
                             {formatCost(itemOfDay.cost)}
                         </OriginalItemCost>
 
-                        <ItemCost>
+                        <ItemCost className='cost'>
                             {formatCost(itemOfDay.cost - discount)}
                         </ItemCost>
 
-                        <button
-                            onClick={() => handleModalBtnClick(null)}
-                        >
+                        <Button onClick={() => handleModalBtnClick(itemOfDay)}>
+                            Order
+                        </Button>
+
+                        <Button onClick={() => handleModalBtnClick(null)}>
                             Close
-                        </button>
-                    </>
+                        </Button>
+                    </ItemOfDay>
                 )}
             </ModalContent>
         </ModalContainer>

@@ -3,7 +3,8 @@ import sanity from '../lib/sanity'
 import styled from 'styled-components'
 
 const P = styled.p`
-    font-size: 1.25em;
+    font-family: 'Contrail One', sans-serif;
+    font-size: 1.5em;
     font-weight: 500;
     margin-bottom: 1em;
 `
@@ -15,7 +16,7 @@ export default function Contact({ contactInfo }) {
                     return (
                         <div key={contact._id}>
                             <div className='heading_container'>
-                                <h3 className='radial_gradient_text'>{contact.type.toUpperCase()}</h3>
+                                <h3>{contact.type.toUpperCase()}</h3>
                             </div>
                             {contact.type === 'Email' 
                                 ? (
@@ -33,7 +34,7 @@ export default function Contact({ contactInfo }) {
                 })}
 
                 <div className='heading_container'>
-                    <h3 className='radial_gradient_text'>LOCATION</h3>
+                    <h3>LOCATION</h3>
                 </div>
                 <P>We're located down by the wharf on Ocean Avenue, across from a cheap "Italian" restaurant that serves substandard food that you should definitely avoid at all costs.</P>
             </div>
