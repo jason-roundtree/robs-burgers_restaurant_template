@@ -131,6 +131,7 @@ export default function Order(props) {
             } else {
                 setActiveMenuItem(item)
                 setOrderItemModalIsOpen(true)
+                setItemOfDayIsActive(false)
             }
             document.addEventListener('click', handleOutsideModalClick)
         } else {
