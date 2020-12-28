@@ -3,7 +3,7 @@ import sanity from '../lib/sanity'
 import styled from 'styled-components'
 
 const P = styled.p`
-    font-family: 'Contrail One', sans-serif;
+    /* font-family: 'Contrail One', sans-serif; */
     font-size: 1.5em;
     font-weight: 500;
     margin-bottom: 1em;

@@ -88,6 +88,8 @@ export default function Order(props) {
     })
     const [orderItemModalIsOpen, setOrderItemModalIsOpen] = useState(false)
     const [activeMenuItem, setActiveMenuItem] = useState(null)
+    const [showNoQuantityError, setShowNoQuantityError] = useState(false)
+    const [showNoOptionError, setShowNoOptionError] = useState(false)
     const [itemOfDay, setItemOfDay] = useState({})
     // console.log('itemOfDay: ', itemOfDay)
     const [itemOfDayIsActive, setItemOfDayIsActive] = useState(false)
@@ -138,12 +140,14 @@ export default function Order(props) {
             // console.log('else')
             setOrderItemModalIsOpen(false)
             setItemOfDayIsActive(false)
+            setShowNoQuantityError(false)
+            setShowNoOptionError(false)
             document.removeEventListener('click', handleOutsideModalClick)
         }
     }
     // TODO: do i need to add `document.removeEventListener('click', handleOutsideModalClick)` to this?
     function handleOutsideModalClick(e) {
-        console.log('handleOutsideModalClick: ', e.target.id)
+        // console.log('handleOutsideModalClick: ', e.target.id)
         if (e.target.id === 'modal-container') {
             handleModalBtnClick(null)
         }
@@ -229,6 +233,10 @@ export default function Order(props) {
                             : 0
                     }
                     handleModalBtnClick={handleModalBtnClick}
+                    showNoQuantityError={showNoQuantityError}
+                    showNoOptionError={showNoOptionError}
+                    setShowNoQuantityError={setShowNoQuantityError}
+                    setShowNoOptionError={setShowNoOptionError}
                 />
             )}
         </Layout>

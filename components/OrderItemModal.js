@@ -9,11 +9,14 @@ import QuantityInput from './QuantityInput'
 import OrderContext from './OrderContext'
 import ModalContainer from './ModalContainer'
 
+// TODO: move all ModalContents to it's own component?
 const ModalContent = styled.div`
     width: 90%;
     max-width: 900px;
     max-height: 90vh;
     background: white;
+    box-shadow: 0 0 10px rgb(255, 205, 41);
+    border: 1px solid rgb(255, 205, 41);
     border-radius: 3px;
 `
 const H3 = styled.h3`
@@ -58,7 +61,7 @@ const FormErrorP = styled.p`
 `
 
 // TODO: add something to UI confirming order was added
-// TODO: factor in add-ons/options to cost
+// TODO: factor in add-ons/options to cost?
 // TODO: add validation for pending order items when user goes to new page 
 // (i.e. "are you sure you don't want to save this item to your order")
 export default function OrderItemModal({ 
@@ -66,11 +69,13 @@ export default function OrderItemModal({
     isOpen, 
     isItemOfDay,
     itemOfDayDiscount,
-    handleModalBtnClick
+    handleModalBtnClick,
+    showNoQuantityError,
+    showNoOptionError,
+    setShowNoQuantityError,
+    setShowNoOptionError
 }) {
     // console.log('item: ', item)
-    const [showNoQuantityError, setShowNoQuantityError] = useState(false)
-    const [showNoOptionError, setShowNoOptionError] = useState(false)
     const [orderItemState, setOrderItemState] = useState({
         orderItemId: uuid(),
         specialRequests: '',
@@ -170,6 +175,8 @@ export default function OrderItemModal({
     function handleCancelOrder() {
         clearOrderState()
         handleModalBtnClick(null)
+        setShowNoQuantityError(false)
+        setShowNoOptionError(false)
     }
 
     // TODO: is this still needed?
@@ -178,76 +185,73 @@ export default function OrderItemModal({
     }
     
     return (
-        <ModalContainer id='modal-container'>
-            <ModalContent>
-                {isOpen && (
-                    <OrderEditor>
-                        <div>
-                            <H3 className='h3-no-global-style'>ORDER DETAILS</H3>
-                        </div>
-                        {/* TODO: styled these 3 a little different than options below? */}
-                        <h4>{item.name}</h4>
-                        <p>{item.description}</p>
-                        <Cost className='cost'>{formatCost(cost)}</Cost>
+        <ModalContainer>
+            {isOpen && (
+                <OrderEditor>
+                    <div>
+                        <H3 className='h3-no-global-style'>ORDER DETAILS</H3>
+                    </div>
+                    <h4>{item.name}</h4>
+                    <p>{item.description}</p>
+                    <Cost className='cost'>{formatCost(cost)}</Cost>
 
-                        {item.one_item_options && (
-                            <Options 
-                                options={item.one_item_options}
-                                onOptionChange={handleInputChange}
-                                checkedOption={orderItemState.option}
-                            />
-                        )}
+                    {item.one_item_options && (
+                        <Options 
+                            options={item.one_item_options}
+                            onOptionChange={handleInputChange}
+                            checkedOption={orderItemState.option}
+                        />
+                    )}
 
-                        {item.add_ons && (
-                            <AddOns 
-                                addOns={item.add_ons} 
-                                onAddOnChange={handleAddOnToggle}
-                                activeAddOns={orderItemState.addOns}
-                            />
-                        )}
+                    {item.add_ons && (
+                        <AddOns 
+                            addOns={item.add_ons} 
+                            onAddOnChange={handleAddOnToggle}
+                            activeAddOns={orderItemState.addOns}
+                        />
+                    )}
+                
+                    <SectionLabel 
+                        htmlFor="quantity"
+                    >
+                        Quantity
+                    </SectionLabel>
+                    <QuantityInputStyled 
+                        quantity={orderItemState.quantity}
+                        handleQuantityChange={handleInputChange}
+                    />
+
+                    <SectionLabel 
+                        htmlFor="specialRequests"
+                    >
+                        Special Requests
+                    </SectionLabel>
+                    <SpecialRequests 
+                        name="specialRequests"
+                        id="specialRequests"
+                        value={orderItemState.specialRequests}
+                        onChange={handleInputChange}
+                        placeholder="Not all special requests can be accomodated"
+                    />
+
+                    {showNoQuantityError && (
+                        <FormErrorP>Please choose a quantity</FormErrorP>
+                    )}
+
+                    {showNoOptionError && (
+                        <FormErrorP>Please choose an option</FormErrorP>
+                    )}
+
+                    <Button onClick={handleAddToOrderClick}>
+                        Add to Order
+                    </Button>
+
+                    <Button onClick={() => handleCancelOrder()}>
+                        Cancel
+                    </Button>
                     
-                        <SectionLabel 
-                            htmlFor="quantity"
-                        >
-                            Quantity
-                        </SectionLabel>
-                        <QuantityInputStyled 
-                            quantity={orderItemState.quantity}
-                            handleQuantityChange={handleInputChange}
-                        />
-
-                        <SectionLabel 
-                            htmlFor="specialRequests"
-                        >
-                            Special Requests
-                        </SectionLabel>
-                        <SpecialRequests 
-                            name="specialRequests"
-                            id="specialRequests"
-                            value={orderItemState.specialRequests}
-                            onChange={handleInputChange}
-                            placeholder="Not all special requests can be accomodated"
-                        />
-
-                        {showNoQuantityError && (
-                            <FormErrorP>Please choose a quantity</FormErrorP>
-                        )}
-
-                        {showNoOptionError && (
-                            <FormErrorP>Please choose an option</FormErrorP>
-                        )}
-
-                        <Button onClick={handleAddToOrderClick}>
-                            Add to Order
-                        </Button>
-
-                        <Button onClick={() => handleCancelOrder()}>
-                            Cancel
-                        </Button>
-                        
-                    </OrderEditor>
-                )}
-            </ModalContent>
+                </OrderEditor>
+            )}
         </ModalContainer>
     )
 }

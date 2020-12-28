@@ -17,7 +17,6 @@ const OrderContext = React.createContext({
 
 function OrderDetailsProvider({ children }) {
     const [orderItems, setOrderItems] = useState([])
-    // const [totalCost, setTotalCost] = useState(null)
     // console.log('all orderItems: ', orderItems)
     function addItem(item) {
         setOrderItems([...orderItems, item])
