@@ -11,7 +11,7 @@ const ModalContainerStyled = styled.div`
     align-items: center;
     background: rgba(0,0,0,0.5);
 `
-
+// TODO: move modal content here too?
 export default function ModalContainer({ children }) {
     return (
         <ModalContainerStyled id='modal-container'>

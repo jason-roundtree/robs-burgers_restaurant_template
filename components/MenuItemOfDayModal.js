@@ -57,13 +57,11 @@ export default function MenuItemOfDayModal({
 }) {
     return (
         <ModalContainer id='modal-container'>
-            <ModalContent id='item-modal-content'>
+            <ModalContent>
                 {isOpen && (
                     <ItemOfDay>
                         <H3 className='h3-no-global-style item-of-day-title'>
-                            {/* 🍔 🎉 &nbsp; */}
                             Burger of the Day
-                            {/* &nbsp; 🎉 🍔 */}
                         </H3>
 
                         <ItemName>

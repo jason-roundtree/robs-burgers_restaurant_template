@@ -5,6 +5,7 @@ import formatCost from '../utils/formatCost'
 import Layout from '../components/Layout'
 import OrderContext from '../components/OrderContext'
 import QuantityInput from '../components/QuantityInput'
+import DeleteOrderOrItemModal from '../components/DeleteOrderOrItemModal'
 
 const OrderItemContainer = styled.div`
     border: 1px solid black;
@@ -61,10 +62,10 @@ const SpecialRequestP = styled(AddOnLi)``
 const DeleteAddOnBtn = styled.button`
     margin-left: 5px;
     padding: 0 2px;
-    /* text-align: center; */
+    width: 20px;
+    font-size: .9em;
     font-family: 'M PLUS Rounded 1c',sans-serif;
     font-weight: 500;
-    width: 20px;
 `
 const DeleteItemBtn = styled.button`
     @media (max-width: 400px) {
@@ -91,8 +92,11 @@ const P = styled.p`
 `
 
 export default function OrderSummary() {
+    const [itemToDelete, setItemToDelete] = useState({})
+    const [deleteItemModalIsOpen, setDeleteItemModalIsOpen] = useState(false)
+    const [deleteOrderModalIsOpen, setDeleteOrderModalIsOpen] = useState(false)
     const orderObject = useContext(OrderContext)
-    // console.log('order summary context: ', orderObject)
+    console.log('order summary context: ', orderObject)
     const totalCost = orderObject.orderItems.reduce((total, orderItem) => {
         let addOnTotal = 0
         if (orderItem.addOns.length > 0) {
@@ -109,6 +113,43 @@ export default function OrderSummary() {
         orderObject.editItemQuantity(+e.target.value, orderItemId)
     }
 
+    // TODO: why does event listener not get removed when you select Cancel/Close buttons from modals?
+    function clearModalState() {
+        setDeleteItemModalIsOpen(false)
+        setDeleteOrderModalIsOpen(false)
+        setItemToDelete({})
+        document.removeEventListener('click', handleOutsideModalClick)
+    }
+
+    function handleOpenDeleteItemModal(item) {
+        setItemToDelete(item)
+        document.addEventListener('click', handleOutsideModalClick)
+        setDeleteItemModalIsOpen(true)
+    }
+
+    function handleOpenDeleteOrderModal() {
+        setDeleteOrderModalIsOpen(true)
+        document.addEventListener('click', handleOutsideModalClick)
+    }
+
+    function handleDeleteItem(orderItemId) {
+        clearModalState()
+        orderObject.removeItem(orderItemId)
+    }
+
+    function handleDeleteOrder() {
+        clearModalState()
+        // TODO: i don't need to pass orderId right?
+        orderObject.removeOrder()
+    }
+
+    function handleOutsideModalClick(e) {
+        // console.log('handleOutsideModalClick: ', e.target.id)
+        if (e.target.id === 'modal-container') {
+            clearModalState()
+        }
+    }
+
     return (
         <Layout>
             <div className="page_container">
@@ -116,9 +157,12 @@ export default function OrderSummary() {
                     <h2>Order Summary</h2>
                 </div>
 
-                {orderObject.orderItems.length === 0 && (
-                    <P>You currently have no items added to your order. Please add items from the <Link href="/menus">Menus</Link> page.</P>
-                )}
+                {orderObject.orderItems.length === 0 
+                    ? (
+                        <P>You currently have no items added to your order. Please add items from the <Link href="/menus">Menus</Link> page.</P>
+                    )
+                    : <P>Back to <Link href="/menus">Menus</Link></P>
+                }
 
                 {orderObject.orderItems.map(item => {
                     // console.log(item)
@@ -160,7 +204,7 @@ export default function OrderSummary() {
 
                                                         <span>{formatCost(addOn.cost)}</span>
 
-                                                        {/* TODO: add validation */}
+                                                        {/* TODO: add validation?? */}
                                                         <DeleteAddOnBtn
                                                             onClick={() => {
                                                                 orderObject.removeItemAddOn(
@@ -187,7 +231,7 @@ export default function OrderSummary() {
                                 <TopRightRow>
                                     <QuantityInputStyled 
                                         quantity={item.quantity}
-                                        _onChange={e => {
+                                        handleQuantityChange={e => {
                                             handleQuantityChange(e, item.orderItemId)
                                         }}
                                     />
@@ -203,11 +247,8 @@ export default function OrderSummary() {
                                 </BtmLeftRow>
 
                                 <BtmRightRow>
-                                    {/* TODO: add validation */}
                                     <DeleteItemBtn
-                                        onClick={() => {
-                                            orderObject.removeItem(item.orderItemId)
-                                        }}
+                                        onClick={() => handleOpenDeleteItemModal(item)}
                                     >
                                         Delete Item
                                     </DeleteItemBtn>
@@ -229,13 +270,34 @@ export default function OrderSummary() {
                         </SubmitOrderBtn>
 
                         <DeleteOrderBtn
-                            onClick={orderObject.removeOrder}
+                            onClick={handleOpenDeleteOrderModal}
                         >
                             Delete Order
                         </DeleteOrderBtn>
                     </OrderEndContainer>
                 )}
             </div>
+
+            {deleteItemModalIsOpen && (
+                <DeleteOrderOrItemModal 
+                    type='item'
+                    itemToDelete={itemToDelete}
+                    isOpen={deleteItemModalIsOpen}
+                    handleDelete={() => handleDeleteItem(itemToDelete.orderItemId)}
+                    clearModalState={clearModalState}
+                />
+            )}
+
+            {deleteOrderModalIsOpen && (
+                <DeleteOrderOrItemModal 
+                    type='order'
+                    // orderToDelete={orderToDelete}
+                    isOpen={deleteOrderModalIsOpen}
+                    handleDelete={handleDeleteOrder}
+                    clearModalState={clearModalState}
+                />
+            )}
+
         </Layout>
     )
 }

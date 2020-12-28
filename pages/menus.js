@@ -94,6 +94,7 @@ export default function Order(props) {
     const ITEM_OF_DAY_DISCOUNT = 1.5
 
     useEffect(() => {
+        // TODO: use caching to calculate this once per day and use previously calculated value instead of re-fetching
         sanity.fetch(itemOfDayQuery)
             .then(data =>  {
                 setItemOfDay(data[Math.floor(Math.random() * data.length)]) 
@@ -121,7 +122,6 @@ export default function Order(props) {
         setSelectedMenu(selectedMenu)
     }
 
-    // TODO: clear quantity on click in modal container and cancel
     // TODO: why does event listener not get removed when you select Cancel/Close buttons from modals?
     function handleModalBtnClick(item) {
         // console.log('handleModalBtnClick item: ', item)
@@ -141,9 +141,9 @@ export default function Order(props) {
             document.removeEventListener('click', handleOutsideModalClick)
         }
     }
-
+    // TODO: do i need to add `document.removeEventListener('click', handleOutsideModalClick)` to this?
     function handleOutsideModalClick(e) {
-        // console.log('handleOutsideModalClick: ', e.target.id)
+        console.log('handleOutsideModalClick: ', e.target.id)
         if (e.target.id === 'modal-container') {
             handleModalBtnClick(null)
         }

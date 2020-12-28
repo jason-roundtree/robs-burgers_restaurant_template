@@ -9,7 +9,7 @@ const QuantityInputField = styled.input`
 export default function QuantityInput({ 
     quantity, 
     className, 
-    _onChange 
+    handleQuantityChange 
 }) {
     return (
         <QuantityInputField
@@ -20,7 +20,7 @@ export default function QuantityInput({
             // TODO: do i need to add custom validation so that 0 doesn't show up when input is deleted or is this normal behavior?
             min="0"
             value={quantity}
-            onChange={_onChange}
+            onChange={handleQuantityChange}
         />
     )
 }

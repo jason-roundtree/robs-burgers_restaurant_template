@@ -213,7 +213,7 @@ export default function OrderItemModal({
                         </SectionLabel>
                         <QuantityInputStyled 
                             quantity={orderItemState.quantity}
-                            _onChange={handleInputChange}
+                            handleQuantityChange={handleInputChange}
                         />
 
                         <SectionLabel 
