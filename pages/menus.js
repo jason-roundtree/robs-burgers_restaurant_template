@@ -145,6 +145,7 @@ export default function Order(props) {
             document.removeEventListener('click', handleOutsideModalClick)
         }
     }
+    
     // TODO: do i need to add `document.removeEventListener('click', handleOutsideModalClick)` to this?
     function handleOutsideModalClick(e) {
         // console.log('handleOutsideModalClick: ', e.target.id)

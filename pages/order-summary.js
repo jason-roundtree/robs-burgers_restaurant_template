@@ -97,6 +97,7 @@ export default function OrderSummary() {
     const [deleteOrderModalIsOpen, setDeleteOrderModalIsOpen] = useState(false)
     const orderObject = useContext(OrderContext)
     console.log('order summary context: ', orderObject)
+    
     const totalCost = orderObject.orderItems.reduce((total, orderItem) => {
         let addOnTotal = 0
         if (orderItem.addOns.length > 0) {

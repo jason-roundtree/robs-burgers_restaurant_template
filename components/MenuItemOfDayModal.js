@@ -1,8 +1,9 @@
+import { useEffect } from 'react'
 import styled from 'styled-components'
 import formatCost from '../utils/formatCost'
 import ModalContainer from './ModalContainer'
 
-const ItemOfDay = styled.div`
+const ModalContent = styled.div`
     padding: 0 30px 10px 30px;
     font-size: 2.4em;   
     text-align: center;
@@ -45,11 +46,22 @@ export default function MenuItemOfDayModal({
     discount,
     handleModalBtnClick
 }) {
+    useEffect(() => {
+        function escKeyListener(e) {
+          if (e.keyCode === 27) {
+            handleModalBtnClick()
+          }
+        }
+        document.addEventListener('keydown', escKeyListener)
+        return () => document.removeEventListener('keydown', escKeyListener)
+    })
+
     return (
-        <ModalContainer>
+        <ModalContainer mediaQueryFontSize='.8em'> 
             {isOpen && (
-                <ItemOfDay>
-                    <H3 className='h3-no-global-style item-of-day-title'>
+                // TODO: add role and aria to other modals but is it OK to use same id?
+                <ModalContent role='dialog' aria-labelledby='dialog-title'>
+                    <H3 id='dialog-title' className='h3-no-global-style item-of-day-title'>
                         Burger of the Day
                     </H3>
 
@@ -76,7 +88,7 @@ export default function MenuItemOfDayModal({
                     <Button onClick={() => handleModalBtnClick(null)}>
                         Close
                     </Button>
-                </ItemOfDay>
+                </ModalContent>
             )}
         </ModalContainer>
     )

@@ -1,4 +1,4 @@
-import { useState, useContext, useRef } from 'react'
+import { useState, useContext, useEffect, useRef } from 'react'
 import { v4 as uuid } from 'uuid'
 import styled from 'styled-components'
 import formatCost from '../utils/formatCost'
@@ -9,16 +9,6 @@ import QuantityInput from './QuantityInput'
 import OrderContext from './OrderContext'
 import ModalContainer from './ModalContainer'
 
-// TODO: move all ModalContents to it's own component?
-const ModalContent = styled.div`
-    width: 90%;
-    max-width: 900px;
-    max-height: 90vh;
-    background: white;
-    box-shadow: 0 0 10px rgb(255, 205, 41);
-    border: 1px solid rgb(255, 205, 41);
-    border-radius: 3px;
-`
 const H3 = styled.h3`
     font-family: 'Bebas Neue', sans-serif;
     font-size: 1.75em;
@@ -27,7 +17,7 @@ const H3 = styled.h3`
 const Button = styled.button`
     margin: 10px 10px 0 0;
 `
-const OrderEditor = styled.div`
+const ModalContent = styled.div`
     padding: 10px 5px;
     text-align: center;
 `
@@ -89,6 +79,16 @@ export default function OrderItemModal({
 
     const orderObject = useContext(OrderContext)
     // console.log('orderObject: ', orderObject)
+
+    useEffect(() => {
+        function escKeyListener(e) {
+          if (e.keyCode === 27) {
+            handleCancelOrder()
+          }
+        }
+        document.addEventListener('keydown', escKeyListener)
+        return () => document.removeEventListener('keydown', escKeyListener)
+    })
 
     function handleAddToOrderClick() {
         // TODO: is there a cleaner way to do this logic?
@@ -185,11 +185,13 @@ export default function OrderItemModal({
     }
     
     return (
-        <ModalContainer>
+        <ModalContainer mediaQueryFontSize='.8em'>
             {isOpen && (
-                <OrderEditor>
+                <ModalContent>
                     <div>
-                        <H3 className='h3-no-global-style'>ORDER DETAILS</H3>
+                        <H3 id='dialog-title' className='h3-no-global-style'>
+                            ORDER DETAILS
+                        </H3>
                     </div>
                     <h4>{item.name}</h4>
                     <p>{item.description}</p>
@@ -250,7 +252,7 @@ export default function OrderItemModal({
                         Cancel
                     </Button>
                     
-                </OrderEditor>
+                </ModalContent>
             )}
         </ModalContainer>
     )

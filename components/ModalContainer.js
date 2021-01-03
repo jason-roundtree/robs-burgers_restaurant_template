@@ -11,7 +11,7 @@ const ModalContainerStyled = styled.div`
     align-items: center;
     background: rgba(0, 0, 0, 0.7);
 `
-const ModalContent = styled.div`
+const ModalDialog = styled.div`
     min-height: ${({ minHeight }) => minHeight && minHeight };
     display: ${({ display }) => display && display };
     font-size: ${({ fontSize }) => fontSize && fontSize };
@@ -23,9 +23,8 @@ const ModalContent = styled.div`
     box-shadow: 0 0 10px rgb(255, 205, 41);
     border: 1px solid rgb(255, 205, 41);
     border-radius: 3px;
-    /* TODO: conditionally render so that this doesn't apply to DeleteOrderOrItemModal */
-    @media (max-width: 700px) {
-        font-size: .8em;   
+    @media (max-width: 750px) {
+        font-size: ${({ mediaQueryFontSize }) => mediaQueryFontSize && mediaQueryFontSize }  
     }
 `
 
@@ -33,19 +32,26 @@ export default function ModalContainer({
     children, 
     minHeight, 
     display, 
+    textAlign,
     fontSize, 
-    textAlign 
+    mediaQueryFontSize,
+    ariaLabelledBy='dialog-title'
 }) {
     return (
+        // TODO: does container or content get focused by default? If so add `tabindex='-1'`
         <ModalContainerStyled id='modal-container'>
-            <ModalContent
+            <ModalDialog
                 minHeight={minHeight}
                 display={display}
                 fontSize={fontSize}
                 textAlign={textAlign}
+                mediaQueryFontSize={mediaQueryFontSize}
+                role='dialog' 
+                aria-modal='true' 
+                aria-labelledby={ariaLabelledBy}
             >
                 {children}
-            </ModalContent>
+            </ModalDialog>
         </ModalContainerStyled>
     )
 }

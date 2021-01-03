@@ -6,7 +6,7 @@ import styled from 'styled-components'
 import SocialMedia from './SocialMedia'
 import OrderContext from './OrderContext'
 
-const MainContainer = styled.div`
+const MainContainer = styled.main`
     /* background: url(${({ bgImg }) => bgImg}) no-repeat center fixed;
     background-size: cover;
     min-height: calc(100vh - 70px); */
@@ -90,7 +90,7 @@ export default function Layout(props) {
             </Head>
 
             <div id="content">
-                <header id="navbar_head">
+                <header id="navbar_head" role="banner">
                     <TitleSignContainer>
                         <Link href="/">
                             <h1 className="sign_font">
@@ -99,7 +99,7 @@ export default function Layout(props) {
                         </Link>
                     </TitleSignContainer>
 
-                    <Nav id="navbar">
+                    <Nav id="navbar" role="navigation">
                         <Link href="/">
                             <NavLink active={route.pathname === "/"}>
                                 Home
@@ -135,13 +135,14 @@ export default function Layout(props) {
 
                 <MainContainer 
                     id="main" 
+                    role="main"
                     // bgImg={props.bgImg}
                 >
                     {props.children}
                 </MainContainer>
             </div>
 
-            <footer>
+            <footer role="contentinfo">
                 <SocialMedia />
             </footer>
             
