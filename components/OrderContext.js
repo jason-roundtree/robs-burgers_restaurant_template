@@ -17,7 +17,6 @@ const OrderContext = React.createContext({
 
 function OrderDetailsProvider({ children }) {
     const [orderItems, setOrderItems] = useState([])
-    // const [totalCost, setTotalCost] = useState(null)
     // console.log('all orderItems: ', orderItems)
     function addItem(item) {
         setOrderItems([...orderItems, item])
@@ -34,9 +33,11 @@ function OrderDetailsProvider({ children }) {
         const itemIndex = orderItems.findIndex(item => {
             return item.orderItemId === orderItemId
         })
-        const updatedAddOns = orderItems[itemIndex].addOns.filter(_addOn => {
-            return _addOn.id !== addOnId
-        })
+        const updatedAddOns = orderItems[itemIndex]
+            .addOns
+            .filter(_addOn => {
+                return _addOn.id !== addOnId
+            })
         const orderItemsCopy = [...orderItems]
         orderItemsCopy[itemIndex].addOns = updatedAddOns
         setOrderItems(orderItemsCopy)

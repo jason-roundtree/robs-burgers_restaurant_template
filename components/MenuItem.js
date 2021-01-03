@@ -1,7 +1,6 @@
-import { useState } from 'react'
 import styled from 'styled-components'
 import formatCost from '../utils/formatCost'
-import OrderItem from '../components/OrderItem'
+import calculateCostWithDiscount from '../utils/calculateCostWithDiscount'
 
 const ItemContainer = styled.div`
     padding: 12px;
@@ -29,11 +28,21 @@ const ItemTitle = styled.p`
     font-family: 'Bebas Neue', sans-serif;
     font-size: 1.5em;
     color: rgb(255, 112, 110);
-    display: inline-block;
     border-radius: 5px;
     margin: 0 0 5px 0;
 `
-const AddToOrderButton = styled.button`
+const ItemOfDayTitle = styled(ItemTitle)`
+    color: rgb(33, 117, 252);
+    font-family: 'Contrail One', sans-serif;
+`
+const ItemOfDayPreDiscount = styled.span`
+    text-decoration: line-through;
+    margin-right: 10px;
+`
+const Cost = styled.span`
+    /* color: rgb(33, 117, 252); */
+`
+const OrderButton = styled.button`
     display: block;
     position: absolute;
     bottom: 0;
@@ -43,35 +52,47 @@ const AddToOrderButton = styled.button`
         position: relative;
     }
 `
-// const ItemOption = styled.p`
-//     font-size: .9em;
-//     &::before {
-//         content: '🍔 ';
-//     }
-// `
 
-export default function MenuItem({ item }) {
+export default function MenuItem({ 
+    item, 
+    isItemOfDay,
+    itemOfDayDiscount,
+    handleModalBtnClick,
+}) {
     // console.log('item: ', item)
-    const [itemEditorIsOpen, setItemEditorIsOpen] = useState(false)
-
-    function handleEditorToggleClick() {
-        setItemEditorIsOpen(itemEditorIsOpen ? false : true)
-    }
-
+    // console.log('isItemOfDay: ', isItemOfDay)
+    const cost = calculateCostWithDiscount(item, isItemOfDay, itemOfDayDiscount)
+    
     return (
         <ItemContainer>
             <ItemInfoContainer>
                 <ItemImage 
-                    src='/burger_angels_1.jpg'
+                    // TODO: remove this when actual images are used
+                    src={'/burger_angels_2.jpg'}
                     alt={`placeholder image for ${item.name}`}
+                    title={`placeholder image for ${item.name}`}
                     width="200"
                 />
 
                 <ItemTextContainer>
                     <ItemTitle>{item.name}</ItemTitle>
+                    {isItemOfDay && (
+                        // TODO: fix this so emojis don't partially wrap on smaller screen
+                        <ItemOfDayTitle>
+                            Burger of the Day
+                        </ItemOfDayTitle>
+                    )}
+
                     <p>{item.description}</p>
-                    <p>{formatCost(item.cost)}</p>
-                    {item.options && 
+
+                    {isItemOfDay && (
+                        <ItemOfDayPreDiscount>
+                            {formatCost(cost + itemOfDayDiscount)}
+                        </ItemOfDayPreDiscount>
+                    )}
+                    <Cost className='cost'>{formatCost(cost)}</Cost>
+
+                    {item.options && (
                         item.options.map((option, i) => {
                             return (
                                 <ItemOption key={i}>
@@ -79,24 +100,16 @@ export default function MenuItem({ item }) {
                                 </ItemOption>
                             )
                         })
-                    }
-                    {!itemEditorIsOpen && (
-                        <AddToOrderButton onClick={handleEditorToggleClick}>
-                            Order
-                        </AddToOrderButton>
                     )}
+
+                    <OrderButton 
+                        onClick={() => handleModalBtnClick(item)}
+                    >
+                        Order
+                    </OrderButton>
+
                 </ItemTextContainer>
             </ItemInfoContainer>       
-
-            {itemEditorIsOpen && (
-                <OrderItem 
-                    item={item} 
-                    itemEditorIsOpen={itemEditorIsOpen}
-                    handleEditorToggleClick={handleEditorToggleClick}
-                />
-            )}
-            
-            
         </ItemContainer>
     )
 }

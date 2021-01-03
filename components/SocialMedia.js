@@ -16,14 +16,13 @@ const query = `*[ _type == "social_media" ] {
 // TODO: figure out why icons flicker when changing pages. Is sanity call being run each time?
 export default function SocialMedia() {
     const [socialMediaData, setSocialMediaData] = useState([])
+    
     useEffect(() => {
-        async function fetchData() {
-            const response = sanity.fetch(query) 
-            const data = await response
-            // console.log('data: ', data)
-            setSocialMediaData(data)
-        }
-        fetchData()
+        sanity.fetch(query) 
+            .then(data => {
+                setSocialMediaData(data)
+            })
+            .catch(err => console.log('error fetching contact data'))
     }, [])
 
     return (

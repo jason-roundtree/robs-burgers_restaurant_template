@@ -5,6 +5,7 @@ import formatCost from '../utils/formatCost'
 import Layout from '../components/Layout'
 import OrderContext from '../components/OrderContext'
 import QuantityInput from '../components/QuantityInput'
+import DeleteOrderOrItemModal from '../components/DeleteOrderOrItemModal'
 
 const OrderItemContainer = styled.div`
     border: 1px solid black;
@@ -61,10 +62,10 @@ const SpecialRequestP = styled(AddOnLi)``
 const DeleteAddOnBtn = styled.button`
     margin-left: 5px;
     padding: 0 2px;
-    /* text-align: center; */
+    width: 20px;
+    font-size: .9em;
     font-family: 'M PLUS Rounded 1c',sans-serif;
     font-weight: 500;
-    width: 20px;
 `
 const DeleteItemBtn = styled.button`
     @media (max-width: 400px) {
@@ -86,10 +87,17 @@ const DeleteOrderBtn = styled.button``
 const TotalCost = styled.span`
     font-weight: 500;
 `
+const P = styled.p`
+    font-size: 1.25em;
+`
 
 export default function OrderSummary() {
+    const [itemToDelete, setItemToDelete] = useState({})
+    const [deleteItemModalIsOpen, setDeleteItemModalIsOpen] = useState(false)
+    const [deleteOrderModalIsOpen, setDeleteOrderModalIsOpen] = useState(false)
     const orderObject = useContext(OrderContext)
-    // console.log('order summary context: ', orderObject)
+    console.log('order summary context: ', orderObject)
+    
     const totalCost = orderObject.orderItems.reduce((total, orderItem) => {
         let addOnTotal = 0
         if (orderItem.addOns.length > 0) {
@@ -106,129 +114,191 @@ export default function OrderSummary() {
         orderObject.editItemQuantity(+e.target.value, orderItemId)
     }
 
+    // TODO: why does event listener not get removed when you select Cancel/Close buttons from modals?
+    function clearModalState() {
+        setDeleteItemModalIsOpen(false)
+        setDeleteOrderModalIsOpen(false)
+        setItemToDelete({})
+        document.removeEventListener('click', handleOutsideModalClick)
+    }
+
+    function handleOpenDeleteItemModal(item) {
+        setItemToDelete(item)
+        document.addEventListener('click', handleOutsideModalClick)
+        setDeleteItemModalIsOpen(true)
+    }
+
+    function handleOpenDeleteOrderModal() {
+        setDeleteOrderModalIsOpen(true)
+        document.addEventListener('click', handleOutsideModalClick)
+    }
+
+    function handleDeleteItem(orderItemId) {
+        clearModalState()
+        orderObject.removeItem(orderItemId)
+    }
+
+    function handleDeleteOrder() {
+        clearModalState()
+        // TODO: i don't need to pass orderId right?
+        orderObject.removeOrder()
+    }
+
+    function handleOutsideModalClick(e) {
+        // console.log('handleOutsideModalClick: ', e.target.id)
+        if (e.target.id === 'modal-container') {
+            clearModalState()
+        }
+    }
+
     return (
         <Layout>
-            <h2>Order Summary</h2>
+            <div className="page_container">
+                <div className='heading_container'>
+                    <h2>Order Summary</h2>
+                </div>
 
-            {orderObject.orderItems.length === 0 && (
-                <p>You currently have no items added to your order. Please add items from the <Link href="/menus">Menus</Link> page.</p>
-            )}
-
-            {orderObject.orderItems.map(item => {
-                // console.log(item)
-                const option = item.option
-                let addOnsTotal = 0
-                if (item.addOns.length > 0) {
-                    addOnsTotal = item.addOns.reduce((total, addOn) => {
-                        return total + +addOn.cost
-                    }, 0)
+                {orderObject.orderItems.length === 0 
+                    ? (
+                        <P>You currently have no items added to your order. Please add items from the <Link href="/menus">Menus</Link> page.</P>
+                    )
+                    : <P>Back to <Link href="/menus">Menus</Link></P>
                 }
 
-                return (
-                    // TODO: format costs below
-                    <OrderItemContainer key={item.orderItemId}>
-                        <GridColContainer>
-                            <TopLeftRow>
-                                <ItemName>
-                                    {item.name}
-                                </ItemName> 
-                                
-                                {option && (
+                {orderObject.orderItems.map(item => {
+                    // console.log(item)
+                    const option = item.option
+                    let addOnsTotal = 0
+                    if (item.addOns.length > 0) {
+                        addOnsTotal = item.addOns.reduce((total, addOn) => {
+                            return total + +addOn.cost
+                        }, 0)
+                    }
+
+                    return (
+                        // TODO: format costs below
+                        <OrderItemContainer key={item.orderItemId}>
+                            <GridColContainer>
+                                <TopLeftRow>
+                                    <ItemName>
+                                        {item.name}
+                                    </ItemName> 
+                                    
+                                    {option && (
+                                        <Span>
+                                            {`(${option})`}
+                                        </Span>
+                                    )} 
+
                                     <Span>
-                                        {`(${option})`}
+                                        {formatCost(item.cost)}
                                     </Span>
-                                )} 
 
-                                <Span>
-                                    {formatCost(item.cost)}
-                                </Span>
+                                    {item.addOns.length > 0 && (
+                                        <ul>
+                                            {item.addOns.map(addOn => {
+                                                return (
+                                                    <AddOnLi key={addOn.id}>
+                                                        <Span>
+                                                            {addOn.description}
+                                                        </Span>
 
-                                {item.addOns.length > 0 && (
-                                    <ul>
-                                        {item.addOns.map(addOn => {
-                                            return (
-                                                <AddOnLi key={addOn.id}>
-                                                    <Span>
-                                                        {addOn.description}
-                                                    </Span>
+                                                        <span>{formatCost(addOn.cost)}</span>
 
-                                                    <span>{formatCost(addOn.cost)}</span>
-
-                                                    {/* TODO: add validation */}
-                                                    <DeleteAddOnBtn
-                                                        onClick={() => {
-                                                            orderObject.removeItemAddOn(
-                                                                item.orderItemId, addOn.id
-                                                            )
-                                                        }}
-                                                    >
-                                                        X
-                                                    </DeleteAddOnBtn>
-                                                </AddOnLi>
-                                            )
-                                        })}
-                                    </ul>
-                                )}
-                                
-                                {item.specialRequests && (
-                                    <SpecialRequestP as="p">
-                                        Special Request: 
-                                        <em>{item.specialRequests}</em>
-                                    </SpecialRequestP>
-                                )}
-                            </TopLeftRow>
-                            
-                            <TopRightRow>
-                                <QuantityInputStyled 
-                                    quantity={item.quantity}
-                                    _onChange={e => {
-                                        handleQuantityChange(e, item.orderItemId)
-                                    }}
-                                />
-                            </TopRightRow>
-                        
-                            <BtmLeftRow>
-                                <ItemCost>
-                                    Subtotal: {formatCost(
-                                        (item.quantity * item.cost) +
-                                        (item.quantity * addOnsTotal)
+                                                        {/* TODO: add validation?? */}
+                                                        <DeleteAddOnBtn
+                                                            onClick={() => {
+                                                                orderObject.removeItemAddOn(
+                                                                    item.orderItemId, addOn.id
+                                                                )
+                                                            }}
+                                                        >
+                                                            X
+                                                        </DeleteAddOnBtn>
+                                                    </AddOnLi>
+                                                )
+                                            })}
+                                        </ul>
                                     )}
-                                </ItemCost>
-                            </BtmLeftRow>
+                                    
+                                    {item.specialRequests && (
+                                        <SpecialRequestP as="p">
+                                            Special Request: 
+                                            <em>{item.specialRequests}</em>
+                                        </SpecialRequestP>
+                                    )}
+                                </TopLeftRow>
+                                
+                                <TopRightRow>
+                                    <QuantityInputStyled 
+                                        quantity={item.quantity}
+                                        handleQuantityChange={e => {
+                                            handleQuantityChange(e, item.orderItemId)
+                                        }}
+                                    />
+                                </TopRightRow>
+                            
+                                <BtmLeftRow>
+                                    <ItemCost>
+                                        Subtotal: {formatCost(
+                                            (item.quantity * item.cost) +
+                                            (item.quantity * addOnsTotal)
+                                        )}
+                                    </ItemCost>
+                                </BtmLeftRow>
 
-                            <BtmRightRow>
-                                {/* TODO: add validation */}
-                                <DeleteItemBtn
-                                    onClick={() => {
-                                        orderObject.removeItem(item.orderItemId)
-                                    }}
-                                >
-                                    Delete Item
-                                </DeleteItemBtn>
-                            </BtmRightRow>
-                           
-                        </GridColContainer>
-                        
-                    </OrderItemContainer>
-                )
-            })}
+                                <BtmRightRow>
+                                    <DeleteItemBtn
+                                        onClick={() => handleOpenDeleteItemModal(item)}
+                                    >
+                                        Delete Item
+                                    </DeleteItemBtn>
+                                </BtmRightRow>
+                            
+                            </GridColContainer>
+                            
+                        </OrderItemContainer>
+                    )
+                })}
 
-            {/* TODO: should item be deleted if quantity is set to 0? */}
-            {totalCost > 0 && (
-                <OrderEndContainer>
-                    <TotalCost>Total: {formatCost(totalCost)}</TotalCost>
-                    {/* TODO: add validation */}
-                    <SubmitOrderBtn>
-                        Submit Order
-                    </SubmitOrderBtn>
+                {/* TODO: should item be deleted if quantity is set to 0? */}
+                {totalCost > 0 && (
+                    <OrderEndContainer>
+                        <TotalCost>Total: {formatCost(totalCost)}</TotalCost>
+                        {/* TODO: add validation */}
+                        <SubmitOrderBtn>
+                            Submit Order
+                        </SubmitOrderBtn>
 
-                    <DeleteOrderBtn
-                        onClick={orderObject.removeOrder}
-                    >
-                        Delete Order
-                    </DeleteOrderBtn>
-                </OrderEndContainer>
+                        <DeleteOrderBtn
+                            onClick={handleOpenDeleteOrderModal}
+                        >
+                            Delete Order
+                        </DeleteOrderBtn>
+                    </OrderEndContainer>
+                )}
+            </div>
+
+            {deleteItemModalIsOpen && (
+                <DeleteOrderOrItemModal 
+                    type='item'
+                    itemToDelete={itemToDelete}
+                    isOpen={deleteItemModalIsOpen}
+                    handleDelete={() => handleDeleteItem(itemToDelete.orderItemId)}
+                    clearModalState={clearModalState}
+                />
             )}
+
+            {deleteOrderModalIsOpen && (
+                <DeleteOrderOrItemModal 
+                    type='order'
+                    // orderToDelete={orderToDelete}
+                    isOpen={deleteOrderModalIsOpen}
+                    handleDelete={handleDeleteOrder}
+                    clearModalState={clearModalState}
+                />
+            )}
+
         </Layout>
     )
 }

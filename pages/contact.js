@@ -2,34 +2,42 @@ import Layout from '../components/Layout'
 import sanity from '../lib/sanity'
 import styled from 'styled-components'
 
-const PageContainer = styled.div`
-    padding-top: 70px;
-`
-const ContactContainer = styled.div`
-    text-align: center;
-`
-const H3 = styled.h3`
-    margin-top: 25px;
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 2em;
-    color: rgb(255, 112, 110);
-`
 const P = styled.p`
+    /* font-family: 'Contrail One', sans-serif; */
     font-size: 1.5em;
+    font-weight: 500;
+    margin-bottom: 1em;
 `
 export default function Contact({ contactInfo }) {
     return (
         <Layout>
-            <PageContainer>
+            <div className="page_container">
                 {contactInfo.map(contact => {
                     return (
-                        <ContactContainer key={contact._id}>
-                            <H3>{contact.type}</H3>
-                            <P>{contact.info}</P>
-                        </ContactContainer>
+                        <div key={contact._id}>
+                            <div className='heading_container'>
+                                <h3>{contact.type.toUpperCase()}</h3>
+                            </div>
+                            {contact.type === 'Email' 
+                                ? (
+                                    <P>
+                                        {/* Email is long so on smaller screens it breaks to new line after `@` */}
+                                        {contact.info.slice(0, 12)}
+                                        <wbr />
+                                        {contact.info.slice(12)}
+                                    </P>
+                                )
+                                : <P>{contact.info}</P>
+                            }
+                        </div>
                     )
                 })}
-            </PageContainer>
+
+                <div className='heading_container'>
+                    <h3>LOCATION</h3>
+                </div>
+                <P>We're located down by the wharf on Ocean Avenue, across from a cheap "Italian" restaurant that serves substandard food that you should definitely avoid at all costs.</P>
+            </div>
         </Layout>
     )
 }

@@ -2,7 +2,6 @@ import { createGlobalStyle } from 'styled-components'
 
 export const GlobalStyles = createGlobalStyle`
     * {
-        font-family: 'M PLUS Rounded 1c', sans-serif;
         margin: 0;
         padding: 0;
         box-sizing: border-box;
@@ -10,6 +9,7 @@ export const GlobalStyles = createGlobalStyle`
 
     html {
         height: 100%;
+        font-family: 'M PLUS Rounded 1c', sans-serif;
     }
 
     body {
@@ -21,12 +21,28 @@ export const GlobalStyles = createGlobalStyle`
         min-height: calc(100vh - 70px);
     }
 
+    .page_container {
+        width: 80%;
+        margin: 0 auto;
+        text-align: center;
+        @media (max-width: 1000px) {
+            font-size: .9em;
+            width: 80%;
+        }
+        @media (max-width: 750px) {
+            font-size: .75em;  
+            width: 90%;
+        }
+    }
+
     button {
         padding: 3px 4px;
         border-radius: 3px;
         border: none;
         background-color: rgb(255, 112, 110);
         color: white;
+        font-size: 1.25em;
+        font-family: 'Contrail One', sans-serif;
     }
 
     button:hover {
@@ -36,6 +52,10 @@ export const GlobalStyles = createGlobalStyle`
 
     li {
         list-style: none;
+    }
+
+    textarea, input[type=number] {
+        font-family: 'M PLUS Rounded 1c', sans-serif;
     }
 
     fieldset {
@@ -51,6 +71,7 @@ export const GlobalStyles = createGlobalStyle`
         height: 50px;
         /* This and 70px in #content min-height rule give some room to content that exceeds browser window height. */
         margin-top: 20px;
+        background: rgb(245, 245, 245);
     }
 
     #main {
@@ -59,8 +80,7 @@ export const GlobalStyles = createGlobalStyle`
 
     /* TODO: still need these since i took out h2 tags and removed this style for menu titles on order page? */
     .sign_font {
-        font-family: 'Londrina Shadow', sans-serif;
-        /* font-family: 'Bebas Neue', sans-serif; */
+        font-family: 'Bebas Neue', sans-serif;
         display: inline-block;
         padding: 5px;
         border: 1px solid rgb(255, 205, 41);
@@ -69,11 +89,28 @@ export const GlobalStyles = createGlobalStyle`
     h1.sign_font, h2.sign_font {
         font-size: 1em;
         background-color: rgb(219, 21, 18);
-        border-radius: 3px;
         color: rgb(255, 205, 41);
+        border-radius: 3px;
+        box-shadow: 0 0 10px rgb(255, 205, 41);
     }
 
     h2.sign_font {
         font-size: 1.75em;
+    }
+
+    h2, h3:not(.h3-no-global-style) {
+        font-family: 'Bebas Neue', sans-serif;
+        font-size: 3em;
+    }
+
+    .cost {
+        color: rgb(33, 117, 252);
+        font-weight: 500;
+        /* font-family: 'Contrail One', sans-serif; */
+    }
+
+    .item-of-day-title {
+        font-family: 'Contrail One', sans-serif;
+        color: rgb(33, 117, 252);
     }
 `

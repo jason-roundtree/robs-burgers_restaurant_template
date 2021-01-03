@@ -1,15 +1,23 @@
-import { useState, useContext } from 'react'
+import { useState, useContext, useEffect, useRef } from 'react'
 import { v4 as uuid } from 'uuid'
 import styled from 'styled-components'
+import formatCost from '../utils/formatCost'
+import calculateCostWithDiscount from '../utils/calculateCostWithDiscount'
 import AddOns from './AddOns'
 import Options from './Options'
+import QuantityInput from './QuantityInput'
 import OrderContext from './OrderContext'
-import QuantityInput from '../components/QuantityInput'
+import ModalContainer from './ModalContainer'
 
+const H3 = styled.h3`
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.75em;
+    color: rgb(255, 112, 110);
+`
 const Button = styled.button`
     margin: 10px 10px 0 0;
 `
-const OrderEditor = styled.div`
+const ModalContent = styled.div`
     padding: 10px 5px;
     text-align: center;
 `
@@ -35,16 +43,29 @@ const SectionLabel = styled.label`
     display: inline-block;
     margin-top: 1em;
 `
+const Cost = styled.span`
+    display: block;
+`
 const FormErrorP = styled.p`
     color: red;
 `
 
-// TODO: add validation for pending order items when user goes to new page (i.e. "are you sure you don't want to save this item to your order")
-export default function OrderItem({ item, itemEditorIsOpen, handleEditorToggleClick }) {
+// TODO: add something to UI confirming order was added
+// TODO: factor in add-ons/options to cost?
+// TODO: add validation for pending order items when user goes to new page 
+// (i.e. "are you sure you don't want to save this item to your order")
+export default function OrderItemModal({ 
+    item, 
+    isOpen, 
+    isItemOfDay,
+    itemOfDayDiscount,
+    handleModalBtnClick,
+    showNoQuantityError,
+    showNoOptionError,
+    setShowNoQuantityError,
+    setShowNoOptionError
+}) {
     // console.log('item: ', item)
-    const [showNoQuantityError, setShowNoQuantityError] = useState(false)
-    const [showNoOptionError, setShowNoOptionError] = useState(false)
-    // const [itemEditorIsOpen, setItemEditorIsOpen] = useState(false)
     const [orderItemState, setOrderItemState] = useState({
         orderItemId: uuid(),
         specialRequests: '',
@@ -53,25 +74,36 @@ export default function OrderItem({ item, itemEditorIsOpen, handleEditorToggleCl
         option: ''
     })
     console.log('orderItemState: ', orderItemState)
+    // console.log('item.cost: ', item.cost)
+    const cost = calculateCostWithDiscount(item, isItemOfDay, itemOfDayDiscount)
 
     const orderObject = useContext(OrderContext)
-    console.log('orderObject: ', orderObject)
+    // console.log('orderObject: ', orderObject)
 
-    // TODO: add something to UI confirming order was added
+    useEffect(() => {
+        function escKeyListener(e) {
+          if (e.keyCode === 27) {
+            handleCancelOrder()
+          }
+        }
+        document.addEventListener('keydown', escKeyListener)
+        return () => document.removeEventListener('keydown', escKeyListener)
+    })
+
     function handleAddToOrderClick() {
-        // TODO: there's gotta be a cleaner way to do this logic, right?
+        // TODO: is there a cleaner way to do this logic?
         if (
             !orderItemState.quantity || 
             (item.one_item_options && orderItemState.option === '')
         ) {
             if (!orderItemState.quantity) {
-                console.log('Please choose quantity')
+                // console.log('Please choose quantity')
                 setShowNoQuantityError(true)
             } else {
                 setShowNoQuantityError(false)
             }
             if (item.one_item_options && orderItemState.option === '') {
-                console.log('Please select an option')
+                // console.log('Please select an option')
                 setShowNoOptionError(true)
             } else {
                 setShowNoOptionError(false)
@@ -81,20 +113,24 @@ export default function OrderItem({ item, itemEditorIsOpen, handleEditorToggleCl
                 // itemId is actual item id from Sanity while orderItemId is the uuid for this specific item being ordered so we can later edit quantity or delete orders
                 itemId: item._id,
                 name: item.name,
-                cost: item.cost,
+                cost: cost,
                 ...orderItemState
             })
-            setOrderItemState({
-                orderItemId: '',
-                specialRequests: '',
-                quantity: '',
-                addOns: [],
-                option: ''
-            })
+            clearOrderState()
             setShowNoQuantityError(false)
             setShowNoOptionError(false)
-            handleEditorToggleClick()
+            handleModalBtnClick(null)
         }
+    }
+
+    function clearOrderState() {
+        setOrderItemState({
+            orderItemId: '',
+            specialRequests: '',
+            quantity: '',
+            addOns: [],
+            option: ''
+        })
     }
 
     function handleInputChange({ target }) {
@@ -136,12 +172,30 @@ export default function OrderItem({ item, itemEditorIsOpen, handleEditorToggleCl
         }
     }
 
+    function handleCancelOrder() {
+        clearOrderState()
+        handleModalBtnClick(null)
+        setShowNoQuantityError(false)
+        setShowNoOptionError(false)
+    }
+
+    // TODO: is this still needed?
+    if (!isOpen) {
+        return null
+    }
+    
     return (
-        <div>
-            
-            {itemEditorIsOpen && (
-                <OrderEditor>
-                    <h3>Order Details</h3>
+        <ModalContainer mediaQueryFontSize='.8em'>
+            {isOpen && (
+                <ModalContent>
+                    <div>
+                        <H3 id='dialog-title' className='h3-no-global-style'>
+                            ORDER DETAILS
+                        </H3>
+                    </div>
+                    <h4>{item.name}</h4>
+                    <p>{item.description}</p>
+                    <Cost className='cost'>{formatCost(cost)}</Cost>
 
                     {item.one_item_options && (
                         <Options 
@@ -158,7 +212,7 @@ export default function OrderItem({ item, itemEditorIsOpen, handleEditorToggleCl
                             activeAddOns={orderItemState.addOns}
                         />
                     )}
-                 
+                
                     <SectionLabel 
                         htmlFor="quantity"
                     >
@@ -166,7 +220,7 @@ export default function OrderItem({ item, itemEditorIsOpen, handleEditorToggleCl
                     </SectionLabel>
                     <QuantityInputStyled 
                         quantity={orderItemState.quantity}
-                        _onChange={handleInputChange}
+                        handleQuantityChange={handleInputChange}
                     />
 
                     <SectionLabel 
@@ -190,15 +244,16 @@ export default function OrderItem({ item, itemEditorIsOpen, handleEditorToggleCl
                         <FormErrorP>Please choose an option</FormErrorP>
                     )}
 
-                    <Button onClick={handleEditorToggleClick}>
-                        Cancel
-                    </Button>
-
                     <Button onClick={handleAddToOrderClick}>
                         Add to Order
                     </Button>
-                </OrderEditor>
+
+                    <Button onClick={() => handleCancelOrder()}>
+                        Cancel
+                    </Button>
+                    
+                </ModalContent>
             )}
-        </div>
+        </ModalContainer>
     )
 }

@@ -1,6 +1,5 @@
 import styled from 'styled-components'
 
-// TODO: this isn't active right now. Need to look into if this is better than using `sign_font` CSS class
 const Heading = ({ className, children, hTag }) => {
     // console.log('hTag: ', hTag)
     const HeadingTag = hTag
@@ -16,7 +15,7 @@ const StyledHeadingTag = styled(Heading)`
     font-family: 'Bebas Neue', sans-serif;
     display: inline-block;
     padding: 5px;
-    background-color: ${props => props.bgColor};
+    background-color: ${({ bgColor }) => bgColor};
     &:hover {
         cursor: pointer;
     }
