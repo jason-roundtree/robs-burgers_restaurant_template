@@ -79,7 +79,7 @@ export default function OrderItemModal({
 
     const orderObject = useContext(OrderContext)
     // console.log('orderObject: ', orderObject)
-
+    // TODO: is there a good way to move this escKeyListener fn to it's own file?
     useEffect(() => {
         function escKeyListener(e) {
           if (e.keyCode === 27) {
@@ -185,6 +185,7 @@ export default function OrderItemModal({
     }
     
     return (
+        // TODO: does container or content get focused by default? If so add `tabindex='-1'`
         <ModalContainer mediaQueryFontSize='.8em'>
             {isOpen && (
                 <ModalContent>

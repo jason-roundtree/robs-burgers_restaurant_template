@@ -19,6 +19,7 @@ const ModalDialog = styled.div`
     width: 90%;
     max-width: 900px;
     max-height: 90vh;
+    padding: 0 15px;
     background: white;
     box-shadow: 0 0 10px rgb(255, 205, 41);
     border: 1px solid rgb(255, 205, 41);
@@ -38,7 +39,7 @@ export default function ModalContainer({
     ariaLabelledBy='dialog-title'
 }) {
     return (
-        // TODO: does container or content get focused by default? If so add `tabindex='-1'`
+        // TODO: does container get focused by default? If so add `tabindex='-1'`
         <ModalContainerStyled id='modal-container'>
             <ModalDialog
                 minHeight={minHeight}
