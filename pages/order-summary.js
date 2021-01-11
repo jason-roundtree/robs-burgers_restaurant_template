@@ -157,125 +157,133 @@ export default function OrderSummary() {
                 <div className='heading_container'>
                     <h2>Order Summary</h2>
                 </div>
-
-                {orderObject.orderItems.length === 0 
-                    ? (
-                        <P>You currently have no items added to your order. Please add items from the <Link href="/menus">Menus</Link> page.</P>
-                    )
-                    : <P>Back to <Link href="/menus">Menus</Link></P>
-                }
-
-                {orderObject.orderItems.map(item => {
-                    // console.log(item)
-                    const option = item.option
-                    let addOnsTotal = 0
-                    if (item.addOns.length > 0) {
-                        addOnsTotal = item.addOns.reduce((total, addOn) => {
-                            return total + +addOn.cost
-                        }, 0)
-                    }
-
-                    return (
-                        // TODO: format costs below
-                        <OrderItemContainer key={item.orderItemId}>
-                            <GridColContainer>
-                                <TopLeftRow>
-                                    <ItemName>
-                                        {item.name}
-                                    </ItemName> 
+                
+                {/* TODO: render loading status */}
+                {!orderObject.isLoading && (
+                    <div>
+                        {orderObject.orderItems.length === 0 
+                            ? (
+                                <P>You currently have no items added to your order. Please add items from the <Link href="/menus">Menus</Link> page.</P>
+                            )
+                            : <P>Back to <Link href="/menus">Menus</Link></P>
+                        }
+        
+                        {orderObject.orderItems.map(item => {
+                            // console.log(item)
+                            const option = item.option
+                            let addOnsTotal = 0
+                            if (item.addOns.length > 0) {
+                                addOnsTotal = item.addOns.reduce((total, addOn) => {
+                                    return total + +addOn.cost
+                                }, 0)
+                            }
+        
+                            return (
+                                // TODO: format costs below
+                                <OrderItemContainer key={item.orderItemId}>
+                                    <GridColContainer>
+                                        <TopLeftRow>
+                                            <ItemName>
+                                                {item.name}
+                                            </ItemName> 
+                                            
+                                            {option && (
+                                                <Span>
+                                                    {`(${option})`}
+                                                </Span>
+                                            )} 
+        
+                                            <Span>
+                                                {formatCost(item.cost)}
+                                            </Span>
+        
+                                            {item.addOns.length > 0 && (
+                                                <ul>
+                                                    {item.addOns.map(addOn => {
+                                                        return (
+                                                            <AddOnLi key={addOn.id}>
+                                                                <Span>
+                                                                    {addOn.description}
+                                                                </Span>
+        
+                                                                <span>{formatCost(addOn.cost)}</span>
+        
+                                                                {/* TODO: add validation?? */}
+                                                                <DeleteAddOnBtn
+                                                                    onClick={() => {
+                                                                        orderObject.removeItemAddOn(
+                                                                            item.orderItemId, addOn.id
+                                                                        )
+                                                                    }}
+                                                                >
+                                                                    X
+                                                                </DeleteAddOnBtn>
+                                                            </AddOnLi>
+                                                        )
+                                                    })}
+                                                </ul>
+                                            )}
+                                            
+                                            {item.specialRequests && (
+                                                <SpecialRequestP as="p">
+                                                    Special Request: 
+                                                    <em>{item.specialRequests}</em>
+                                                </SpecialRequestP>
+                                            )}
+                                        </TopLeftRow>
+                                        
+                                        <TopRightRow>
+                                            <QuantityInputStyled 
+                                                quantity={item.quantity}
+                                                handleQuantityChange={e => {
+                                                    handleQuantityChange(e, item.orderItemId)
+                                                }}
+                                            />
+                                        </TopRightRow>
                                     
-                                    {option && (
-                                        <Span>
-                                            {`(${option})`}
-                                        </Span>
-                                    )} 
-
-                                    <Span>
-                                        {formatCost(item.cost)}
-                                    </Span>
-
-                                    {item.addOns.length > 0 && (
-                                        <ul>
-                                            {item.addOns.map(addOn => {
-                                                return (
-                                                    <AddOnLi key={addOn.id}>
-                                                        <Span>
-                                                            {addOn.description}
-                                                        </Span>
-
-                                                        <span>{formatCost(addOn.cost)}</span>
-
-                                                        {/* TODO: add validation?? */}
-                                                        <DeleteAddOnBtn
-                                                            onClick={() => {
-                                                                orderObject.removeItemAddOn(
-                                                                    item.orderItemId, addOn.id
-                                                                )
-                                                            }}
-                                                        >
-                                                            X
-                                                        </DeleteAddOnBtn>
-                                                    </AddOnLi>
-                                                )
-                                            })}
-                                        </ul>
-                                    )}
+                                        <BtmLeftRow>
+                                            <ItemCost>
+                                                Subtotal: {formatCost(
+                                                    (item.quantity * item.cost) +
+                                                    (item.quantity * addOnsTotal)
+                                                )}
+                                            </ItemCost>
+                                        </BtmLeftRow>
+        
+                                        <BtmRightRow>
+                                            <DeleteItemBtn
+                                                onClick={() => handleOpenDeleteItemModal(item)}
+                                            >
+                                                Delete Item
+                                            </DeleteItemBtn>
+                                        </BtmRightRow>
                                     
-                                    {item.specialRequests && (
-                                        <SpecialRequestP as="p">
-                                            Special Request: 
-                                            <em>{item.specialRequests}</em>
-                                        </SpecialRequestP>
-                                    )}
-                                </TopLeftRow>
-                                
-                                <TopRightRow>
-                                    <QuantityInputStyled 
-                                        quantity={item.quantity}
-                                        handleQuantityChange={e => {
-                                            handleQuantityChange(e, item.orderItemId)
-                                        }}
-                                    />
-                                </TopRightRow>
-                            
-                                <BtmLeftRow>
-                                    <ItemCost>
-                                        Subtotal: {formatCost(
-                                            (item.quantity * item.cost) +
-                                            (item.quantity * addOnsTotal)
-                                        )}
-                                    </ItemCost>
-                                </BtmLeftRow>
-
-                                <BtmRightRow>
-                                    <DeleteItemBtn
-                                        onClick={() => handleOpenDeleteItemModal(item)}
-                                    >
-                                        Delete Item
-                                    </DeleteItemBtn>
-                                </BtmRightRow>
-                            
-                            </GridColContainer>
-                            
-                        </OrderItemContainer>
-                    )
-                })}
-
-                {/* TODO: should item be deleted if quantity is set to 0? */}
-                {totalCost > 0 && (
-                    <OrderEndContainer>
-                        <TotalCost>Total: {formatCost(totalCost)}</TotalCost>
-                        {/* TODO: add validation */}
-                        <SubmitOrderBtn>
-                            Submit Order
-                        </SubmitOrderBtn>
-
-                        <DeleteOrderBtn
-                            onClick={handleOpenDeleteOrderModal}
-                        >
-                            Delete Order
-                        </DeleteOrderBtn>
-                    </OrderEndContainer>
+                                    </GridColContainer>
+                                    
+                                </OrderItemContainer>
+                            )
+                        })}
+        
+                        {/* TODO: should item be deleted if quantity is set to 0? */}
+                        {totalCost > 0 && (
+                            <OrderEndContainer>
+                                <TotalCost>Total: {formatCost(totalCost)}</TotalCost>
+                                {/* TODO: add validation */}
+                                <SubmitOrderBtn
+                                    // TODO: implement this and order confirmation page
+                                    // onClick={handleSubmitOrder}
+                                >
+                                    Submit Order
+                                </SubmitOrderBtn>
+        
+                                <DeleteOrderBtn
+                                    onClick={handleOpenDeleteOrderModal}
+                                >
+                                    Delete Order
+                                </DeleteOrderBtn>
+                            </OrderEndContainer>
+                        )}
+                    </div>
                 )}
             </div>
 

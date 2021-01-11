@@ -1,23 +1,44 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { v4 as uuid } from 'uuid'
 
-// TODO: should orderId only be assigned when somebody submits the order?
-const orderId = uuid()
-
-// TODO: are these property outlines necessary when creating context?
+// TODO: are these property outlines necessary when creating context and do i need to pass orderId and orderItems even thought they're being held in state?
 const OrderContext = React.createContext({
-    orderId,
-    orderItems: [],
+    // orderId,
+    // orderItems: [],
     addItem: () => {},
     removeItem: () => {},
     deleteOrder: () => {},
     editItemQuantity: () => {},
-    // totalCost: null,
 })
 
 function OrderDetailsProvider({ children }) {
+    const [orderId, setOrderId] = useState('')
     const [orderItems, setOrderItems] = useState([])
-    // console.log('all orderItems: ', orderItems)
+    const [isLoading, setIsLoading] = useState(true)
+    console.log('all orderItems: ', orderItems)
+
+    useEffect(() => {
+        const pendingOrder = JSON.parse(window.localStorage.getItem('pendingOrder'))
+        if (pendingOrder) {
+            setOrderItems(pendingOrder.orderItems)
+            setOrderId(pendingOrder.orderId)
+        } else {
+            setOrderId(uuid())
+        }
+        setIsLoading(false)
+    }, [])
+
+    useEffect(() => {
+        if (orderItems.length === 0) {
+            window.localStorage.clear('pendingOrder')
+        } else {
+            window.localStorage.setItem('pendingOrder', JSON.stringify({
+                orderId,
+                orderItems
+            }))
+        }
+    }, [orderItems])
+
     function addItem(item) {
         setOrderItems([...orderItems, item])
     }
@@ -45,6 +66,7 @@ function OrderDetailsProvider({ children }) {
 
     function removeOrder() {
         setOrderItems([])
+        setOrderId('')
     }
    
     function editItemQuantity(quantity, orderItemId) {
@@ -66,6 +88,7 @@ function OrderDetailsProvider({ children }) {
             removeItemAddOn,
             removeOrder,
             editItemQuantity,
+            isLoading
         }}>
             {children}
         </OrderContext.Provider>
