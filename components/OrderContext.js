@@ -7,7 +7,7 @@ const OrderContext = React.createContext({
     // orderItems: [],
     addItem: () => {},
     removeItem: () => {},
-    deleteOrder: () => {},
+    removeOrder: () => {},
     editItemQuantity: () => {},
 })
 

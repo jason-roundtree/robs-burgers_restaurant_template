@@ -6,6 +6,7 @@ import Layout from '../components/Layout'
 import OrderContext from '../components/OrderContext'
 import QuantityInput from '../components/QuantityInput'
 import DeleteOrderOrItemModal from '../components/DeleteOrderOrItemModal'
+import OrderCompleteModal from '../components/OrderCompleteModal'
 
 const OrderItemContainer = styled.div`
     border: 1px solid black;
@@ -95,6 +96,7 @@ export default function OrderSummary() {
     const [itemToDelete, setItemToDelete] = useState({})
     const [deleteItemModalIsOpen, setDeleteItemModalIsOpen] = useState(false)
     const [deleteOrderModalIsOpen, setDeleteOrderModalIsOpen] = useState(false)
+    const [orderCompleteModalIsOpen, setOrderCompleteModalIsOpen] = useState(false)
     const orderObject = useContext(OrderContext)
     console.log('order summary context: ', orderObject)
     
@@ -118,6 +120,7 @@ export default function OrderSummary() {
     function clearModalState() {
         setDeleteItemModalIsOpen(false)
         setDeleteOrderModalIsOpen(false)
+        setOrderCompleteModalIsOpen(false)
         setItemToDelete({})
         document.removeEventListener('click', handleOutsideModalClick)
     }
@@ -151,20 +154,26 @@ export default function OrderSummary() {
         }
     }
 
+    function handleSubmitOrder() {
+        document.addEventListener('click', handleOutsideModalClick)
+        setOrderCompleteModalIsOpen(true)
+        // TODO: in real app change this to save to db and then delete
+        orderObject.removeOrder()
+        
+    }
+
     return (
         <Layout>
             <div className="page_container">
                 <div className='heading_container'>
                     <h2>Order Summary</h2>
                 </div>
-                
+
                 {/* TODO: render loading status */}
                 {!orderObject.isLoading && (
                     <div>
                         {orderObject.orderItems.length === 0 
-                            ? (
-                                <P>You currently have no items added to your order. Please add items from the <Link href="/menus">Menus</Link> page.</P>
-                            )
+                            ? <P>You currently have no items added to your order. Please add items from the <Link href="/menus">Menus</Link> page.</P>
                             : <P>Back to <Link href="/menus">Menus</Link></P>
                         }
         
@@ -270,8 +279,7 @@ export default function OrderSummary() {
                                 <TotalCost>Total: {formatCost(totalCost)}</TotalCost>
                                 {/* TODO: add validation */}
                                 <SubmitOrderBtn
-                                    // TODO: implement this and order confirmation page
-                                    // onClick={handleSubmitOrder}
+                                    onClick={handleSubmitOrder}
                                 >
                                     Submit Order
                                 </SubmitOrderBtn>
@@ -303,6 +311,12 @@ export default function OrderSummary() {
                     // orderToDelete={orderToDelete}
                     isOpen={deleteOrderModalIsOpen}
                     handleDelete={handleDeleteOrder}
+                    clearModalState={clearModalState}
+                />
+            )}
+
+            {orderCompleteModalIsOpen && (
+                <OrderCompleteModal 
                     clearModalState={clearModalState}
                 />
             )}

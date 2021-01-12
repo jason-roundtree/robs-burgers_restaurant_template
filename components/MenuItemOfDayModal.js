@@ -46,6 +46,7 @@ export default function MenuItemOfDayModal({
     discount,
     handleModalBtnClick
 }) {
+
     useEffect(() => {
         function escKeyListener(e) {
           if (e.keyCode === 27) {

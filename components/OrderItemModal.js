@@ -179,7 +179,7 @@ export default function OrderItemModal({
         setShowNoOptionError(false)
     }
 
-    // TODO: is this still needed?
+    // TODO: remind yourself why this is needed here but not on other modals
     if (!isOpen) {
         return null
     }

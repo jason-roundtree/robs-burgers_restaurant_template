@@ -29,7 +29,7 @@ function Home() {
                 <div className='heading_container'>
                     <H2>Welcome!</H2>
                 </div>
-                <P>We warmly invite you stop by to try one of our delectible, handcrafted hamburgers, prepared with love and fresh ingredients by me (Rob), along with the help of my mostly normal and lovely family. We specialize in offering friendly service and crafting unique hamburger recipes that are sure to knock your socks off! Don't forget to ask about the special Burger of the Day!</P>
+                <P>We warmly invite you to stop by and try one (at the very least) of our delectible, handcrafted hamburgers, prepared with love and fresh ingredients by me (Rob), along with the help of my mostly normal and lovely family. We specialize in offering friendly service and crafting unique hamburger recipes that are sure to knock your socks off! Don't forget to ask about the special Burger of the Day!</P>
             </Container>
         </Layout>
     )

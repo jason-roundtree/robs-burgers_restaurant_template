@@ -29,6 +29,8 @@ const ModalDialog = styled.div`
     }
 `
 
+// TODO: do I need isOpen prop on all the modals?
+// TODO: close modal on enter keypress to other modals
 export default function ModalContainer({ 
     children, 
     minHeight, 
