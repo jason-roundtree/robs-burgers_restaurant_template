@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import styled from 'styled-components'
 
 const ModalContainerStyled = styled.div`
@@ -31,8 +32,10 @@ const ModalDialog = styled.div`
 
 // TODO: do I need isOpen prop on all the modals?
 // TODO: close modal on enter keypress to other modals
+// TODO: do I need to use react Portal for this?
 export default function ModalContainer({ 
     children, 
+    clearModalState,
     minHeight, 
     display, 
     textAlign,
@@ -40,6 +43,17 @@ export default function ModalContainer({
     mediaQueryFontSize,
     ariaLabelledBy='dialog-title'
 }) {
+    useEffect(() => {
+        function escKeyListener(e) {
+            if (e.keyCode === 27) {
+                // this prop is always the function passed into the modal from the modal's parent (i.e. the function responsible for handling closing modal on ESC doesn't live in the modal itself and isn't always named `clearModalState`)
+                clearModalState()
+            }
+        }
+        document.addEventListener('keydown', escKeyListener)
+        return () => document.removeEventListener('keydown', escKeyListener)
+    })
+
     return (
         // TODO: does container get focused by default? If so add `tabindex='-1'`
         <ModalContainerStyled id='modal-container'>

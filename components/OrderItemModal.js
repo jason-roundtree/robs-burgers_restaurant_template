@@ -43,6 +43,8 @@ const SectionLabel = styled.label`
     display: inline-block;
     margin-top: 1em;
 `
+const ItemNameP = styled(SectionLabel)`
+`
 const Cost = styled.span`
     display: block;
 `
@@ -79,16 +81,6 @@ export default function OrderItemModal({
 
     const orderObject = useContext(OrderContext)
     // console.log('orderObject: ', orderObject)
-    // TODO: is there a good way to move this escKeyListener fn to it's own file?
-    useEffect(() => {
-        function escKeyListener(e) {
-          if (e.keyCode === 27) {
-            handleCancelOrder()
-          }
-        }
-        document.addEventListener('keydown', escKeyListener)
-        return () => document.removeEventListener('keydown', escKeyListener)
-    })
 
     function handleAddToOrderClick() {
         // TODO: is there a cleaner way to do this logic?
@@ -186,7 +178,10 @@ export default function OrderItemModal({
     
     return (
         // TODO: does container or content get focused by default? If so add `tabindex='-1'`
-        <ModalContainer mediaQueryFontSize='.8em'>
+        <ModalContainer 
+            mediaQueryFontSize='.8em'
+            clearModalState={handleModalBtnClick}
+        >
             {isOpen && (
                 <ModalContent>
                     <div>
@@ -194,7 +189,7 @@ export default function OrderItemModal({
                             ORDER DETAILS
                         </H3>
                     </div>
-                    <h4>{item.name}</h4>
+                    <ItemNameP as='p'>{item.name}</ItemNameP>
                     <p>{item.description}</p>
                     <Cost className='cost'>{formatCost(cost)}</Cost>
 

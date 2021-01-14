@@ -32,7 +32,7 @@ export default function OrderCompleteModal({ clearModalState }) {
     }
 
     return (
-        <ModalContainer>
+        <ModalContainer clearModalState={clearModalState}>
             <ModalContent>
                 <H2>Success!</H2>
                 <P>Thank you for your order! We'll get started on it ASAP.</P>

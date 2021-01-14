@@ -138,6 +138,7 @@ export default function Order(props) {
             document.addEventListener('click', handleOutsideModalClick)
         } else {
             // console.log('else')
+            // TODO: move these state resetters to a `clearModalState` function so that the handler for ESC closing modal can always refer to a function with the same name
             setOrderItemModalIsOpen(false)
             setItemOfDayIsActive(false)
             setShowNoQuantityError(false)

@@ -47,18 +47,11 @@ export default function MenuItemOfDayModal({
     handleModalBtnClick
 }) {
 
-    useEffect(() => {
-        function escKeyListener(e) {
-          if (e.keyCode === 27) {
-            handleModalBtnClick()
-          }
-        }
-        document.addEventListener('keydown', escKeyListener)
-        return () => document.removeEventListener('keydown', escKeyListener)
-    })
-
     return (
-        <ModalContainer mediaQueryFontSize='.8em'> 
+        <ModalContainer 
+            mediaQueryFontSize='.8em'
+            clearModalState={handleModalBtnClick}
+        > 
             {isOpen && (
                 // TODO: add role and aria to other modals but is it OK to use same id?
                 <ModalContent role='dialog' aria-labelledby='dialog-title'>

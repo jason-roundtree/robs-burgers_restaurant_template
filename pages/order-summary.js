@@ -6,6 +6,7 @@ import Layout from '../components/Layout'
 import OrderContext from '../components/OrderContext'
 import QuantityInput from '../components/QuantityInput'
 import DeleteOrderOrItemModal from '../components/DeleteOrderOrItemModal'
+import CheckoutModal from '../components/CheckoutModal'
 import OrderCompleteModal from '../components/OrderCompleteModal'
 
 const OrderItemContainer = styled.div`
@@ -80,7 +81,11 @@ const OrderEndContainer = styled.div`
     display: grid;
     justify-content: center;
 `
-const SubmitOrderBtn = styled.button`
+// const SubmitOrderBtn = styled.button`
+//     margin: 15px 0;
+//     /* font-size: 1em; */
+// `
+const CheckoutBtn = styled.button`
     margin: 15px 0;
     /* font-size: 1em; */
 `
@@ -96,6 +101,7 @@ export default function OrderSummary() {
     const [itemToDelete, setItemToDelete] = useState({})
     const [deleteItemModalIsOpen, setDeleteItemModalIsOpen] = useState(false)
     const [deleteOrderModalIsOpen, setDeleteOrderModalIsOpen] = useState(false)
+    const [checkoutModalIsOpen, setCheckoutModalIsOpen] = useState(false)
     const [orderCompleteModalIsOpen, setOrderCompleteModalIsOpen] = useState(false)
     const orderObject = useContext(OrderContext)
     console.log('order summary context: ', orderObject)
@@ -121,6 +127,7 @@ export default function OrderSummary() {
         setDeleteItemModalIsOpen(false)
         setDeleteOrderModalIsOpen(false)
         setOrderCompleteModalIsOpen(false)
+        setCheckoutModalIsOpen(false)
         setItemToDelete({})
         document.removeEventListener('click', handleOutsideModalClick)
     }
@@ -154,13 +161,18 @@ export default function OrderSummary() {
         }
     }
 
-    function handleSubmitOrder() {
+    function handleOpenCheckoutModal() {
+        // TODO: move this to it's own function
         document.addEventListener('click', handleOutsideModalClick)
-        setOrderCompleteModalIsOpen(true)
-        // TODO: in real app change this to save to db and then delete
-        orderObject.removeOrder()
-        
+        setCheckoutModalIsOpen(true)
     }
+
+    // function handleSubmitOrder() {
+    //     document.addEventListener('click', handleOutsideModalClick)
+    //     setOrderCompleteModalIsOpen(true)
+    //     // TODO: in real app change this to save to db and then delete
+    //     orderObject.removeOrder()
+    // }
 
     return (
         <Layout>
@@ -277,12 +289,15 @@ export default function OrderSummary() {
                         {totalCost > 0 && (
                             <OrderEndContainer>
                                 <TotalCost>Total: {formatCost(totalCost)}</TotalCost>
+                                <CheckoutBtn onClick={handleOpenCheckoutModal}>
+                                    Checkout
+                                </CheckoutBtn>
                                 {/* TODO: add validation */}
-                                <SubmitOrderBtn
+                                {/* <SubmitOrderBtn
                                     onClick={handleSubmitOrder}
                                 >
                                     Submit Order
-                                </SubmitOrderBtn>
+                                </SubmitOrderBtn> */}
         
                                 <DeleteOrderBtn
                                     onClick={handleOpenDeleteOrderModal}
@@ -315,11 +330,17 @@ export default function OrderSummary() {
                 />
             )}
 
-            {orderCompleteModalIsOpen && (
-                <OrderCompleteModal 
+            {checkoutModalIsOpen && (
+                <CheckoutModal
                     clearModalState={clearModalState}
                 />
             )}
+
+            {/* {orderCompleteModalIsOpen && (
+                <OrderCompleteModal 
+                    clearModalState={clearModalState}
+                />
+            )} */}
 
         </Layout>
     )

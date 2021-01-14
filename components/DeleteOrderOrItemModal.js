@@ -30,19 +30,7 @@ export default function DeleteOrderOrItemModal({
     clearModalState,
     itemToDelete=null,
 }) {
-    
-    // TODO: is there a good way to move this escKeyListener fn to it's own file?
-    useEffect(() => {
-        function escKeyListener(e) {
-          if (e.keyCode === 27) {
-            clearModalState()
-          }
-        }
-        document.addEventListener('keydown', escKeyListener)
-        return () => document.removeEventListener('keydown', escKeyListener)
-    })
-
-    console.log('itemToDelete: ', itemToDelete)
+    // console.log('itemToDelete: ', itemToDelete)
     return (
         // TODO: does container or content get focused by default? If so add `tabindex='-1'`
         <ModalContainer
@@ -53,6 +41,7 @@ export default function DeleteOrderOrItemModal({
             textAlign='center'
             applyMediaQuery='false'
             ariaLabelledBy={null}
+            clearModalState={clearModalState}
         >
             {isOpen && (
                 <ModalContent>
@@ -64,11 +53,14 @@ export default function DeleteOrderOrItemModal({
                                     {itemToDelete.option && (
                                         <span>{`(${itemToDelete.option})`}</span>
                                     )}
+                                    {itemToDelete.specialRequests && (
+                                        <p>{itemToDelete.specialRequests}</p>
+                                    )}
                                 </p>
 
                                 <ul>
                                     {itemToDelete.addOns?.map(addOn => {
-                                        return <AddOnLi>{addOn.description}</AddOnLi>
+                                        return <AddOnLi key={addOn.id}>{addOn.description}</AddOnLi>
                                     })}
                                 </ul>
                             </OrderItemDetails>
