@@ -115,15 +115,6 @@ export default function Order(props) {
     //     //     document.removeEventListener('click', handleOutsideModalClick)
     //     // }
     // }, [orderItemModalIsOpen])
-
-    function handleMenuSelection(e) {
-        const menuId = e.target.id
-        const [ selectedMenu ] = allMenusAndItems.filter(menu => {
-            return menu._id === menuId
-        })
-        setSelectedMenu(selectedMenu)
-    }
-
     // TODO: why does event listener not get removed when you select Cancel/Close buttons from modals?
     function handleModalBtnClick(item) {
         // console.log('handleModalBtnClick item: ', item)
@@ -137,8 +128,7 @@ export default function Order(props) {
             }
             document.addEventListener('click', handleOutsideModalClick)
         } else {
-            // console.log('else')
-            // TODO: move these state resetters to a `clearModalState` function so that the handler for ESC closing modal can always refer to a function with the same name
+            // TODO: move these state resetters to a `clearModalState` function so that the handler for ESC closing modal can always refer to a function with the same name?
             setOrderItemModalIsOpen(false)
             setItemOfDayIsActive(false)
             setShowNoQuantityError(false)
@@ -146,13 +136,20 @@ export default function Order(props) {
             document.removeEventListener('click', handleOutsideModalClick)
         }
     }
-    
-    // TODO: do i need to add `document.removeEventListener('click', handleOutsideModalClick)` to this?
+
     function handleOutsideModalClick(e) {
-        // console.log('handleOutsideModalClick: ', e.target.id)
+        console.log('handleOutsideModalClick: ', e.target.id)
         if (e.target.id === 'modal-container') {
             handleModalBtnClick(null)
         }
+    }
+
+    function handleMenuSelection(e) {
+        const menuId = e.target.id
+        const [ selectedMenu ] = allMenusAndItems.filter(menu => {
+            return menu._id === menuId
+        })
+        setSelectedMenu(selectedMenu)
     }
 
     return (

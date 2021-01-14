@@ -122,6 +122,13 @@ export default function OrderSummary() {
         orderObject.editItemQuantity(+e.target.value, orderItemId)
     }
 
+    function handleOutsideModalClick(e) {
+        console.log('handleOutsideModalClick: ', e.target.id)
+        if (e.target.id === 'modal-container') {
+            clearModalState()
+        }
+    }
+    
     // TODO: why does event listener not get removed when you select Cancel/Close buttons from modals?
     function clearModalState() {
         setDeleteItemModalIsOpen(false)
@@ -154,25 +161,18 @@ export default function OrderSummary() {
         orderObject.removeOrder()
     }
 
-    function handleOutsideModalClick(e) {
-        // console.log('handleOutsideModalClick: ', e.target.id)
-        if (e.target.id === 'modal-container') {
-            clearModalState()
-        }
-    }
-
     function handleOpenCheckoutModal() {
         // TODO: move this to it's own function
         document.addEventListener('click', handleOutsideModalClick)
         setCheckoutModalIsOpen(true)
     }
 
-    // function handleSubmitOrder() {
-    //     document.addEventListener('click', handleOutsideModalClick)
-    //     setOrderCompleteModalIsOpen(true)
-    //     // TODO: in real app change this to save to db and then delete
-    //     orderObject.removeOrder()
-    // }
+    function handleSubmitOrder() {
+        document.addEventListener('click', handleOutsideModalClick)
+        setOrderCompleteModalIsOpen(true)
+        // TODO: in real app change this to save to db and then delete
+        orderObject.removeOrder()
+    }
 
     return (
         <Layout>
@@ -280,7 +280,6 @@ export default function OrderSummary() {
                                         </BtmRightRow>
                                     
                                     </GridColContainer>
-                                    
                                 </OrderItemContainer>
                             )
                         })}
@@ -289,19 +288,12 @@ export default function OrderSummary() {
                         {totalCost > 0 && (
                             <OrderEndContainer>
                                 <TotalCost>Total: {formatCost(totalCost)}</TotalCost>
+
                                 <CheckoutBtn onClick={handleOpenCheckoutModal}>
                                     Checkout
                                 </CheckoutBtn>
-                                {/* TODO: add validation */}
-                                {/* <SubmitOrderBtn
-                                    onClick={handleSubmitOrder}
-                                >
-                                    Submit Order
-                                </SubmitOrderBtn> */}
         
-                                <DeleteOrderBtn
-                                    onClick={handleOpenDeleteOrderModal}
-                                >
+                                <DeleteOrderBtn onClick={handleOpenDeleteOrderModal}>
                                     Delete Order
                                 </DeleteOrderBtn>
                             </OrderEndContainer>
@@ -323,24 +315,25 @@ export default function OrderSummary() {
             {deleteOrderModalIsOpen && (
                 <DeleteOrderOrItemModal 
                     type='order'
-                    // orderToDelete={orderToDelete}
                     isOpen={deleteOrderModalIsOpen}
                     handleDelete={handleDeleteOrder}
                     clearModalState={clearModalState}
+                    // orderToDelete={orderToDelete}
                 />
             )}
 
             {checkoutModalIsOpen && (
                 <CheckoutModal
                     clearModalState={clearModalState}
+                    handleSubmitOrder={handleSubmitOrder}
                 />
             )}
 
-            {/* {orderCompleteModalIsOpen && (
+            {orderCompleteModalIsOpen && (
                 <OrderCompleteModal 
                     clearModalState={clearModalState}
                 />
-            )} */}
+            )}
 
         </Layout>
     )

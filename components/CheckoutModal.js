@@ -36,9 +36,7 @@ const Button = styled.button`
 `
 // TODO: add labels or at least aria-label and other aria attributes for forms
 // TODO: add select input to choose time of pickup
-export default function CheckoutModal({
-    clearModalState
-}) {
+export default function CheckoutModal({ clearModalState, handleSubmitOrder }) {
     const [inputState, setInputState] = useState({
         firstName: '',
         lastName: '',
@@ -55,6 +53,13 @@ export default function CheckoutModal({
         })
     }
 
+    function handleFormSubmit(e) {
+        // TODO: why isn't preventDefault needed here?
+        // e.preventDefault()
+        clearModalState()
+        handleSubmitOrder()
+    }
+
     return (
         <ModalContainer
             clearModalState={clearModalState}
@@ -62,15 +67,14 @@ export default function CheckoutModal({
             <ModalContent>
                 <H2>Complete Order</H2>
 
-                <Form>
+                <Form onSubmit={handleFormSubmit}>
                     <Label htmlFor='firstName'>First Name</Label>
-                    {/* TODO: why does this border look darker and have no radius when not focused? */}
                     <Input 
                         type='text'
                         id='firstName'
                         value={inputState.firstName}
                         onChange={handleInputChange}
-                        // placeholder='First name'
+                        required
                     />
 
                     <Label htmlFor='lastName'>Last Name</Label>
@@ -79,7 +83,7 @@ export default function CheckoutModal({
                         id='lastName'
                         value={inputState.lastName}
                         onChange={handleInputChange}
-                        // placeholder='Last name'
+                        required
                     />
 
                     <Label htmlFor='email'>Email</Label>
@@ -88,7 +92,7 @@ export default function CheckoutModal({
                         id='email'
                         value={inputState.email}
                         onChange={handleInputChange}
-                        // placeholder='Email'
+                        required
                     />
 
                     <Label htmlFor='phone'>Phone Number</Label>
@@ -98,16 +102,17 @@ export default function CheckoutModal({
                         pattern='[0-9]{3}[0-9]{3}[0-9]{4}'
                         value={inputState.phone}
                         onChange={handleInputChange}
+                        required
                         // TODO: Or should i have 3 separate fields?
                         // placeholder='(XXX-XXX-XXXX)'
                     />
 
                     <div>
-                        <Button>
+                        <Button type='submit'>
                             Submit Order
                         </Button>
 
-                        <Button>
+                        <Button onClick={clearModalState}>
                             Back to Order Summary
                         </Button>
                     </div>

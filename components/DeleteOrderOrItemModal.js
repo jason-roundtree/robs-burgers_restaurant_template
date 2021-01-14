@@ -19,7 +19,10 @@ const ItemName = styled.span`
     font-weight: 500;
 `
 const AddOnLi = styled.li`
-    font-size: .75em;
+    font-size: .8em;
+`
+const SpecialReqP = styled.p`
+    font-size: .8em;
 `
 
 // TODO: style a bit more
@@ -34,14 +37,14 @@ export default function DeleteOrderOrItemModal({
     return (
         // TODO: does container or content get focused by default? If so add `tabindex='-1'`
         <ModalContainer
+            clearModalState={clearModalState}
             fontSize='1.5em'
             mediaQueryFontSize='1em'
             display='grid'
-            minHeight='30vh'
+            minHeight='40vh'
             textAlign='center'
             applyMediaQuery='false'
             ariaLabelledBy={null}
-            clearModalState={clearModalState}
         >
             {isOpen && (
                 <ModalContent>
@@ -53,9 +56,6 @@ export default function DeleteOrderOrItemModal({
                                     {itemToDelete.option && (
                                         <span>{`(${itemToDelete.option})`}</span>
                                     )}
-                                    {itemToDelete.specialRequests && (
-                                        <p>{itemToDelete.specialRequests}</p>
-                                    )}
                                 </p>
 
                                 <ul>
@@ -63,11 +63,15 @@ export default function DeleteOrderOrItemModal({
                                         return <AddOnLi key={addOn.id}>{addOn.description}</AddOnLi>
                                     })}
                                 </ul>
+
+                                {itemToDelete.specialRequests && (
+                                    <SpecialReqP>{itemToDelete.specialRequests}</SpecialReqP>
+                                )}
                             </OrderItemDetails>
                         )}
 
                         <div>
-                            <Button onClick={handleDelete} >
+                            <Button onClick={handleDelete}>
                                 Delete
                             </Button>
 
