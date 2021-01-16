@@ -67,7 +67,7 @@ export default function OrderItemModal({
     setShowNoQuantityError,
     setShowNoOptionError
 }) {
-    // console.log('item: ', item)
+    console.log('order item: ', item)
     const [orderItemState, setOrderItemState] = useState({
         orderItemId: uuid(),
         specialRequests: '',
@@ -240,11 +240,17 @@ export default function OrderItemModal({
                         <FormErrorP>Please choose an option</FormErrorP>
                     )}
 
-                    <Button onClick={handleAddToOrderClick}>
+                    <Button 
+                        onClick={handleAddToOrderClick}
+                        className='close-modal-btn' 
+                    >
                         Add to Order
                     </Button>
 
-                    <Button onClick={() => handleCancelOrder()}>
+                    <Button 
+                        onClick={() => handleCancelOrder()}
+                        className='close-modal-btn' 
+                    >
                         Cancel
                     </Button>
                     

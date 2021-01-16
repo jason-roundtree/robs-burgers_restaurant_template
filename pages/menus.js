@@ -138,10 +138,11 @@ export default function Order(props) {
     }
 
     function handleOutsideModalClick(e) {
-        console.log('handleOutsideModalClick: ', e.target.id)
-        if (e.target.id === 'modal-container') {
-            handleModalBtnClick(null)
-        }
+        console.log('handleOutsideModalClick: ', e)
+        if (
+            e.target.id === 'modal-container' || 
+            [...e.target.classList].includes('close-modal-btn')
+        ) { handleModalBtnClick(null) }
     }
 
     function handleMenuSelection(e) {

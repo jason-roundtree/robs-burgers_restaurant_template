@@ -71,11 +71,17 @@ export default function DeleteOrderOrItemModal({
                         )}
 
                         <div>
-                            <Button onClick={handleDelete}>
+                            <Button 
+                                onClick={handleDelete}
+                                className='close-modal-btn'
+                            >
                                 Delete
                             </Button>
 
-                            <Button onClick={clearModalState}>
+                            <Button 
+                                onClick={clearModalState}
+                                className='close-modal-btn' 
+                            >
                                 Cancel
                             </Button>
                         </div>

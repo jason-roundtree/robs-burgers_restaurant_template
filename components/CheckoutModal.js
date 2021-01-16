@@ -60,6 +60,11 @@ export default function CheckoutModal({ clearModalState, handleSubmitOrder }) {
         handleSubmitOrder()
     }
 
+    // function handleCancelCheckout() {
+    //     handleOutsideModalClick()
+    //     clearModalState()
+    // }
+
     return (
         <ModalContainer
             clearModalState={clearModalState}
@@ -108,11 +113,17 @@ export default function CheckoutModal({ clearModalState, handleSubmitOrder }) {
                     />
 
                     <div>
-                        <Button type='submit'>
+                        <Button 
+                            type='submit' 
+                            className='close-modal-btn'
+                        >
                             Submit Order
                         </Button>
 
-                        <Button onClick={clearModalState}>
+                        <Button 
+                            onClick={clearModalState}
+                            className='close-modal-btn' 
+                        >
                             Back to Order Summary
                         </Button>
                     </div>

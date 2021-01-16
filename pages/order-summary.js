@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react'
+import { useState, useContext, useEffect } from 'react'
 import Link from 'next/link'
 import styled from 'styled-components'
 import formatCost from '../utils/formatCost'
@@ -105,7 +105,6 @@ export default function OrderSummary() {
     const [orderCompleteModalIsOpen, setOrderCompleteModalIsOpen] = useState(false)
     const orderObject = useContext(OrderContext)
     console.log('order summary context: ', orderObject)
-    
     const totalCost = orderObject.orderItems.reduce((total, orderItem) => {
         let addOnTotal = 0
         if (orderItem.addOns.length > 0) {
@@ -117,16 +116,17 @@ export default function OrderSummary() {
             (orderItem.quantity * addOnTotal) + 
             (orderItem.quantity * orderItem.cost)
     }, 0)
-    
+
     function handleQuantityChange(e, orderItemId) {
         orderObject.editItemQuantity(+e.target.value, orderItemId)
     }
 
     function handleOutsideModalClick(e) {
-        console.log('handleOutsideModalClick: ', e.target.id)
-        if (e.target.id === 'modal-container') {
-            clearModalState()
-        }
+        console.log('handleOutsideModalClick: ', e)
+        if (
+            e.target.id === 'modal-container' || 
+            [...e.target.classList].includes('close-modal-btn')
+        ) { clearModalState() }
     }
     
     // TODO: why does event listener not get removed when you select Cancel/Close buttons from modals?

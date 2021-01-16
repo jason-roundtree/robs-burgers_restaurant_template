@@ -39,8 +39,19 @@ export default function OrderCompleteModal({ clearModalState }) {
                 <P>Please have payment ready upon arrival.</P>
 
                 <ButtonContainer>
-                    <Button onClick={clearModalState}>Close</Button>
-                    <Button onClick={handleHomeClick}>Home</Button>
+                    <Button 
+                        onClick={clearModalState}
+                        className='close-modal-btn' 
+                    >
+                        Close
+                    </Button>
+                    
+                    <Button 
+                        onClick={handleHomeClick}
+                        className='close-modal-btn' 
+                    >
+                        Home
+                    </Button>
                 </ButtonContainer>
             </ModalContent>
         </ModalContainer>
