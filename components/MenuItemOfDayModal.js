@@ -75,10 +75,7 @@ export default function MenuItemOfDayModal({
                         {formatCost(itemOfDay.cost - discount)}
                     </ItemCost>
 
-                    <Button 
-                        onClick={() => handleModalBtnClick(itemOfDay)}
-                        className='close-modal-btn'
-                    >
+                    <Button onClick={() => handleModalBtnClick(itemOfDay)}>
                         Order
                     </Button>
 

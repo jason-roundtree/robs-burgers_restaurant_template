@@ -79,6 +79,12 @@ export default function OrderItemModal({
     // console.log('item.cost: ', item.cost)
     const cost = calculateCostWithDiscount(item, isItemOfDay, itemOfDayDiscount)
 
+    useEffect(() => {
+        return () => {
+            clearOrderState()
+        }
+    }, [])
+
     const orderObject = useContext(OrderContext)
     // console.log('orderObject: ', orderObject)
 
@@ -248,7 +254,7 @@ export default function OrderItemModal({
                     </Button>
 
                     <Button 
-                        onClick={() => handleCancelOrder()}
+                        onClick={handleCancelOrder}
                         className='close-modal-btn' 
                     >
                         Cancel

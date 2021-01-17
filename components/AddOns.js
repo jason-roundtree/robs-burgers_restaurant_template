@@ -17,12 +17,12 @@ const Cost = styled.span`
     display: inline-block;
 `
 export default function AddOns({ addOns, activeAddOns, onAddOnChange }) {
-    const formatter = new Intl.NumberFormat('en-US', {
-        style: 'currency',
-        currency: 'USD',
-        minimumFractionDigits: 2,
-        //maximumFractionDigits: 2,
-    });
+    // const formatter = new Intl.NumberFormat('en-US', {
+    //     style: 'currency',
+    //     currency: 'USD',
+    //     minimumFractionDigits: 2,
+    //     //maximumFractionDigits: 2,
+    // });
     return (
         <Fieldset>
             <Legend>Add-Ons</Legend>

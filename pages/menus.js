@@ -104,18 +104,6 @@ export default function Order(props) {
             .catch(err => console.log('error fetching eligible menu items of the day: ', err))
     }, [])
 
-    // TODO: test this to see if it solves issue of listener not getting removed on cancel/close buttons
-    // useEffect(() => {
-    //     if (orderItemModalIsOpen) {
-    //         document.addEventListener('click', handleOutsideModalClick)
-    //     } else {
-    //         document.removeEventListener('click', handleOutsideModalClick)
-    //     }
-    //     // return () => {
-    //     //     document.removeEventListener('click', handleOutsideModalClick)
-    //     // }
-    // }, [orderItemModalIsOpen])
-    // TODO: why does event listener not get removed when you select Cancel/Close buttons from modals?
     function handleModalBtnClick(item) {
         // console.log('handleModalBtnClick item: ', item)
         if (item) {
@@ -126,23 +114,26 @@ export default function Order(props) {
                 setOrderItemModalIsOpen(true)
                 setItemOfDayIsActive(false)
             }
-            document.addEventListener('click', handleOutsideModalClick)
+            document.addEventListener('click', handleModalClose)
         } else {
             // TODO: move these state resetters to a `clearModalState` function so that the handler for ESC closing modal can always refer to a function with the same name?
             setOrderItemModalIsOpen(false)
+            setActiveMenuItem(null)
             setItemOfDayIsActive(false)
             setShowNoQuantityError(false)
             setShowNoOptionError(false)
-            document.removeEventListener('click', handleOutsideModalClick)
+            document.removeEventListener('click', handleModalClose)
         }
     }
 
-    function handleOutsideModalClick(e) {
-        console.log('handleOutsideModalClick: ', e)
+    function handleModalClose(e) {
+        console.log('handleModalClose: ', e)
         if (
             e.target.id === 'modal-container' || 
             [...e.target.classList].includes('close-modal-btn')
-        ) { handleModalBtnClick(null) }
+        ) { 
+            handleModalBtnClick(null) 
+        }
     }
 
     function handleMenuSelection(e) {

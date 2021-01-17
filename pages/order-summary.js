@@ -121,33 +121,37 @@ export default function OrderSummary() {
         orderObject.editItemQuantity(+e.target.value, orderItemId)
     }
 
-    function handleOutsideModalClick(e) {
-        console.log('handleOutsideModalClick: ', e)
+    function handleModalClose(e) {
         if (
             e.target.id === 'modal-container' || 
             [...e.target.classList].includes('close-modal-btn')
-        ) { clearModalState() }
+        ) { 
+            clearModalState() 
+        }
+    }
+
+    function addHandleModalCloseListener() {
+        document.addEventListener('click', handleModalClose)
     }
     
-    // TODO: why does event listener not get removed when you select Cancel/Close buttons from modals?
     function clearModalState() {
         setDeleteItemModalIsOpen(false)
         setDeleteOrderModalIsOpen(false)
         setOrderCompleteModalIsOpen(false)
         setCheckoutModalIsOpen(false)
         setItemToDelete({})
-        document.removeEventListener('click', handleOutsideModalClick)
+        document.removeEventListener('click', handleModalClose)
     }
 
     function handleOpenDeleteItemModal(item) {
         setItemToDelete(item)
-        document.addEventListener('click', handleOutsideModalClick)
+        addHandleModalCloseListener()
         setDeleteItemModalIsOpen(true)
     }
 
     function handleOpenDeleteOrderModal() {
         setDeleteOrderModalIsOpen(true)
-        document.addEventListener('click', handleOutsideModalClick)
+        addHandleModalCloseListener()
     }
 
     function handleDeleteItem(orderItemId) {
@@ -163,12 +167,12 @@ export default function OrderSummary() {
 
     function handleOpenCheckoutModal() {
         // TODO: move this to it's own function
-        document.addEventListener('click', handleOutsideModalClick)
+        addHandleModalCloseListener()
         setCheckoutModalIsOpen(true)
     }
 
     function handleSubmitOrder() {
-        document.addEventListener('click', handleOutsideModalClick)
+        addHandleModalCloseListener()
         setOrderCompleteModalIsOpen(true)
         // TODO: in real app change this to save to db and then delete
         orderObject.removeOrder()
