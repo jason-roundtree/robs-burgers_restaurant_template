@@ -72,6 +72,7 @@ export default function DeleteOrderOrItemModal({
 
                         <div>
                             <Button 
+                                autoFocus
                                 onClick={handleDelete}
                                 className='close-modal-btn'
                             >

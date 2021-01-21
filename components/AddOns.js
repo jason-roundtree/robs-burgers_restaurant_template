@@ -16,7 +16,7 @@ const AddOnLabel = styled.label`
 const Cost = styled.span`
     display: inline-block;
 `
-export default function AddOns({ addOns, activeAddOns, onAddOnChange }) {
+export default function AddOns({ addOns, activeAddOns, onAddOnChange, options }) {
     // const formatter = new Intl.NumberFormat('en-US', {
     //     style: 'currency',
     //     currency: 'USD',
@@ -31,7 +31,8 @@ export default function AddOns({ addOns, activeAddOns, onAddOnChange }) {
                     return (
                         <li key={addOn._id}>
                             <OrderAddOn
-                                autoFocus={i === 0}
+                                // When a menu item has both options and add-ons (typically uncommon, at least for demo app), autoFocus was being set to the first add-on even though options come before in code. This check for options ensures first option is selected when both exist
+                                autoFocus={(i === 0) && !options}
                                 type="checkbox"
                                 id={addOn._id}
                                 name={addOn.name}

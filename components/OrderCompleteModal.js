@@ -40,6 +40,7 @@ export default function OrderCompleteModal({ clearModalState }) {
 
                 <ButtonContainer>
                     <Button 
+                        autoFocus
                         onClick={clearModalState}
                         className='close-modal-btn' 
                     >

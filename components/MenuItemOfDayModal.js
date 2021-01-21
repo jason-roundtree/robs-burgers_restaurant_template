@@ -75,7 +75,10 @@ export default function MenuItemOfDayModal({
                         {formatCost(itemOfDay.cost - discount)}
                     </ItemCost>
 
-                    <Button onClick={() => handleModalBtnClick(itemOfDay)}>
+                    <Button 
+                        onClick={() => handleModalBtnClick(itemOfDay)}
+                        autoFocus
+                    >
                         Order
                     </Button>
 

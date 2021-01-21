@@ -70,6 +70,7 @@ export default function CheckoutModal({ clearModalState, handleSubmitOrder }) {
                 <Form onSubmit={handleFormSubmit}>
                     <Label htmlFor='firstName'>First Name</Label>
                     <Input 
+                        autoFocus
                         type='text'
                         id='firstName'
                         value={inputState.firstName}

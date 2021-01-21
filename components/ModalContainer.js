@@ -45,20 +45,41 @@ export default function ModalContainer({
 }) {
     
     useEffect(() => {
-        function escKeyListener(e) {
+        function keyListener(e) {
             if (e.keyCode === 27) {
                 // this prop is always the function passed into the modal from the modal's parent (i.e. the function responsible for handling closing modal on ESC doesn't live in the modal itself and isn't always named `clearModalState`)
-                clearModalState()
+                return clearModalState()
+            } else if (e.keyCode === 9) {
+                return handleTabKey(e)
             }
         }
-        document.addEventListener('keydown', escKeyListener)
-        return () => document.removeEventListener('keydown', escKeyListener)
+        document.addEventListener('keydown', keyListener)
+        return () => document.removeEventListener('keydown', keyListener)
     })
-
+    const modalRef = useRef()
+    function handleTabKey(e) {
+        const focusableModalElements = modalRef.current.querySelectorAll('input[type="text"], input [type="number"], input[type="radio"], input[type="checkbox"], textarea, select, button, a[href]'
+        )
+        const firstElement = focusableModalElements[0]
+        console.log('firstElement: ', firstElement)
+        const lastElement = focusableModalElements[focusableModalElements.length - 1]
+        console.log('lastElement: ', lastElement)
+        if (!e.shiftKey && document.activeElement === lastElement) {
+            firstElement.focus()
+            return e.preventDefault()
+        }
+    
+        if (e.shiftKey && document.activeElement === firstElement) {
+            lastElement.focus()
+            e.preventDefault()
+        }
+    }
+    
     return (
         <ClientOnlyPortal selector="#modal">
             <ModalContainerStyled id='modal-container'>
                 <ModalDialog
+                    ref={modalRef}
                     minHeight={minHeight}
                     display={display}
                     fontSize={fontSize}

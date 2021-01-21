@@ -82,7 +82,7 @@ export default function OrderItemModal({
 
     const orderObject = useContext(OrderContext)
     // console.log('orderObject: ', orderObject)
-    const modalRef = useRef(null)
+    // const modalRef = useRef(null)
     // useEffect(() => {
     //     // console.log('here')
     //     // isMounted.current = true
@@ -199,8 +199,8 @@ export default function OrderItemModal({
             clearModalState={handleModalBtnClick}
         >
             {isOpen && (
-                <ModalContent ref={el => modalRef.current = el}>
-                {/* <ModalContent> */}
+                // <ModalContent ref={el => modalRef.current = el}>
+                <ModalContent>
                     <div>
                         <H3 id='dialog-title' className='h3-no-global-style'>
                             ORDER DETAILS
@@ -221,6 +221,7 @@ export default function OrderItemModal({
                     {item.add_ons && (
                         <AddOns 
                             autoFocus
+                            options={Boolean(item.one_item_options)}
                             addOns={item.add_ons} 
                             onAddOnChange={handleAddOnToggle}
                             activeAddOns={orderItemState.addOns}
