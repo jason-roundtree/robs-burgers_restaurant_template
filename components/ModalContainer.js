@@ -1,5 +1,6 @@
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import styled from 'styled-components'
+import ClientOnlyPortal from './ClientOnlyPortal'
 
 const ModalContainerStyled = styled.div`
     position: fixed;
@@ -31,7 +32,6 @@ const ModalDialog = styled.div`
 `
 
 // TODO: do I need isOpen prop on all the modals?
-// TODO: close modal on enter keypress to other modals
 // TODO: do I need to use react Portal for this?
 export default function ModalContainer({ 
     children, 
@@ -43,6 +43,7 @@ export default function ModalContainer({
     mediaQueryFontSize,
     ariaLabelledBy='dialog-title'
 }) {
+    
     useEffect(() => {
         function escKeyListener(e) {
             if (e.keyCode === 27) {
@@ -55,20 +56,21 @@ export default function ModalContainer({
     })
 
     return (
-        // TODO: does container get focused by default? If so add `tabindex='-1'`
-        <ModalContainerStyled id='modal-container'>
-            <ModalDialog
-                minHeight={minHeight}
-                display={display}
-                fontSize={fontSize}
-                textAlign={textAlign}
-                mediaQueryFontSize={mediaQueryFontSize}
-                role='dialog' 
-                aria-modal='true' 
-                aria-labelledby={ariaLabelledBy}
-            >
-                {children}
-            </ModalDialog>
-        </ModalContainerStyled>
+        <ClientOnlyPortal selector="#modal">
+            <ModalContainerStyled id='modal-container'>
+                <ModalDialog
+                    minHeight={minHeight}
+                    display={display}
+                    fontSize={fontSize}
+                    textAlign={textAlign}
+                    mediaQueryFontSize={mediaQueryFontSize}
+                    role='dialog' 
+                    aria-modal='true' 
+                    aria-labelledby={ariaLabelledBy}
+                >
+                    {children}
+                </ModalDialog>
+            </ModalContainerStyled>
+        </ClientOnlyPortal>
     )
 }

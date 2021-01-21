@@ -27,10 +27,11 @@ export default function AddOns({ addOns, activeAddOns, onAddOnChange }) {
         <Fieldset>
             <Legend>Add-Ons</Legend>
             <ul>
-                {addOns.map(addOn => {
+                {addOns.map((addOn, i) => {
                     return (
                         <li key={addOn._id}>
                             <OrderAddOn
+                                autoFocus={i === 0}
                                 type="checkbox"
                                 id={addOn._id}
                                 name={addOn.name}

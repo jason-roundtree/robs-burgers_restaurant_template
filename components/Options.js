@@ -17,11 +17,12 @@ export default function Options({ options, checkedOption, onOptionChange }) {
     return (
         <Fieldset>
             <Legend>Options</Legend>
-            {options.map(option => {
+            {options.map((option, i) => {
                 return (
                     <div key={option}>
                         {/* TODO: should i setup options schema to have id or is unique name fine? */}
                         <OrderOption 
+                            autoFocus={i === 0}
                             type="radio"
                             name="option"
                             value={option}

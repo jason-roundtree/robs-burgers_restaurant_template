@@ -52,6 +52,7 @@ const FormErrorP = styled.p`
     color: red;
 `
 
+// TODO: check add-on/options on Enter keypress
 // TODO: add something to UI confirming order was added
 // TODO: factor in add-ons/options to cost?
 // TODO: add validation for pending order items when user goes to new page 
@@ -67,7 +68,7 @@ export default function OrderItemModal({
     setShowNoQuantityError,
     setShowNoOptionError
 }) {
-    console.log('order item: ', item)
+    // console.log('order item: ', item)
     const [orderItemState, setOrderItemState] = useState({
         orderItemId: uuid(),
         specialRequests: '',
@@ -79,14 +80,28 @@ export default function OrderItemModal({
     // console.log('item.cost: ', item.cost)
     const cost = calculateCostWithDiscount(item, isItemOfDay, itemOfDayDiscount)
 
-    useEffect(() => {
-        return () => {
-            clearOrderState()
-        }
-    }, [])
-
     const orderObject = useContext(OrderContext)
     // console.log('orderObject: ', orderObject)
+    const modalRef = useRef(null)
+    // useEffect(() => {
+    //     // console.log('here')
+    //     // isMounted.current = true
+    //     // return () => (isMounted.current = false)
+    //     console.log('JAHDSJHKJ')
+    //     // if (modalRef.current) {
+    //     //     console.log('modalRef.current: ', modalRef.current)
+    //         const firstInput = modalRef.current.querySelector('input')
+    //         console.log('firstInput: ', firstInput)
+    //         firstInput.focus()
+    //     // }
+    // }, [])
+
+    // useEffect(() => {
+    //     // console.log('now here')
+    //     const firstInput = modalRef.current.querySelector('input')
+    //     console.log('firstInput: ', firstInput)
+    //     firstInput.focus()
+    // })
 
     function handleAddToOrderClick() {
         // TODO: is there a cleaner way to do this logic?
@@ -95,13 +110,11 @@ export default function OrderItemModal({
             (item.one_item_options && orderItemState.option === '')
         ) {
             if (!orderItemState.quantity) {
-                // console.log('Please choose quantity')
                 setShowNoQuantityError(true)
             } else {
                 setShowNoQuantityError(false)
             }
             if (item.one_item_options && orderItemState.option === '') {
-                // console.log('Please select an option')
                 setShowNoOptionError(true)
             } else {
                 setShowNoOptionError(false)
@@ -177,19 +190,17 @@ export default function OrderItemModal({
         setShowNoOptionError(false)
     }
 
-    // TODO: remind yourself why this is needed here but not on other modals
-    if (!isOpen) {
-        return null
-    }
+    // TODO: this used to be necessary but something changed and it no longer is. Research when returning early is necessary
+    // if (!isOpen) { return null }
     
     return (
-        // TODO: does container or content get focused by default? If so add `tabindex='-1'`
         <ModalContainer 
             mediaQueryFontSize='.8em'
             clearModalState={handleModalBtnClick}
         >
             {isOpen && (
-                <ModalContent>
+                <ModalContent ref={el => modalRef.current = el}>
+                {/* <ModalContent> */}
                     <div>
                         <H3 id='dialog-title' className='h3-no-global-style'>
                             ORDER DETAILS
@@ -209,6 +220,7 @@ export default function OrderItemModal({
 
                     {item.add_ons && (
                         <AddOns 
+                            autoFocus
                             addOns={item.add_ons} 
                             onAddOnChange={handleAddOnToggle}
                             activeAddOns={orderItemState.addOns}
