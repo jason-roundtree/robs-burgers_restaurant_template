@@ -7,9 +7,12 @@ import SocialMedia from './SocialMedia'
 import OrderContext from './OrderContext'
 
 const MainContainer = styled.main`
-    /* background: url(${({ bgImg }) => bgImg}) no-repeat center fixed;
+    background: url('/bg.png') no-repeat center fixed;
     background-size: cover;
-    min-height: calc(100vh - 70px); */
+    min-height: calc(100vh - 168px);
+`
+const SubMainContainer = styled.div`
+    padding: 50px 10px 30px;
 `
 const TitleSignContainer = styled.div`
     /* background-color: rgb(219, 21, 18); */
@@ -26,13 +29,12 @@ const Nav = styled.nav`
     display: flex;
     justify-content: space-evenly;
     padding: 7px 0;
-    margin-bottom: 50px;
     background-color: rgb(245, 245, 245);
     @media (max-width: 1000px) {
-        margin-bottom: 30px;   
+        /* margin-bottom: 30px;    */
     }
     @media (max-width: 50px) {
-        margin-bottom: 20px;  
+        /* margin-bottom: 20px;   */
     }
 `
 const NavLink = styled.a`
@@ -98,34 +100,34 @@ export default function Layout(props) {
                             </h1>
                         </Link>
                     </TitleSignContainer>
-
+                    {/* TODO: make accessible and selectable with Enter */}
                     <Nav id="navbar" role="navigation">
                         <Link href="/">
-                            <NavLink active={route.pathname === "/"}>
+                            <NavLink active={route.pathname === "/"} tabIndex='0'>
                                 Home
                             </NavLink>
                         </Link>
 
                         <Link href="/menus">
-                            <NavLink active={route.pathname === "/menus"}>
+                            <NavLink active={route.pathname === "/menus"} tabIndex='0'>
                                 Menus
                             </NavLink>
                         </Link>
 
                         <Link href="/about">
-                            <NavLink active={route.pathname === "/about"}>
+                            <NavLink active={route.pathname === "/about"} tabIndex='0'>
                                 About
                             </NavLink>
                         </Link>
 
                         <Link href="/contact">
-                            <NavLink active={route.pathname === "/contact"}>
+                            <NavLink active={route.pathname === "/contact"} tabIndex='0'>
                                 Contact
                             </NavLink>
                         </Link>
                         
                         <Link href="/order-summary">
-                            <NavLink active={route.pathname === "/order-summary"}>
+                            <NavLink active={route.pathname === "/order-summary"} tabIndex='0'>
                                 Order
                                 <OrderItemCount>{totalOrders}</OrderItemCount>
                             </NavLink>
@@ -136,9 +138,10 @@ export default function Layout(props) {
                 <MainContainer 
                     id="main" 
                     role="main"
-                    // bgImg={props.bgImg}
                 >
-                    {props.children}
+                    <SubMainContainer>
+                        {props.children}
+                    </SubMainContainer>
                 </MainContainer>
             </div>
 

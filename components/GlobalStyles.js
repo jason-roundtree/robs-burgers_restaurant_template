@@ -17,9 +17,9 @@ export const GlobalStyles = createGlobalStyle`
         grid-template-rows: 1fr auto;
     }
 
-    #content {
-        min-height: calc(100vh - 70px);
-    }
+    /* #content {
+        min-height: calc(100vh - 120px);
+    } */
 
     .page_container {
         width: 80%;
@@ -69,14 +69,12 @@ export const GlobalStyles = createGlobalStyle`
         grid-row-end: 3;
         width: 100%;
         height: 50px;
-        /* This and 70px in #content min-height rule give some room to content that exceeds browser window height. */
-        margin-top: 20px;
         background: rgb(245, 245, 245);
     }
 
-    #main {
+    /* #main {
         padding: 0 15px;
-    }
+    } */
 
     /* TODO: still need these since i took out h2 tags and removed this style for menu titles on order page? */
     .sign_font {

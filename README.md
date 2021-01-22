@@ -7,12 +7,10 @@ This is a template website I'm building for restaurants and other businesses tha
 - Sanity.io CMS
 
 ## TODOs
-- allow order save functionality and add something to UI confirming order was added
-- add validation for pending order items when user goes to new page from OrderItemModal
-// (i.e. "are you sure you don't want to save this item to your order")
+- add something to UI confirming order was added
+- add message asking user to verify they don't want to save their order when they close OrderItemModal without saving
+- A11y stuff TODOs: allow checkboxes to be checked with Return/Enter; on modal close return focus to last focused element; test A11y on different browsers/devices (also what happens with scrolling disabled when modals become scrollable?)
 - Add local storage for favorite/prior orders?
-- make modals more ally friendly (e.g. focus mgmt, allow checkboxes to be checked with Return/Enter) and audit for overall a11y
-- setup env variables
 - add background art/images
 - style order quantity increment/decrement
 - allow Special Requests to be edited from order summary page

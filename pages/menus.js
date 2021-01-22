@@ -127,9 +127,7 @@ export default function Order(props) {
     }
 
     function handleModalClose(e) {
-        console.log('handleModalClose: ', e)
-        if (
-            e.target.id === 'modal-container' || 
+        if (e.target.id === 'modal-container' || 
             [...e.target.classList].includes('close-modal-btn')
         ) { 
             handleModalBtnClick(null) 
@@ -158,7 +156,9 @@ export default function Order(props) {
                 <MenusUl>
                     {props.menus.map(menu => {
                         return (
+                            // TODO: make accessible and selectable with Enter
                             <MenuLi
+                                tabIndex='0'
                                 id={menu._id}
                                 key={menu._id}
                                 onClick={handleMenuSelection}

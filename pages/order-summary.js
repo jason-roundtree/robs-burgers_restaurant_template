@@ -14,6 +14,7 @@ const OrderItemContainer = styled.div`
     border-radius: 3px;
     padding: 10px;
     margin-top: 3px;
+    background: white;
     @media (max-width: 400px) {
         font-size: .85em;
     }

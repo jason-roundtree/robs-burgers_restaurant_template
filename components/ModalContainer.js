@@ -43,7 +43,12 @@ export default function ModalContainer({
     mediaQueryFontSize,
     ariaLabelledBy='dialog-title'
 }) {
-    
+    // This prevents scrolling underneath modals (TODO: what happens when modal extends past bottom of page and becomes scrollable?)
+    useEffect(() => {
+        document.body.style.overflow = 'hidden'
+        return () => document.body.style.overflow = 'unset'
+    }, [])
+
     useEffect(() => {
         function keyListener(e) {
             if (e.keyCode === 27) {
@@ -56,14 +61,14 @@ export default function ModalContainer({
         document.addEventListener('keydown', keyListener)
         return () => document.removeEventListener('keydown', keyListener)
     })
+
     const modalRef = useRef()
     function handleTabKey(e) {
-        const focusableModalElements = modalRef.current.querySelectorAll('input[type="text"], input [type="number"], input[type="radio"], input[type="checkbox"], textarea, select, button, a[href]'
+        const focusableModalElements = modalRef.current.querySelectorAll(
+            'input[type="text"], input [type="number"], input[type="radio"], input[type="checkbox"], textarea, select, button, a[href]'
         )
         const firstElement = focusableModalElements[0]
-        console.log('firstElement: ', firstElement)
         const lastElement = focusableModalElements[focusableModalElements.length - 1]
-        console.log('lastElement: ', lastElement)
         if (!e.shiftKey && document.activeElement === lastElement) {
             firstElement.focus()
             return e.preventDefault()

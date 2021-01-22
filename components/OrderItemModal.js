@@ -79,29 +79,7 @@ export default function OrderItemModal({
     console.log('orderItemState: ', orderItemState)
     // console.log('item.cost: ', item.cost)
     const cost = calculateCostWithDiscount(item, isItemOfDay, itemOfDayDiscount)
-
     const orderObject = useContext(OrderContext)
-    // console.log('orderObject: ', orderObject)
-    // const modalRef = useRef(null)
-    // useEffect(() => {
-    //     // console.log('here')
-    //     // isMounted.current = true
-    //     // return () => (isMounted.current = false)
-    //     console.log('JAHDSJHKJ')
-    //     // if (modalRef.current) {
-    //     //     console.log('modalRef.current: ', modalRef.current)
-    //         const firstInput = modalRef.current.querySelector('input')
-    //         console.log('firstInput: ', firstInput)
-    //         firstInput.focus()
-    //     // }
-    // }, [])
-
-    // useEffect(() => {
-    //     // console.log('now here')
-    //     const firstInput = modalRef.current.querySelector('input')
-    //     console.log('firstInput: ', firstInput)
-    //     firstInput.focus()
-    // })
 
     function handleAddToOrderClick() {
         // TODO: is there a cleaner way to do this logic?
