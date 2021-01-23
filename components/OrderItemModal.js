@@ -177,8 +177,7 @@ export default function OrderItemModal({
             clearModalState={handleModalBtnClick}
         >
             {isOpen && (
-                // <ModalContent ref={el => modalRef.current = el}>
-                <ModalContent>
+                <ModalContent role='dialog' aria-labelledby='dialog-title'>
                     <div>
                         <H3 id='dialog-title' className='h3-no-global-style'>
                             ORDER DETAILS

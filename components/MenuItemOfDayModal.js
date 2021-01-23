@@ -53,7 +53,6 @@ export default function MenuItemOfDayModal({
             clearModalState={handleModalBtnClick}
         > 
             {isOpen && (
-                // TODO: add role and aria to other modals but is it OK to use same id?
                 <ModalContent role='dialog' aria-labelledby='dialog-title'>
                     <H3 id='dialog-title' className='h3-no-global-style item-of-day-title'>
                         Burger of the Day
