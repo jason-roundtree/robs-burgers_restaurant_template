@@ -239,7 +239,6 @@ export default function OrderItemModal({
 
                     <Button 
                         onClick={handleAddToOrderClick}
-                        className='close-modal-btn' 
                     >
                         Add to Order
                     </Button>

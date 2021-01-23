@@ -46,7 +46,7 @@ export default function ModalContainer({
     // This prevents scrolling underneath modals (TODO: what happens when modal extends past bottom of page and becomes scrollable?)
     useEffect(() => {
         document.body.style.overflow = 'hidden'
-        return () => document.body.style.overflow = 'unset'
+        return () => document.body.style.overflow = 'initial'
     }, [])
 
     useEffect(() => {

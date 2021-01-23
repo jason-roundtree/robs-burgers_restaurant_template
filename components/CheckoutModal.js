@@ -26,7 +26,7 @@ const Input = styled.input`
     height: 45px;
     padding: 3px 7px;
     margin-bottom: 10px;
-    font-family: 'M PLUS Rounded 1c',sans-serif;
+    font-family: 'M PLUS Rounded 1c', sans-serif;
     font-size: 1.3em;
     /* TODO: add breakpoint to adjust font-size and width 100%; */
 `
