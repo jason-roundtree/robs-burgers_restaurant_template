@@ -13,7 +13,12 @@ const Legend = styled.legend`
 const Label = styled.label`
     font-size: .85em;
 `
-export default function Options({ options, checkedOption, onOptionChange }) {
+export default function Options({ 
+    options, 
+    checkedOption, 
+    onOptionChange,
+    handleEnterKeyPress
+}) {
     return (
         <Fieldset>
             <Legend>Options</Legend>
@@ -29,6 +34,7 @@ export default function Options({ options, checkedOption, onOptionChange }) {
                             checked={option === checkedOption}
                             id={option}
                             onChange={onOptionChange}
+                            onKeyPress={handleEnterKeyPress}
                         />
                         <Label htmlFor={option}>
                             {option}

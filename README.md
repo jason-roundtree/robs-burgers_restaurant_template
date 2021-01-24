@@ -9,7 +9,7 @@ This is a template website I'm building for restaurants and other businesses tha
 ## TODOs
 - add something to UI confirming order was added
 - add message asking user to verify they don't want to save their order when they close OrderItemModal without saving
-- A11y stuff TODOs: allow checkboxes to be checked with Return/Enter; on modal close return focus to last focused element; test A11y on different browsers/devices (also what happens with scrolling disabled when modals become scrollable?)
+- A11y stuff TODOs: on modal close return focus to last focused element; test A11y on different browsers/devices (also what happens with scrolling disabled when modals become scrollable?)
 - Add local storage for favorite/prior orders?
 - add background art/images
 - style order quantity increment/decrement

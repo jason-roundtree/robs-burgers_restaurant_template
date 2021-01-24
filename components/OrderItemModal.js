@@ -52,7 +52,7 @@ const FormErrorP = styled.p`
     color: red;
 `
 
-// TODO: check add-on/options on Enter keypress
+// TODO: check options on Enter keypress?
 // TODO: add something to UI confirming order was added
 // TODO: factor in add-ons/options to cost?
 // TODO: add validation for pending order items when user goes to new page 
@@ -172,8 +172,12 @@ export default function OrderItemModal({
 
     function handleEnterKeyPress(e) {
         if (e.key === 'Enter') {
-            console.log('e.target: ', e.target)
-            handleAddOnToggle({ target: e.target })
+            if (e.target.type === 'radio') {
+                handleInputChange({ target: e.target })
+            }
+            if (e.target.type === 'checkbox') {
+                handleAddOnToggle({ target: e.target })
+            }
         }
     }
 
@@ -201,6 +205,7 @@ export default function OrderItemModal({
                             options={item.one_item_options}
                             onOptionChange={handleInputChange}
                             checkedOption={orderItemState.option}
+                            handleEnterKeyPress={handleEnterKeyPress}
                         />
                     )}
 
