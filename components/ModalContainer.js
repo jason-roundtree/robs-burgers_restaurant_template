@@ -32,7 +32,6 @@ const ModalDialog = styled.div`
 `
 
 // TODO: do I need isOpen prop on all the modals?
-// TODO: do I need to use react Portal for this?
 export default function ModalContainer({ 
     children, 
     clearModalState,

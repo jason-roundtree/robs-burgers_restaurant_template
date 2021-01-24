@@ -1,4 +1,4 @@
-import { useState, useContext, useEffect, useRef } from 'react'
+import { useState, useContext, useEffect } from 'react'
 import { v4 as uuid } from 'uuid'
 import styled from 'styled-components'
 import formatCost from '../utils/formatCost'
@@ -135,9 +135,11 @@ export default function OrderItemModal({
     }
 
     function handleAddOnToggle({ target }) {
+        console.log('handleAddOnToggle target: ', target)
         const index = orderItemState.addOns.findIndex(addOn => {
             return addOn.id === target.id
         })
+        console.log('index: ', index)
         if (index > -1) {
             setOrderItemState({
                 ...orderItemState,
@@ -166,6 +168,13 @@ export default function OrderItemModal({
         handleModalBtnClick(null)
         setShowNoQuantityError(false)
         setShowNoOptionError(false)
+    }
+
+    function handleEnterKeyPress(e) {
+        if (e.key === 'Enter') {
+            console.log('e.target: ', e.target)
+            handleAddOnToggle({ target: e.target })
+        }
     }
 
     // TODO: this used to be necessary but something changed and it no longer is. Research when returning early is necessary
@@ -202,6 +211,7 @@ export default function OrderItemModal({
                             addOns={item.add_ons} 
                             onAddOnChange={handleAddOnToggle}
                             activeAddOns={orderItemState.addOns}
+                            handleEnterKeyPress={handleEnterKeyPress}
                         />
                     )}
                 
