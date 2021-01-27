@@ -77,7 +77,6 @@ export default function MenuItem({
                 <ItemTextContainer>
                     <ItemTitle>{item.name}</ItemTitle>
                     {isItemOfDay && (
-                        // TODO: fix this so emojis don't partially wrap on smaller screen
                         <ItemOfDayTitle>
                             Burger of the Day
                         </ItemOfDayTitle>
@@ -102,9 +101,7 @@ export default function MenuItem({
                         })
                     )}
 
-                    <OrderButton 
-                        onClick={() => handleModalBtnClick(item)}
-                    >
+                    <OrderButton onClick={() => handleModalBtnClick(item)}>
                         Order
                     </OrderButton>
 

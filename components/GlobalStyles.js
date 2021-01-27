@@ -111,4 +111,13 @@ export const GlobalStyles = createGlobalStyle`
         font-family: 'Contrail One', sans-serif;
         color: rgb(33, 117, 252);
     }
+
+    /* @keyframes snackbar {
+        from { background: rgba(255, 233, 161, 1); }
+        to { background: rgba(255, 233, 161, .2); }
+    } */
+    
+    /* .addToOrderSnackbar {
+       
+    } */
 `

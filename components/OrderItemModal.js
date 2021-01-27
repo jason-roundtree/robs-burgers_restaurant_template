@@ -52,11 +52,10 @@ const FormErrorP = styled.p`
     color: red;
 `
 
-// TODO: check options on Enter keypress?
 // TODO: add something to UI confirming order was added
 // TODO: factor in add-ons/options to cost?
 // TODO: add validation for pending order items when user goes to new page 
-// (i.e. "are you sure you don't want to save this item to your order")
+// (e.g. "are you sure you don't want to save this item to your order")
 export default function OrderItemModal({ 
     item, 
     isOpen, 
@@ -66,7 +65,8 @@ export default function OrderItemModal({
     showNoQuantityError,
     showNoOptionError,
     setShowNoQuantityError,
-    setShowNoOptionError
+    setShowNoOptionError,
+    setAddToOrderSuccessSnackbarIsActive
 }) {
     // console.log('order item: ', item)
     const [orderItemState, setOrderItemState] = useState({
@@ -83,10 +83,7 @@ export default function OrderItemModal({
 
     function handleAddToOrderClick() {
         // TODO: is there a cleaner way to do this logic?
-        if (
-            !orderItemState.quantity || 
-            (item.one_item_options && orderItemState.option === '')
-        ) {
+        if (!orderItemState.quantity || (item.one_item_options && orderItemState.option === '')) {
             if (!orderItemState.quantity) {
                 setShowNoQuantityError(true)
             } else {
@@ -99,7 +96,7 @@ export default function OrderItemModal({
             }
         } else {
             orderObject.addItem({
-                // itemId is actual item id from Sanity while orderItemId is the uuid for this specific item being ordered so we can later edit quantity or delete orders
+                // itemId is actual item id from Sanity while orderItemId is the uuid for this specific item being ordered so we can later edit quantity or delete that order item
                 itemId: item._id,
                 name: item.name,
                 cost: cost,
@@ -109,6 +106,7 @@ export default function OrderItemModal({
             setShowNoQuantityError(false)
             setShowNoOptionError(false)
             handleModalBtnClick(null)
+            setAddToOrderSuccessSnackbarIsActive(true)
         }
     }
 
@@ -135,11 +133,9 @@ export default function OrderItemModal({
     }
 
     function handleAddOnToggle({ target }) {
-        console.log('handleAddOnToggle target: ', target)
         const index = orderItemState.addOns.findIndex(addOn => {
             return addOn.id === target.id
         })
-        console.log('index: ', index)
         if (index > -1) {
             setOrderItemState({
                 ...orderItemState,
@@ -170,13 +166,13 @@ export default function OrderItemModal({
         setShowNoOptionError(false)
     }
 
-    function handleEnterKeyPress(e) {
-        if (e.key === 'Enter') {
-            if (e.target.type === 'radio') {
-                handleInputChange({ target: e.target })
+    function handleEnterKeyPress({ key, target }) {
+        if (key === 'Enter') {
+            if (target.type === 'radio') {
+                handleInputChange({ target: target })
             }
-            if (e.target.type === 'checkbox') {
-                handleAddOnToggle({ target: e.target })
+            if (target.type === 'checkbox') {
+                handleAddOnToggle({ target: target })
             }
         }
     }
@@ -220,9 +216,7 @@ export default function OrderItemModal({
                         />
                     )}
                 
-                    <SectionLabel 
-                        htmlFor="quantity"
-                    >
+                    <SectionLabel  htmlFor="quantity">
                         Quantity
                     </SectionLabel>
                     <QuantityInputStyled 
@@ -230,9 +224,7 @@ export default function OrderItemModal({
                         handleQuantityChange={handleInputChange}
                     />
 
-                    <SectionLabel 
-                        htmlFor="specialRequests"
-                    >
+                    <SectionLabel htmlFor="specialRequests">
                         Special Requests
                     </SectionLabel>
                     <SpecialRequests 
@@ -251,9 +243,7 @@ export default function OrderItemModal({
                         <FormErrorP>Please choose an option</FormErrorP>
                     )}
 
-                    <Button 
-                        onClick={handleAddToOrderClick}
-                    >
+                    <Button onClick={handleAddToOrderClick}>
                         Add to Order
                     </Button>
 

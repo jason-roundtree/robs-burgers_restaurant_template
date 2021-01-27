@@ -48,6 +48,7 @@ export default function ModalContainer({
         return () => document.body.style.overflow = 'initial'
     }, [])
 
+    // TODO: change keyCode to key
     useEffect(() => {
         function keyListener(e) {
             if (e.keyCode === 27) {

@@ -64,6 +64,29 @@ const BtnContainer = styled.div`
 const BurgerOfDayBtn = styled.button`
     margin-bottom: 1em;
 `
+const SnackbarContainer = styled.div`
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    padding: 20px 40px 10px;
+`
+// TODO: add transition
+const AddOrderItemSuccessSnackbar = styled.div`
+    width: 100%;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 500;
+    font-size: 1.2em;
+    /* background: rgba(255, 233, 161, 1); */
+    background: rgba(169, 218, 242, 1);
+    /* border: 2px solid rgb(255, 205, 41); */
+    border: 1px solid rgb(255, 112, 110);
+    border-radius: 3px;
+    /* box-shadow: 0 0 5px black; */
+`
 
 const itemOfDayQuery = `*[ 
     _type == "menu_item" && 
@@ -91,8 +114,8 @@ export default function Order(props) {
     const [showNoQuantityError, setShowNoQuantityError] = useState(false)
     const [showNoOptionError, setShowNoOptionError] = useState(false)
     const [itemOfDay, setItemOfDay] = useState({})
-    // console.log('itemOfDay: ', itemOfDay)
     const [itemOfDayIsActive, setItemOfDayIsActive] = useState(false)
+    const [addToOrderSuccessSnackbarIsActive, setAddToOrderSuccessSnackbarIsActive] = useState(false)
     const ITEM_OF_DAY_DISCOUNT = 1.5
 
     useEffect(() => {
@@ -104,6 +127,17 @@ export default function Order(props) {
             .catch(err => console.log('error fetching eligible menu items of the day: ', err))
     }, [])
 
+    useEffect(() => {
+        let timerID 
+        if (addToOrderSuccessSnackbarIsActive) {
+            setAddToOrderSuccessSnackbarIsActive(true)
+            timerID = setTimeout(() => {
+                setAddToOrderSuccessSnackbarIsActive(false)
+            }, 2000)
+        }
+        return () => clearTimeout(timerID)
+    })
+    
     function handleModalBtnClick(item) {
         // console.log('handleModalBtnClick item: ', item)
         if (item) {
@@ -145,9 +179,7 @@ export default function Order(props) {
     return (
         <Layout>
             <BtnContainer>
-                <BurgerOfDayBtn
-                    onClick={() => handleModalBtnClick('item-of-day')}
-                >
+                <BurgerOfDayBtn onClick={() => handleModalBtnClick('item-of-day')}>
                     Burger of the Day
                 </BurgerOfDayBtn>
             </BtnContainer>
@@ -228,8 +260,23 @@ export default function Order(props) {
                     showNoOptionError={showNoOptionError}
                     setShowNoQuantityError={setShowNoQuantityError}
                     setShowNoOptionError={setShowNoOptionError}
+                    setAddToOrderSuccessSnackbarIsActive={setAddToOrderSuccessSnackbarIsActive}
                 />
             )}
+
+            {addToOrderSuccessSnackbarIsActive && (
+                // <SnackbarContainer>
+                //     <div className='addToOrderSnackbar'>
+                //         Item has been added
+                //     </div>
+                // </SnackbarContainer>
+                <SnackbarContainer>
+                    <AddOrderItemSuccessSnackbar>
+                        Item has been added
+                    </AddOrderItemSuccessSnackbar>
+                </SnackbarContainer>
+            )}
+            
         </Layout>
     )
 }

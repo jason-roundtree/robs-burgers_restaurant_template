@@ -33,8 +33,8 @@ const Nav = styled.nav`
     @media (max-width: 1000px) {
         /* margin-bottom: 30px;    */
     }
-    @media (max-width: 50px) {
-        /* margin-bottom: 20px;   */
+    @media (max-width: 500px) {
+        font-size: 1.1em;
     }
 `
 const NavLink = styled.a`
