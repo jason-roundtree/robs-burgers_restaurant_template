@@ -1,6 +1,6 @@
 import { useState, useContext, useEffect } from 'react'
 import { v4 as uuid } from 'uuid'
-import styled from 'styled-components'
+import styled, { keyframes } from 'styled-components'
 import formatCost from '../utils/formatCost'
 import calculateCostWithDiscount from '../utils/calculateCostWithDiscount'
 import AddOns from './AddOns'
@@ -17,7 +17,16 @@ const H3 = styled.h3`
 const Button = styled.button`
     margin: 10px 10px 0 0;
 `
+const fadeIn = keyframes`
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+`
 const ModalContent = styled.div`
+    /* animation: 1s ${fadeIn} ease-out; */
     padding: 10px 5px;
     text-align: center;
 `
@@ -184,9 +193,13 @@ export default function OrderItemModal({
         <ModalContainer 
             mediaQueryFontSize='.8em'
             clearModalState={handleModalBtnClick}
+            
         >
             {isOpen && (
-                <ModalContent role='dialog' aria-labelledby='dialog-title'>
+                <ModalContent 
+                    role='dialog' 
+                    aria-labelledby='dialog-title'
+                >
                     <div>
                         <H3 id='dialog-title' className='h3-no-global-style'>
                             ORDER DETAILS

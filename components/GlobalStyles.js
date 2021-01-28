@@ -120,4 +120,5 @@ export const GlobalStyles = createGlobalStyle`
     /* .addToOrderSnackbar {
        
     } */
+    
 `

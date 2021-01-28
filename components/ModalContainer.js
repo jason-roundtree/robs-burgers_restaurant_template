@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react'
-import styled from 'styled-components'
+import styled, { keyframes } from 'styled-components'
 import ClientOnlyPortal from './ClientOnlyPortal'
 
 const ModalContainerStyled = styled.div`
@@ -13,7 +13,18 @@ const ModalContainerStyled = styled.div`
     align-items: center;
     background: rgba(0, 0, 0, 0.7);
 `
+const fadeIn = keyframes`
+    0% {
+        opacity: 0;
+        transform: translateX(-70%);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0%);
+    }
+`
 const ModalDialog = styled.div`
+    animation: 250ms ${fadeIn} ease-out;
     min-height: ${({ minHeight }) => minHeight && minHeight };
     display: ${({ display }) => display && display };
     font-size: ${({ fontSize }) => fontSize && fontSize };

@@ -47,6 +47,6 @@
   "devDependencies": {
     "babel-plugin-styled-components": "^1.10.7",
     "extract-text-webpack-plugin": "^4.0.0-beta.0",
-    "webpack": "^5.17.0"
+    "webpack": "^4.44.0"
   }
 }
