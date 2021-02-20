@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import sanity from '../lib/sanity'
-import styled from 'styled-components'
+import styled, { keyframes } from 'styled-components'
 import Layout from '../components/Layout'
 import MenuItem from '../components/MenuItem'
 import MenuItemOfDayModal from '../components/MenuItemOfDayModal'
@@ -42,7 +42,6 @@ const MenuTitle = styled.span`
     font-weight: 400;
     text-align: center;
     display: inline-block;
-    /* height: 100%; */
     padding: 10px;
     background-color: rgb(219, 21, 18);
     color: white;
@@ -71,8 +70,20 @@ const SnackbarContainer = styled.div`
     left: 0;
     padding: 20px 40px 10px;
 `
-// TODO: add transition
+const slideFade = keyframes`
+    0% {
+        opacity: 0;
+        transform: translateY(70%);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0%);
+        
+    }
+`
+// TODO: add animation and tweak colors
 const AddOrderItemSuccessSnackbar = styled.div`
+    animation: ${slideFade} 100ms linear;
     width: 100%;
     height: 50px;
     display: flex;
@@ -80,12 +91,11 @@ const AddOrderItemSuccessSnackbar = styled.div`
     align-items: center;
     font-weight: 500;
     font-size: 1.2em;
-    /* background: rgba(255, 233, 161, 1); */
-    background: rgba(169, 218, 242, 1);
-    /* border: 2px solid rgb(255, 205, 41); */
-    border: 1px solid rgb(255, 112, 110);
+    background: rgb(255, 233, 161);
+    /* background: rgb(169, 218, 242); */
+    border: 1px solid rgb(122, 170, 194);
     border-radius: 3px;
-    /* box-shadow: 0 0 5px black; */
+    box-shadow: 0 0 10px black;
 `
 
 const itemOfDayQuery = `*[ 
@@ -133,7 +143,7 @@ export default function Order(props) {
             setAddToOrderSuccessSnackbarIsActive(true)
             timerID = setTimeout(() => {
                 setAddToOrderSuccessSnackbarIsActive(false)
-            }, 2000)
+            }, 2500)
         }
         return () => clearTimeout(timerID)
     })
@@ -265,11 +275,6 @@ export default function Order(props) {
             )}
 
             {addToOrderSuccessSnackbarIsActive && (
-                // <SnackbarContainer>
-                //     <div className='addToOrderSnackbar'>
-                //         Item has been added
-                //     </div>
-                // </SnackbarContainer>
                 <SnackbarContainer>
                     <AddOrderItemSuccessSnackbar>
                         Item has been added

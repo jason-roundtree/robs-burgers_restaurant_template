@@ -43,11 +43,16 @@ export const GlobalStyles = createGlobalStyle`
         color: white;
         font-size: 1.25em;
         font-family: 'Contrail One', sans-serif;
+        /* box-shadow: 1px 3px 5px -2px black; */
     }
 
     button:hover {
         cursor: pointer;
         background: rgb(227, 70, 68);
+        /* background-image: linear-gradient(to bottom right, rgb(155, 86, 76), rgb(227, 70, 68), rgb(227, 70, 68), rgb(155, 86, 76)); */
+        /* box-shadow: none;
+        transition: box-shadow 250ms; */
+        /* transition: background 250ms ease-in-out; */
     }
 
     li {
@@ -112,13 +117,4 @@ export const GlobalStyles = createGlobalStyle`
         color: rgb(33, 117, 252);
     }
 
-    /* @keyframes snackbar {
-        from { background: rgba(255, 233, 161, 1); }
-        to { background: rgba(255, 233, 161, .2); }
-    } */
-    
-    /* .addToOrderSnackbar {
-       
-    } */
-    
 `

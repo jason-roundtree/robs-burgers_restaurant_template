@@ -17,16 +17,7 @@ const H3 = styled.h3`
 const Button = styled.button`
     margin: 10px 10px 0 0;
 `
-const fadeIn = keyframes`
-    0% {
-        opacity: 0;
-    }
-    100% {
-        opacity: 1;
-    }
-`
 const ModalContent = styled.div`
-    /* animation: 1s ${fadeIn} ease-out; */
     padding: 10px 5px;
     text-align: center;
 `
@@ -193,7 +184,6 @@ export default function OrderItemModal({
         <ModalContainer 
             mediaQueryFontSize='.8em'
             clearModalState={handleModalBtnClick}
-            
         >
             {isOpen && (
                 <ModalContent 

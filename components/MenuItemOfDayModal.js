@@ -1,4 +1,3 @@
-import { useEffect } from 'react'
 import styled from 'styled-components'
 import formatCost from '../utils/formatCost'
 import ModalContainer from './ModalContainer'
