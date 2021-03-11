@@ -15,7 +15,7 @@ function OrderDetailsProvider({ children }) {
     const [orderId, setOrderId] = useState('')
     const [orderItems, setOrderItems] = useState([])
     const [isLoading, setIsLoading] = useState(true)
-    console.log('all orderItems: ', orderItems)
+    // console.log('all orderItems: ', orderItems)
 
     useEffect(() => {
         const pendingOrder = JSON.parse(window.localStorage.getItem('pendingOrder'))
