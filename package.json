@@ -7,9 +7,10 @@
   "author": "JASON ROUNDTREE <jasontree123@gmail.com>",
   "scripts": {
     "dev": "next",
-    "build": "next build",
+    "build": "npm run export",
     "start": "next start",
-    "test": "jest --coverage"
+    "test": "jest --coverage",
+    "export": "next build && next export"
   },
   "keywords": [
     "menu",
