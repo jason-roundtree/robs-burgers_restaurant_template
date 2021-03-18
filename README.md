@@ -5,8 +5,7 @@ This is a template website I'm building for restaurants and other businesses tha
 - Next.js (React)
 - Styled Components
 - Sanity.io CMS
-- Netlify
-[![Netlify Status](https://api.netlify.com/api/v1/badges/01cdcd9c-156a-42fd-8d65-09437603973b/deploy-status)](https://app.netlify.com/sites/flamboyant-spence-91bb13/deploys)
+- [![Netlify Status](https://api.netlify.com/api/v1/badges/01cdcd9c-156a-42fd-8d65-09437603973b/deploy-status)](https://app.netlify.com/sites/flamboyant-spence-91bb13/deploys)
 
 ## TODOs
 - add something to UI confirming order was added
