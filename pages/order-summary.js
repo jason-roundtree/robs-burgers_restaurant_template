@@ -105,7 +105,7 @@ export default function OrderSummary() {
     const [checkoutModalIsOpen, setCheckoutModalIsOpen] = useState(false)
     const [orderCompleteModalIsOpen, setOrderCompleteModalIsOpen] = useState(false)
     const orderObject = useContext(OrderContext)
-    console.log('order summary context: ', orderObject)
+    // console.log('order summary context: ', orderObject)
     const totalCost = orderObject.orderItems.reduce((total, orderItem) => {
         let addOnTotal = 0
         if (orderItem.addOns.length > 0) {
